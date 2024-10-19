@@ -3,7 +3,7 @@ import tailwindAnimate from 'tailwindcss-animate';
 
 export default {
   darkMode: ['class'],
-  content: ['./{pages,layouts,components,src}/**/*.{html,js,jsx,ts,tsx,vue}'],
+  content: ['./src/{pages,layouts,components,src}/**/*.{html,js,jsx,ts,tsx,vue}'],
   theme: {
     extend: {
       keyframes: {
