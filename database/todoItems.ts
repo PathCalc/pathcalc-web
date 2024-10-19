@@ -2,7 +2,7 @@ interface TodoItem {
   text: string;
 }
 
-const todosDefault = [{ text: "Buy milk" }, { text: "Buy strawberries" }];
+const todosDefault = [{ text: 'Buy milk' }, { text: 'Buy strawberries' }];
 
 const database =
   // We create an in-memory database.
