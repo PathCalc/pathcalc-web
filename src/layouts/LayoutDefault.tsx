@@ -3,18 +3,15 @@ import './tailwind.css';
 
 import React from 'react';
 
-import logoUrl from '../assets/logo.svg';
-import { Link } from '../components/Link.jsx';
+import { Link } from '@/components/Link';
+import { NavLink } from '@/components/NavLink';
 
 export default function LayoutDefault({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex max-w-5xl m-auto">
       <Sidebar>
         <Logo />
-        <Link href="/">Welcome</Link>
-        <Link href="/todo">Todo</Link>
-        <Link href="/star-wars">Data Fetching</Link>
-        {''}
+        <NavLink href="/about/">More info</NavLink>
       </Sidebar>
       <Content>{children}</Content>
     </div>
@@ -42,9 +39,7 @@ function Content({ children }: { children: React.ReactNode }) {
 function Logo() {
   return (
     <div className="p-5 mb-2">
-      <a href="/">
-        <img src={logoUrl} height={64} width={64} alt="logo" />
-      </a>
+      <Link href="/">PathCalc</Link>
     </div>
   );
 }

@@ -1,18 +1,22 @@
-import React from 'react';
+import { useData } from 'vike-react/useData';
 
-import { Counter } from './Counter.jsx';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
+import { Data } from './+data';
 
 export default function Page() {
+  const data = useData<Data>();
   return (
     <>
-      <h1 className="font-bold text-3xl pb-4">My Vike app</h1>
-      This page is:
-      <ul>
-        <li>Rendered to HTML.</li>
-        <li>
-          Interactive. <Counter />
-        </li>
-      </ul>
+      <Tabs>
+        <TabsList>
+          {data.map((page) => (
+            <TabsTrigger key={page.slug} value={page.slug}>
+              {page.title}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+      </Tabs>
     </>
   );
 }

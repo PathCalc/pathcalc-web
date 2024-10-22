@@ -1,13 +1,12 @@
-import React from 'react';
 import { usePageContext } from 'vike-react/usePageContext';
 
 export default function Page() {
-  const { is404 } = usePageContext();
+  const { is404, abortReason } = usePageContext();
   if (is404) {
     return (
       <>
         <h1>404 Page Not Found</h1>
-        <p>This page could not be found.</p>
+        {typeof abortReason === 'string' ? <p>{abortReason}</p> : <p>This page could not be found.</p>}
       </>
     );
   }

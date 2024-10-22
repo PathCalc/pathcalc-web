@@ -11,8 +11,8 @@ export default {
   Layout,
 
   // https://vike.dev/head-tags
-  title: 'My Vike App',
-  description: 'Demo showcasing Vike',
+  title: 'PathCalc',
+  description: 'PathCalc visualisation system',
 
   extends: vikeReact,
 } satisfies Config;

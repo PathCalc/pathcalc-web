@@ -1,12 +1,9 @@
-import React from 'react';
-import { usePageContext } from 'vike-react/usePageContext';
+import { makeHref } from '@/lib/href';
 
-export function Link({ href, children }: { href: string; children: string }) {
-  const pageContext = usePageContext();
-  const { urlPathname } = pageContext;
-  const isActive = href === '/' ? urlPathname === href : urlPathname.startsWith(href);
+export function Link({ href, className, children }: { href: string; className?: string; children: string }) {
+  const absoluteHref = makeHref(href);
   return (
-    <a href={href} className={isActive ? 'is-active' : undefined}>
+    <a href={absoluteHref} className={className}>
       {children}
     </a>
   );
