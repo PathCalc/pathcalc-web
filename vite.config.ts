@@ -10,7 +10,11 @@ export default defineConfig(({ mode }) => {
         prerender: true,
         trailingSlash: true,
       }),
-      react({}),
+      react({
+        babel: {
+          plugins: [['babel-plugin-react-compiler', { target: '18' }]],
+        },
+      }),
     ],
 
     resolve: {
