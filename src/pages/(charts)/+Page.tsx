@@ -4,5 +4,5 @@ import { Data } from './+data';
 
 export function Page() {
   const chartConfig = useData<Data>();
-  return <div>{chartConfig.title}</div>;
+  return <div>{chartConfig.currentPage.title}</div>;
 }
