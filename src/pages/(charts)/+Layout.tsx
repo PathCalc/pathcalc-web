@@ -9,7 +9,7 @@ export const Layout: FC<{ children?: ReactNode }> = ({ children }) => {
   const { allPages } = useData<Data>();
 
   return (
-    <>
+    <div className="grow flex flex-col">
       <div className="flex flex-row gap-3">
         <NavLink href="/">{allPages[0].title}</NavLink>
         {allPages.slice(1).map((page) => (
@@ -19,7 +19,7 @@ export const Layout: FC<{ children?: ReactNode }> = ({ children }) => {
         ))}
       </div>
 
-      <div>{children}</div>
-    </>
+      <div className="grow flex items-center justify-center h-full outline-2 outline outline-red-300">{children}</div>
+    </div>
   );
 };

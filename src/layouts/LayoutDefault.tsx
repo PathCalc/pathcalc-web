@@ -8,7 +8,7 @@ import { NavLink } from '@/components/NavLink';
 
 export default function LayoutDefault({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex max-w-5xl m-auto">
+    <div className="flex flex-row max-w-5xl m-auto h-screen w-screen">
       <Sidebar>
         <Logo />
         <NavLink href="/about/">More info</NavLink>
@@ -28,8 +28,8 @@ function Sidebar({ children }: { children: React.ReactNode }) {
 
 function Content({ children }: { children: React.ReactNode }) {
   return (
-    <div id="page-container">
-      <div id="page-content" className="p-5 pb-12 min-h-screen">
+    <div id="page-container" className="grow">
+      <div id="page-content" className="p-5 pb-12 min-h-screen flex flex-col">
         {children}
       </div>
     </div>
