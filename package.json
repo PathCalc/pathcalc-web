@@ -28,6 +28,7 @@
     "react-compiler-runtime": "^19.0.0-beta-8a03594-20241020",
     "react-dom": "^18.3.1",
     "recharts": "^2.13.0",
+    "remeda": "^2.16.0",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",
     "udsv": "^0.5.3",
