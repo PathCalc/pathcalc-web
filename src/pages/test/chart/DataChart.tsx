@@ -1,8 +1,10 @@
-import { useSuspenseQuery } from '@tanstack/react-query';
 import { ColumnTable, escape, from, op } from 'arquero';
+import { atom, useAtom } from 'jotai';
 import { useMemo } from 'react';
-import { indexBy, unique } from 'remeda';
+import { indexBy } from 'remeda';
 import { inferSchema, initParser } from 'udsv';
+
+import { $atomFamily } from '@/lib/jotai';
 
 import { Chart } from './Chart';
 
@@ -48,23 +50,26 @@ type MeasureColumn = {
   stats: { min: number; max: number };
 };
 
-export function DataChart({ scenario }: { scenario: string }) {
-  const { data } = useSuspenseQuery({
-    queryKey: ['testChartData', scenario],
-    queryFn: async () => {
-      const res = await fetch(`/data/facts/gOverview1Data/${scenario}.csv`);
-      const csv = await res.text();
-      const schema = inferSchema(csv);
-      const parser = initParser(schema);
-      const data = parser.typedObjs(csv);
-      return from(data).derive({
-        Sector: (d) => op.lower(op.replace(d!.Sector, /\s+/g, '-')),
-      });
-    },
-  });
-  const rawData = data;
+interface DataFetchFamilyParam {
+  dataset: string;
+  scenario: string;
+}
 
-  // useLog(rawData, (x) => ({ rawData: x.objects() }));
+const s_dataFetchFamily = $atomFamily(({ dataset, scenario }: DataFetchFamilyParam) =>
+  atom(async () => {
+    const res = await fetch(`/data/facts/${dataset}/${scenario}.csv`);
+    const csv = await res.text();
+    const schema = inferSchema(csv);
+    const parser = initParser(schema);
+    const data = parser.typedObjs(csv);
+    return from(data).derive({
+      Sector: (d) => op.lower(op.replace(d!.Sector, /\s+/g, '-')),
+    });
+  }),
+);
+
+export function DataChart({ scenario }: { scenario: string }) {
+  const [rawData] = useAtom(s_dataFetchFamily({ dataset: 'gOverview1Data', scenario }));
 
   // ==== CONFIG ====
 
@@ -74,7 +79,6 @@ export function DataChart({ scenario }: { scenario: string }) {
       type: 'dimension',
       label: 'Year',
       values: [
-        // { value: 2020 },
         { value: 2021 },
         { value: 2022 },
         { value: 2023 },

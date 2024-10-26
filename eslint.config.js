@@ -64,6 +64,7 @@ export default tseslint.config(
   prettier,
   {
     rules: {
+      'prettier/prettier': 'warn',
       'react/prop-types': 'off',
       'react/react-in-jsx-scope': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
