@@ -1,4 +1,4 @@
-import { Area, AreaChart, Bar, BarChart, CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts';
+import { Area, AreaChart, Bar, BarChart, CartesianGrid, Legend, Line, LineChart, XAxis, YAxis } from 'recharts';
 
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 
@@ -11,6 +11,7 @@ export function Chart({
   series,
   seriesShapeProps = {},
   YVariable,
+  YRange,
 }: {
   type: 'line' | 'area' | 'bar';
   stacked: boolean;
@@ -20,6 +21,7 @@ export function Chart({
   series: { dataKey: string | number; color: string }[];
   seriesShapeProps?: Record<string, unknown>;
   YVariable: string;
+  YRange: [number, number];
 }) {
   const ShapeChart = getShapeChart(type);
   const Shape = getShape(type);
@@ -29,7 +31,7 @@ export function Chart({
       <ShapeChart accessibilityLayer data={data}>
         <CartesianGrid />
         <XAxis dataKey={XVariable} tickLine={false} tickMargin={10} axisLine={false} />
-        <YAxis />
+        <YAxis domain={YRange} />
         {series.map((s) => (
           <Shape
             key={s.dataKey}
@@ -56,6 +58,7 @@ export function Chart({
             opacity: 0.1,
           }}
         />
+        <Legend />
       </ShapeChart>
     </ChartContainer>
   );

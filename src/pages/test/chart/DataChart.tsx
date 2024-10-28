@@ -1,9 +1,11 @@
 import { ColumnTable, escape, from, op } from 'arquero';
+import { schemeTableau10 } from 'd3-scale-chromatic';
 import { atom, useAtom } from 'jotai';
 import { useMemo } from 'react';
 import { indexBy } from 'remeda';
 import { inferSchema, initParser } from 'udsv';
 
+import { d3 } from '@/lib/d3';
 import { $atomFamily } from '@/lib/jotai';
 
 import { Chart } from './Chart';
@@ -47,7 +49,7 @@ type MeasureColumn = {
   id: string;
   label: string;
   unit: string;
-  stats: { min: number; max: number };
+  stats: { grouping: string[]; column: string; min: number; max: number }[];
 };
 
 interface DataFetchFamilyParam {
@@ -133,16 +135,22 @@ export function DataChart({ scenario }: { scenario: string }) {
       type: 'measure',
       label: 'Emissions',
       unit: 'MtCO2',
-      stats: {
-        min: 0,
-        max: 38.1,
-      },
+      stats: [
+        {
+          grouping: ['YEAR', 'Scenario'],
+          column: 'VALUE',
+          min: 1.34,
+          max: 50,
+        },
+      ],
     },
   ];
 
   const XVariable = 'YEAR';
   const YVariable = 'VALUE';
   const SeriesVariable = 'Sector';
+
+  const statGrouping = ['YEAR', 'Scenario'];
 
   const emptyIsZero = true;
 
@@ -216,33 +224,45 @@ export function DataChart({ scenario }: { scenario: string }) {
 
     const result = filledData.select(xCol.id, seriesCol.id, yCol.id).groupby(xCol.id).pivot(seriesCol.id, yCol.id);
 
-    const xOrderMap = orderMap(xCol.values.map((v) => v.value));
-    const seriesOrderMap = orderMap(seriesCol.values.map((v) => v.value));
-
     // order the result using the order of the domains.
     // need to use `escape` to prevent arquero from doing its own parsing of the functions
     const resultSorted = result.orderby(
-      escape((d: any) => xOrderMap.get(d[xCol.id])),
-      escape((d: any) => seriesOrderMap.get(d[seriesCol.id])),
+      escape(
+        orderByList(
+          xCol.id,
+          xCol.values.map((v) => v.value),
+        ),
+      ),
+      escape(
+        orderByList(
+          seriesCol.id,
+          seriesCol.values.map((v) => v.value),
+        ),
+      ),
     );
 
     return resultSorted.objects();
   }
 
+  const yRange = useMemo(() => {
+    // find stats array element where grouping matches the items of statGrouping, regardless of order
+    const stats = yColumn.stats.find((s) => sameItems(s.grouping, statGrouping));
+
+    if (stats == null) {
+      throw new Error('Stats not found');
+    }
+
+    return d3
+      .scaleLinear()
+      .domain([0, stats.max * 1.05])
+      .nice()
+      .domain() as [number, number];
+  }, [yColumn, xColumn, seriesColumn]);
+
   const chartData = useMemo(
     () => prepareData(dataGrid, rawData, emptyIsZero, xColumn, yColumn, seriesColumn),
     [dataGrid, rawData, emptyIsZero, xColumn, yColumn, seriesColumn],
   );
-
-  //   const chartData = useMemo(() => {
-  //     if (rawData === undefined) return [];
-  //     const variables = unique([XVariable, YVariable, SeriesVariable]);
-  //     return rawData
-  //       .select(...variables)
-  //       .groupby(XVariable)
-  //       .pivot(SeriesVariable, YVariable)
-  //       .objects();
-  //   }, [rawData]);
 
   const chartConfig = useMemo(() => {
     const axesConfig = [xColumn, yColumn].map((c) => ({ id: c.id, label: c.label }));
@@ -252,18 +272,7 @@ export function DataChart({ scenario }: { scenario: string }) {
     return indexBy([...axesConfig, ...seriesConfig], (x) => x.id);
   }, [seriesColumn, xColumn, yColumn]);
 
-  const basePalette10Categorical = [
-    '#1f77b4',
-    '#ff7f0e',
-    '#2ca02c',
-    '#d62728',
-    '#9467bd',
-    '#8c564b',
-    '#e377c2',
-    '#7f7f7f',
-    '#bcbd22',
-    '#17becf',
-  ];
+  const basePalette10Categorical = schemeTableau10;
 
   const chartSeries = seriesColumn.values.map((v, i) => ({
     dataKey: v.value,
@@ -279,6 +288,7 @@ export function DataChart({ scenario }: { scenario: string }) {
         stacked={stacked}
         XVariable={XVariable}
         YVariable={YVariable}
+        YRange={yRange}
         data={chartData}
         series={chartSeries}
         seriesShapeProps={seriesShapeProps}
@@ -301,4 +311,16 @@ function checkPrimaryKey(data: ColumnTable, primaryKey: string[]) {
 
 function orderMap<T>(values: T[]): Map<T, number> {
   return new Map(values.map((v, i) => [v, i]));
+}
+
+function orderByList<T>(columnId: string, ordering: T[]) {
+  const om = orderMap(ordering);
+
+  return (d: any) => om.get(d[columnId]);
+}
+
+function sameItems<T>(a: T[], b: T[]) {
+  const aSet = new Set(a);
+  const bSet = new Set(b);
+  return aSet.size === bSet.size && [...aSet].every((v) => bSet.has(v));
 }
