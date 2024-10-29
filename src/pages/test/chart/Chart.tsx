@@ -1,4 +1,5 @@
 import { Area, AreaChart, Bar, BarChart, CartesianGrid, Legend, Line, LineChart, XAxis, YAxis } from 'recharts';
+import { AxisDomain } from 'recharts/types/util/types';
 
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 
@@ -21,7 +22,7 @@ export function Chart({
   series: { dataKey: string | number; color: string }[];
   seriesShapeProps?: Record<string, unknown>;
   YVariable: string;
-  YRange: [number, number];
+  YRange: AxisDomain;
 }) {
   const ShapeChart = getShapeChart(type);
   const Shape = getShape(type);

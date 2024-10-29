@@ -146,7 +146,7 @@ export function ChartAdapter({
     const stats = yColumn.stats.find((s) => sameItems(s.grouping, statGrouping));
 
     if (stats == null) {
-      throw new Error('Stats not found');
+      return ['dataMin', 'dataMax'];
     }
 
     return d3
@@ -177,19 +177,16 @@ export function ChartAdapter({
   }));
 
   return (
-    <>
-      <Chart
-        type={type}
-        stacked={stacked}
-        XVariable={XVariable}
-        YVariable={YVariable}
-        YRange={yRange}
-        data={chartData}
-        series={chartSeries}
-        seriesShapeProps={seriesShapeProps}
-        chartConfig={chartConfig}
-      />
-      {/* <button onClick={() => console.log(chartData)}>Log data</button> */}
-    </>
+    <Chart
+      type={type}
+      stacked={stacked}
+      XVariable={XVariable}
+      YVariable={YVariable}
+      YRange={yRange}
+      data={chartData}
+      series={chartSeries}
+      seriesShapeProps={seriesShapeProps}
+      chartConfig={chartConfig}
+    />
   );
 }
