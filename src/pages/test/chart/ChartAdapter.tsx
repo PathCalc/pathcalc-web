@@ -1,11 +1,12 @@
 import { ColumnTable, escape, from, op } from 'arquero';
 import { schemeTableau10 } from 'd3-scale-chromatic';
-import { atom, useAtom } from 'jotai';
+import { atom } from 'jotai';
 import { useMemo } from 'react';
 import { indexBy } from 'remeda';
 import { inferSchema, initParser } from 'udsv';
 
 import { d3 } from '@/lib/d3';
+import { checkPrimaryKey, orderByList, sameItems } from '@/lib/data-utils';
 import { $atomFamily } from '@/lib/jotai';
 
 import { Chart } from './Chart';
@@ -37,14 +38,14 @@ type DimensionValue = {
   color?: string;
 };
 
-type DimensionColumn = {
+export type DimensionColumn = {
   type: 'dimension';
   id: string;
   label: string;
   values: DimensionValue[];
 };
 
-type MeasureColumn = {
+export type MeasureColumn = {
   type: 'measure';
   id: string;
   label: string;
@@ -52,133 +53,29 @@ type MeasureColumn = {
   stats: { grouping: string[]; column: string; min: number; max: number }[];
 };
 
-interface DataFetchFamilyParam {
-  dataset: string;
-  scenario: string;
-}
-
-const s_dataFetchFamily = $atomFamily(({ dataset, scenario }: DataFetchFamilyParam) =>
-  atom(async () => {
-    const res = await fetch(`/data/facts/${dataset}/${scenario}.csv`);
-    const csv = await res.text();
-    const schema = inferSchema(csv);
-    const parser = initParser(schema);
-    const data = parser.typedObjs(csv);
-    return from(data).derive({
-      Sector: (d) => op.lower(op.replace(d!.Sector, /\s+/g, '-')),
-    });
-  }),
-);
-
-export function DataChart({ scenario }: { scenario: string }) {
-  const [rawData] = useAtom(s_dataFetchFamily({ dataset: 'gOverview1Data', scenario }));
-
-  // ==== CONFIG ====
-
-  const columns: (DimensionColumn | MeasureColumn)[] = [
-    {
-      id: 'YEAR',
-      type: 'dimension',
-      label: 'Year',
-      values: [
-        { value: 2021 },
-        { value: 2022 },
-        { value: 2023 },
-        { value: 2024 },
-        { value: 2025 },
-        { value: 2026 },
-        { value: 2027 },
-        { value: 2028 },
-        { value: 2029 },
-        { value: 2030 },
-        { value: 2031 },
-        { value: 2032 },
-        { value: 2033 },
-        { value: 2034 },
-        { value: 2035 },
-        { value: 2036 },
-        { value: 2037 },
-        { value: 2038 },
-        { value: 2039 },
-        { value: 2040 },
-        { value: 2041 },
-        { value: 2042 },
-        { value: 2043 },
-        { value: 2044 },
-        { value: 2045 },
-        { value: 2046 },
-        { value: 2047 },
-        { value: 2048 },
-        { value: 2049 },
-        { value: 2050 },
-      ],
-    },
-    {
-      id: 'Sector',
-      type: 'dimension',
-      label: 'Sector',
-      values: [
-        {
-          value: 'power-generation',
-          label: 'Power generation',
-          color: '#d4c0c3',
-        },
-        {
-          value: 'transport',
-          label: 'Transport',
-          color: '#e04461',
-        },
-      ],
-    },
-    {
-      id: 'VALUE',
-      type: 'measure',
-      label: 'Emissions',
-      unit: 'MtCO2',
-      stats: [
-        {
-          grouping: ['YEAR', 'Scenario'],
-          column: 'VALUE',
-          min: 1.34,
-          max: 50,
-        },
-      ],
-    },
-  ];
-
-  const XVariable = 'YEAR';
-  const YVariable = 'VALUE';
-  const SeriesVariable = 'Sector';
-
-  const statGrouping = ['YEAR', 'Scenario'];
-
-  const emptyIsZero = true;
-
-  const shapeProps = {
-    area: {
-      fillOpacity: 1,
-      strokeOpacity: 0,
-      strokeWidth: 0,
-      dot: false,
-      activeDot: false,
-    },
-    line: {
-      strokeOpacity: 1,
-      strokeWidth: 3,
-      dot: false,
-    },
-    bar: {
-      fillOpacity: 1,
-      strokeOpacity: 0,
-      strokeWidth: 0,
-    },
-  };
-
-  const type = 'area';
-  const stacked = true;
-
-  // ==== END CONFIG ====
-
+export function ChartAdapter({
+  rawData,
+  columns,
+  XVariable,
+  YVariable,
+  SeriesVariable,
+  emptyIsZero,
+  type,
+  stacked,
+  statGrouping,
+  seriesShapeProps,
+}: {
+  rawData: ColumnTable;
+  columns: (DimensionColumn | MeasureColumn)[];
+  XVariable: string;
+  YVariable: string;
+  SeriesVariable: string;
+  emptyIsZero: boolean;
+  type: 'line' | 'area' | 'bar';
+  stacked: boolean;
+  statGrouping: string[];
+  seriesShapeProps: Record<string, unknown>;
+}) {
   // Prepare config / data
 
   const columnLookup = indexBy(columns, (x) => x.id);
@@ -279,8 +176,6 @@ export function DataChart({ scenario }: { scenario: string }) {
     color: v.color ?? basePalette10Categorical[i % basePalette10Categorical.length],
   }));
 
-  const seriesShapeProps = shapeProps[type];
-
   return (
     <>
       <Chart
@@ -294,33 +189,7 @@ export function DataChart({ scenario }: { scenario: string }) {
         seriesShapeProps={seriesShapeProps}
         chartConfig={chartConfig}
       />
-      <button onClick={() => console.log(chartData)}>Log data</button>
+      {/* <button onClick={() => console.log(chartData)}>Log data</button> */}
     </>
   );
-}
-
-function checkPrimaryKey(data: ColumnTable, primaryKey: string[]) {
-  const numRows = data.numRows();
-
-  const numRowsDeduped = data.dedupe(primaryKey).numRows();
-
-  if (numRows !== numRowsDeduped) {
-    throw new Error('Primary key check failed');
-  }
-}
-
-function orderMap<T>(values: T[]): Map<T, number> {
-  return new Map(values.map((v, i) => [v, i]));
-}
-
-function orderByList<T>(columnId: string, ordering: T[]) {
-  const om = orderMap(ordering);
-
-  return (d: any) => om.get(d[columnId]);
-}
-
-function sameItems<T>(a: T[], b: T[]) {
-  const aSet = new Set(a);
-  const bSet = new Set(b);
-  return aSet.size === bSet.size && [...aSet].every((v) => bSet.has(v));
 }
