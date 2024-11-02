@@ -1,5 +1,4 @@
 {
-    "name": "YEAR",
-    "label": "Year",
-    "content": "YEAR.csv"
+    "id": "YEAR",
+    "label": "Year"
 }

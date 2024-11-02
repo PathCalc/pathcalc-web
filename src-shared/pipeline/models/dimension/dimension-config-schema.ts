@@ -1,21 +1,40 @@
+import { Merge } from 'type-fest';
 import { z } from 'zod';
 
-export const dimensionValueConfigSchema = z.object({
-  id: z.string(),
-  label: z.string().optional(),
-  color: z.string().optional(),
-});
+export const dimensionValueConfigSchema = z
+  .object({
+    id: z.string(),
+    label: z.string().optional().nullable(),
+    color: z.string().optional().nullable(),
+  })
+  .passthrough();
 
 export type DimensionValueConfig = z.infer<typeof dimensionValueConfigSchema>;
 
-export const dimensionContentConfigSchema = z.array(dimensionValueConfigSchema);
+export const dimensionDomainConfigSchema = z.array(dimensionValueConfigSchema).min(1);
 
-export type DimensionContentConfig = z.infer<typeof dimensionContentConfigSchema>;
+export type DimensionDomainConfig = z.infer<typeof dimensionDomainConfigSchema>;
 
-export const dimensionConfigSchema = z.object({
+export const dimensionConfigBaseSchema = z.object({
   id: z.string(),
   label: z.string().optional(),
-  content: z.string().or(dimensionContentConfigSchema),
 });
 
-export type DimensionConfig = z.infer<typeof dimensionConfigSchema>;
+export const dimensionConfigSingleFileSchema = dimensionConfigBaseSchema
+  .merge(
+    z.object({
+      domain: dimensionDomainConfigSchema,
+    }),
+  )
+  .strict();
+
+export const dimensionConfigSplitFileSchema = dimensionConfigBaseSchema.strict();
+
+export type DimensionConfig = z.infer<typeof dimensionConfigSingleFileSchema>;
+
+export type IDimension = Merge<
+  DimensionConfig,
+  {
+    domain: DimensionDomainConfig;
+  }
+>;

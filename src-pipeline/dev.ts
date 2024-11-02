@@ -1,6 +1,8 @@
 import { watch } from 'fs';
+import { ZodError } from 'zod';
 
 import { readDimensionsConfigDirectory } from './configs/dimensions';
+import { ProcessingContext } from './utils/processing-context';
 
 console.clear();
 
@@ -38,17 +40,30 @@ process.on('SIGINT', () => {
 async function doAll() {
   console.log('Rerunning pipeline...');
   try {
-    readDimensionsConfigDirectory();
+    const ctx = new ProcessingContext();
+    const dimensions = await ctx.addContext('Dimensions config').exec((c) => readDimensionsConfigDirectory(c));
+
+    console.table(
+      [...dimensions.values()].map((d) => ({
+        id: d.id,
+        label: d.label,
+        valueCount: d.domainValuesSet.size,
+        links: [...d.dimensionLinks.values()].map((x) => x.id).join(', '),
+      })),
+    );
+
+    console.log('Pipeline finished without errors.');
   } catch (e) {
-    if (e instanceof Error) {
-      reportError(e);
-    } else {
-      console.error(e);
-    }
+    reportError(e);
   }
 }
 
-function reportError(e: Error) {
-  console.error(e);
-  console.error(e.stack);
+function reportError(e: unknown) {
+  if (e instanceof ZodError) {
+    console.error(e.toString());
+  } else if (e instanceof Error) {
+    console.error(e.message);
+  } else {
+    console.error(e);
+  }
 }

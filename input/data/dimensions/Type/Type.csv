@@ -1,0 +1,26 @@
+id,label,color
+DSLBIO,Diesel and biodiesel,#4c5f85
+GASETH,Gasoline and ethanol,#718ec8
+JETABF,Jet fuel and aviation biofuels,#f690f2
+COM,Compression &  Storage & Liquefaction & Transport,
+ABF,Aviation biofuel,#ffd82d
+AEF,Alternative e-fuels for aviation (H2),#008b8b
+BDL,Biodiesel,#326b3e
+COA,Coal,#292929
+DSL,Diesel,#b0976d
+ETH,Ethanol,#008b8b
+GAS,Gasoline,#725c3e
+H2,H2,#6eeb83
+JET,Jet fuel,#f690f2
+BIO,Biomass,#326b3e 
+HYD,Hydro,#6fe0ea
+SOL,Solar,#ffd82d
+WND,Wind,#f690f2
+TRN,Transmission,
+BKSTP,BACKSTOP,
+DST,Distribution,
+ELC,Electric,#e04461
+HYB,Hybrid,#008b8b
+ALK,ALK,
+PEM,PEM,
+ELCY,Electricity,#e04461

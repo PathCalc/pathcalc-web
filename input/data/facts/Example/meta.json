@@ -14,10 +14,6 @@
             "type": "dimension"
         },
         {
-            "name": "TECHNOLOGY",
-            "type": "dimension"
-        },
-        {
             "name": "VALUE",
             "type": "measure",
             "label": "Example Variable",

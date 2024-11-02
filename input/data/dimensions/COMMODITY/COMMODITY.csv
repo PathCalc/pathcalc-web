@@ -28,7 +28,7 @@ EXPIKH,IPPe exports to Cambodia,ELCY
 ELECTH,Not used commodity,
 HDGELC,Electricity for H2 production,
 HDG001,Hydrogen commodity produced by the electrolyzers,
-HDG002,"Hydrogen commodity after compression, liquefaction, transport and storage",HDG
+HDG002,"Hydrogen commodity after compression, liquefaction, transport and storage",H2
 HDGEXP,Hydrogen for Export,
 TRAMCY,Motocycle passenger demand,
 GAS,Gasoline,GAS

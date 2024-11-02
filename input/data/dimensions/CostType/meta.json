@@ -1,5 +1,4 @@
 {
-    "name": "CostType",
-    "label": "Cost Type",
-    "content": "CostType.csv"
+    "id": "CostType",
+    "label": "Cost Type"
 }

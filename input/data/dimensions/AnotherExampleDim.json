@@ -1,6 +1,7 @@
 {
+    "id": "AnotherExampleDim",
     "label": "Another Example Dimension",
-    "content": [
+    "domain": [
         {
             "id": "AED1",
             "label": "Another Example Dimension Value 1",
