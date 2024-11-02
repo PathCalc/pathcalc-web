@@ -1,0 +1,10 @@
+{
+    "name": "Period",
+    "label": "Period",
+    "content": [
+        {
+            "Period": "FULL",
+            "description": "2020-2050"
+        }
+    ]
+}

@@ -1,0 +1,74 @@
+{
+    "content": {
+        "type": "container",
+        "items": [
+            {
+                "type": "row",
+                "title": "CO2 Emissions",
+                "items": [
+                    {
+                        "type": "chart",
+                        "data": "Overview1",
+                        "options": {
+                            "type": "area",
+                            "stacked": true,
+                            "x": "YEAR",
+                            "y": "VALUE",
+                            "series": "TECHNOLOGY:Sector",
+                            "legend": false,
+                            "emptyIsZero": true,
+                            "showEmptySeries": true,
+                            "extraProps": {
+                                "chart": {
+                                    "syncId": "year",
+                                    "syncMethod": "value"
+                                },
+                                "chartSeries": {
+                                    "stroke": "#000000"
+                                },
+                                "chartComponent": {}
+                            }
+                        }
+                    },
+                    {
+                        "type": "chart",
+                        "options": {
+                            "type": "bar",
+                            "stacked": true,
+                            "x": "YEAR:Period",
+                            "y": "VALUE",
+                            "series": "TECHNOLOGY:Sector",
+                            "legend": true
+                        },
+                        "data": [
+                            {
+                                "$": "load",
+                                "from": "Overview1",
+                                "sharding": [
+                                    "Scenario"
+                                ]
+                            },
+                            {
+                                "$": "aggregate",
+                                "groupby": [
+                                    "YEAR:Period"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "type": "row",
+                "title": "Costs",
+                "items": [
+                    {
+                        "type": "chart",
+                        "data": "Overview2",
+                        "options": {}
+                    }
+                ]
+            }
+        ]
+    }
+}

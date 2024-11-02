@@ -1,0 +1,5 @@
+CostType,Description,Color
+VAR,Variable costs,#4c5f84
+FIX,Fixed costs,#008b8b
+CAPINV,Capital investment,#6fe0ea
+TOT,Total costs,#000000

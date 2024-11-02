@@ -1,0 +1,27 @@
+{
+    "name": "Example",
+    "type": "raw",
+    "sharding": [
+        "Scenario"
+    ],
+    "storage": {
+        "type": "local-input",
+        "pattern": "{Scenario}.csv"
+    },
+    "columns": [
+        {
+            "name": "YEAR",
+            "type": "dimension"
+        },
+        {
+            "name": "TECHNOLOGY",
+            "type": "dimension"
+        },
+        {
+            "name": "VALUE",
+            "type": "measure",
+            "label": "Example Variable",
+            "unit": "USD"
+        }
+    ]
+}

@@ -1,0 +1,25 @@
+{
+    "label": "Another Example Dimension",
+    "content": [
+        {
+            "id": "AED1",
+            "description": "Another Example Dimension Value 1",
+            "color": "#FF0000"
+        },
+        {
+            "id": "AED2",
+            "description": "Another Example Dimension Value 2",
+            "color": "#00FF00"
+        },
+        {
+            "id": "AED3",
+            "description": "Another Example Dimension Value 3",
+            "color": "#0000FF"
+        },
+        {
+            "id": "AED4",
+            "description": "Another Example Dimension Value 4",
+            "color": "#FFFF00"
+        }
+    ]
+}

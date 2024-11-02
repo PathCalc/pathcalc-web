@@ -1,0 +1,6 @@
+EXAMPLE,Description,Color,:AnotherExampleDim
+EX1,Example 1,#ff0000,AED2
+EX2,Example 2,#00ff00,AED4
+EX3,Example 3,#0000ff,AED1
+EX4,Example 4,#ffff00,AED3
+EX5,Example 5,#ff00ff,AED2
