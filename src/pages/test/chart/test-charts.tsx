@@ -1,8 +1,10 @@
 import { from, op } from 'arquero';
 import { atom, useAtom } from 'jotai';
-import { Suspense, useMemo } from 'react';
+import { Suspense, useMemo, useState } from 'react';
 import { inferSchema, initParser } from 'udsv';
 
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
 import { $atomFamily } from '@/lib/jotai';
 
 import { withSuspense } from '../../../lib/withSuspense';
@@ -142,6 +144,9 @@ function OverviewChart1AImpl({ scenario }: { scenario: string }) {
   const stacked = true;
 
   const seriesShapeProps = shapeProps[type];
+  const chartProps = {
+    syncId: 'year',
+  };
 
   // ==== END CONFIG ====
   return (
@@ -152,10 +157,12 @@ function OverviewChart1AImpl({ scenario }: { scenario: string }) {
       YVariable={YVariable}
       SeriesVariable={SeriesVariable}
       emptyIsZero={emptyIsZero}
+      includeEmptySeries={false}
       type={type}
       stacked={stacked}
       statGrouping={statGrouping}
       seriesShapeProps={seriesShapeProps}
+      chartProps={chartProps}
     />
   );
 }
@@ -255,6 +262,7 @@ function OverviewChart1BImpl({ scenario }: { scenario: string }) {
       YVariable={YVariable}
       SeriesVariable={SeriesVariable}
       emptyIsZero={emptyIsZero}
+      includeEmptySeries={false}
       type={type}
       stacked={stacked}
       statGrouping={statGrouping}
@@ -322,32 +330,37 @@ function OverviewChart2AImpl({ scenario }: { scenario: string }) {
       label: 'Type',
       values: [
         {
+          value: 'variable-costs',
+          label: 'Variable costs',
+          color: '#4c5f84',
+        },
+        {
           value: 'capital-investment',
           label: 'Capital investment',
           color: '#6fe0ea',
+        },
+        {
+          value: 'random-costs',
+          label: 'Random costs',
+          color: 'antiquewhite',
         },
         {
           value: 'fixed-costs',
           label: 'Fixed costs',
           color: '#008b8b',
         },
-        {
-          value: 'variable-costs',
-          label: 'Variable costs',
-          color: '#4c5f84',
-        },
       ],
     },
     {
       id: 'VALUE',
       type: 'measure',
-      label: 'Emissions',
-      unit: 'MtCO2',
+      label: 'Costs',
+      unit: 'M$',
       stats: [
         {
           grouping: ['YEAR', 'Scenario'],
           column: 'VALUE',
-          min: 4373,
+          min: -500,
           max: 36172,
         },
       ],
@@ -357,16 +370,19 @@ function OverviewChart2AImpl({ scenario }: { scenario: string }) {
   const XVariable = 'YEAR';
   const YVariable = 'VALUE';
   const SeriesVariable = 'Type';
+  const sharding = ['Scenario'];
 
   const statGrouping = ['YEAR', 'Scenario'];
 
   const emptyIsZero = true;
+  const [includeEmptySeries, setIncludeEmptySeries] = useState(true);
 
   const shapeProps = {
     area: {
       fillOpacity: 1,
       strokeOpacity: 0,
-      strokeWidth: 0,
+      strokeWidth: 2,
+      stroke: '#000000',
       dot: false,
       activeDot: false,
     },
@@ -382,24 +398,53 @@ function OverviewChart2AImpl({ scenario }: { scenario: string }) {
     },
   };
 
-  const type = 'area';
-  const stacked = true;
+  const [type, setType] = useState<'line' | 'area' | 'bar'>('line');
+  const [stacked, setStacked] = useState(true);
 
   const seriesShapeProps = shapeProps[type];
+  const chartProps = {
+    syncId: 'year',
+    stackOffset: 'sign', //'sign',
+  };
 
   // ==== END CONFIG ====
   return (
-    <ChartAdapter
-      rawData={rawData}
-      columns={columns}
-      XVariable={XVariable}
-      YVariable={YVariable}
-      SeriesVariable={SeriesVariable}
-      emptyIsZero={emptyIsZero}
-      type={type}
-      stacked={stacked}
-      statGrouping={statGrouping}
-      seriesShapeProps={seriesShapeProps}
-    />
+    <>
+      <ChartAdapter
+        rawData={rawData}
+        columns={columns}
+        XVariable={XVariable}
+        YVariable={YVariable}
+        SeriesVariable={SeriesVariable}
+        emptyIsZero={emptyIsZero}
+        includeEmptySeries={includeEmptySeries}
+        statGrouping={statGrouping}
+        //
+        type={type}
+        stacked={stacked}
+        seriesShapeProps={seriesShapeProps}
+        chartProps={chartProps}
+      />
+      <div className="flex flex-col gap-4">
+        <Switch checked={includeEmptySeries} onCheckedChange={setIncludeEmptySeries} title="Include empty series" />
+        <Switch checked={stacked} onCheckedChange={setStacked} title="Stacked" />
+        <ChartTypeSelect value={type} onChange={setType} />
+      </div>
+    </>
+  );
+}
+
+function ChartTypeSelect({ value, onChange }: { value: string; onChange: (value: 'line' | 'area' | 'bar') => void }) {
+  return (
+    <Select value={value} onValueChange={onChange}>
+      <SelectTrigger>
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value="line">Line</SelectItem>
+        <SelectItem value="area">Area</SelectItem>
+        <SelectItem value="bar">Bar</SelectItem>
+      </SelectContent>
+    </Select>
   );
 }

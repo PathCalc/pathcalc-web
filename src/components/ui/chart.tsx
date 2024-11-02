@@ -254,6 +254,8 @@ const ChartLegendContent = React.forwardRef<
         const key = `${nameKey || item.dataKey || 'value'}`;
         const itemConfig = getPayloadConfigFromPayload(config, item, key);
 
+        if (item.type === 'none') return;
+
         return (
           <div
             key={item.value}
@@ -265,7 +267,7 @@ const ChartLegendContent = React.forwardRef<
               <div
                 className="h-2 w-2 shrink-0 rounded-[2px]"
                 style={{
-                  backgroundColor: item.color,
+                  backgroundColor: itemConfig?.color ?? item.color,
                 }}
               />
             )}

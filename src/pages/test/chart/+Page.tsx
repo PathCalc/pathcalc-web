@@ -33,7 +33,6 @@ export const Page: FC = () => {
         <Slider value={[L4]} onValueChange={([x]) => setL4(x)} min={1} max={4} step={1} />
         <Slider value={[L5]} onValueChange={([x]) => setL5(x)} min={1} max={4} step={1} />
       </div>
-      <div>{isLoading ? 'New data is loading...' : ''}</div>
       {/* <ArqueroPlayground /> */}
     </>
   );

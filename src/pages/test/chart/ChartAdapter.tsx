@@ -60,10 +60,12 @@ export function ChartAdapter({
   YVariable,
   SeriesVariable,
   emptyIsZero,
+  includeEmptySeries,
   type,
   stacked,
   statGrouping,
   seriesShapeProps,
+  chartProps,
 }: {
   rawData: ColumnTable;
   columns: (DimensionColumn | MeasureColumn)[];
@@ -71,12 +73,15 @@ export function ChartAdapter({
   YVariable: string;
   SeriesVariable: string;
   emptyIsZero: boolean;
+  includeEmptySeries: boolean;
   type: 'line' | 'area' | 'bar';
   stacked: boolean;
   statGrouping: string[];
-  seriesShapeProps: Record<string, unknown>;
+  seriesShapeProps?: Record<string, unknown>;
+  chartProps?: Record<string, unknown>;
 }) {
   // Prepare config / data
+  checkPrimaryKey(rawData, [XVariable, SeriesVariable]);
 
   const columnLookup = indexBy(columns, (x) => x.id);
 
@@ -93,88 +98,17 @@ export function ChartAdapter({
     throw new Error('Invalid y column');
   }
 
-  checkPrimaryKey(rawData, [XVariable, SeriesVariable]);
+  const seriesColors = prepareSeriesColors(seriesColumn.values);
 
-  // build an arquero table defining the full grid of x axis / series combinations, based on config
-  // we're not using data here at all, just the config, to create an empty grid
-  function prepareDataGrid(xColumn: DimensionColumn, seriesColumn: DimensionColumn) {
-    const xValues = xColumn.values.map((v) => ({ [xColumn.id]: v.value }));
-    const seriesValues = seriesColumn.values.map((v) => ({ [seriesColumn.id]: v.value }));
-    return from(xValues).cross(from(seriesValues));
-  }
+  const series = seriesColumn.values;
+  const visibleSeries = prepareVisibleSeries(rawData, seriesColumn, includeEmptySeries);
 
   const dataGrid = prepareDataGrid(xColumn, seriesColumn);
 
-  // useLog(dataGrid, (x) => ({ dataGrid: x.objects() }));
-
-  function prepareData(
-    dataGrid: ColumnTable,
-    data: ColumnTable,
-    emptyIsZero: boolean,
-    xCol: DimensionColumn,
-    yCol: MeasureColumn,
-    seriesCol: DimensionColumn,
-  ) {
-    const expandedData = dataGrid.join_left(data);
-    const filledData = emptyIsZero ? expandedData.impute({ [yCol.id]: 0 }) : expandedData;
-    // logDf({ dataGrid, data, expandedData, filledData });
-
-    const result = filledData.select(xCol.id, seriesCol.id, yCol.id).groupby(xCol.id).pivot(seriesCol.id, yCol.id);
-
-    // order the result using the order of the domains.
-    // need to use `escape` to prevent arquero from doing its own parsing of the functions
-    const resultSorted = result.orderby(
-      escape(
-        orderByList(
-          xCol.id,
-          xCol.values.map((v) => v.value),
-        ),
-      ),
-      escape(
-        orderByList(
-          seriesCol.id,
-          seriesCol.values.map((v) => v.value),
-        ),
-      ),
-    );
-
-    return resultSorted.objects();
-  }
-
-  const yRange = useMemo(() => {
-    // find stats array element where grouping matches the items of statGrouping, regardless of order
-    const stats = yColumn.stats.find((s) => sameItems(s.grouping, statGrouping));
-
-    if (stats == null) {
-      return ['dataMin', 'dataMax'];
-    }
-
-    return d3
-      .scaleLinear()
-      .domain([0, stats.max * 1.05])
-      .nice()
-      .domain() as [number, number];
-  }, [yColumn, xColumn, seriesColumn]);
-
-  const chartData = useMemo(
-    () => prepareData(dataGrid, rawData, emptyIsZero, xColumn, yColumn, seriesColumn),
-    [dataGrid, rawData, emptyIsZero, xColumn, yColumn, seriesColumn],
-  );
-
-  const chartConfig = useMemo(() => {
-    const axesConfig = [xColumn, yColumn].map((c) => ({ id: c.id, label: c.label }));
-
-    const seriesConfig = seriesColumn?.values?.map((v) => ({ id: v.value, label: v.label, color: v.color }));
-
-    return indexBy([...axesConfig, ...seriesConfig], (x) => x.id);
-  }, [seriesColumn, xColumn, yColumn]);
-
-  const basePalette10Categorical = schemeTableau10;
-
-  const chartSeries = seriesColumn.values.map((v, i) => ({
-    dataKey: v.value,
-    color: v.color ?? basePalette10Categorical[i % basePalette10Categorical.length],
-  }));
+  const chartData = prepareChartData(dataGrid, rawData, emptyIsZero, xColumn.id, yColumn.id, seriesColumn.id, series);
+  const chartConfig = prepareChartConfig(xColumn, yColumn, series, seriesColors);
+  const chartSeries = prepareChartSeries(series, seriesColors);
+  const yRange = prepareYRange(yColumn, statGrouping);
 
   return (
     <Chart
@@ -185,8 +119,103 @@ export function ChartAdapter({
       YRange={yRange}
       data={chartData}
       series={chartSeries}
+      visibleSeries={visibleSeries}
       seriesShapeProps={seriesShapeProps}
+      chartProps={chartProps}
       chartConfig={chartConfig}
     />
   );
+}
+
+function prepareSeriesColors(allSeries: DimensionValue[]) {
+  const basePalette10Categorical = schemeTableau10;
+  return new Map(
+    allSeries.map((v, i) => [v.value, v.color ?? basePalette10Categorical[i % basePalette10Categorical.length]]),
+  );
+}
+
+function prepareVisibleSeries(data: ColumnTable, seriesColumn: DimensionColumn, includeEmptySeries: boolean) {
+  if (includeEmptySeries) {
+    return seriesColumn.values.map((v) => v.value);
+  }
+
+  const seriesValues = new Set(data.column(seriesColumn.id));
+  return seriesColumn.values.filter((v) => seriesValues.has(v.value)).map((v) => v.value);
+}
+
+// build an arquero table defining the full grid of x axis / series combinations, based on config
+// we're not using data here at all, just the config, to create an empty grid
+function prepareDataGrid(xColumn: DimensionColumn, seriesColumn: DimensionColumn) {
+  const xValues = xColumn.values.map((v) => ({ [xColumn.id]: v.value }));
+  const seriesValues = seriesColumn.values.map((v) => ({ [seriesColumn.id]: v.value }));
+  return from(xValues).cross(from(seriesValues));
+}
+
+function prepareChartData(
+  dataGrid: ColumnTable,
+  data: ColumnTable,
+  emptyIsZero: boolean,
+  xColId: string,
+  yColId: string,
+  seriesColId: string,
+  seriesValues: DimensionValue[],
+) {
+  const expandedData = dataGrid.join_left(data);
+  const filledData = emptyIsZero ? expandedData.impute({ [yColId]: 0 }) : expandedData;
+
+  const result = filledData.select(xColId, seriesColId, yColId).groupby(xColId).pivot(seriesColId, yColId);
+
+  // order the result using the order of the domains.
+  // need to use `escape` to prevent arquero from doing its own parsing of the functions
+  const resultSorted = result.orderby(
+    escape(
+      orderByList(
+        xColId,
+        seriesValues.map((v) => v.value),
+      ),
+    ),
+    escape(
+      orderByList(
+        seriesColId,
+        seriesValues.map((v) => v.value),
+      ),
+    ),
+  );
+
+  return resultSorted.objects();
+}
+
+function prepareChartConfig(
+  xColumn: DimensionColumn,
+  yColumn: MeasureColumn,
+  seriesValues: DimensionValue[],
+  seriesColors: Map<string | number, string>,
+) {
+  const axesConfig = [xColumn, yColumn].map((c) => ({ id: c.id, label: c.label }));
+
+  const seriesConfig = seriesValues.map((v) => ({ id: v.value, label: v.label, color: seriesColors.get(v.value) }));
+
+  return indexBy([...axesConfig, ...seriesConfig], (x) => x.id);
+}
+
+function prepareYRange(yColumn: MeasureColumn, statGrouping: string[]) {
+  // find stats array element where grouping matches the items of statGrouping, regardless of order
+  const stats = yColumn.stats.find((s) => sameItems(s.grouping, statGrouping));
+
+  if (stats == null) {
+    return ['dataMin', 'dataMax'];
+  }
+
+  return d3
+    .scaleLinear()
+    .domain([0, stats.max * 1.05])
+    .nice()
+    .domain() as [number, number];
+}
+
+function prepareChartSeries(series: DimensionValue[], seriesColors: Map<string | number, string>) {
+  return series.map((s) => ({
+    dataKey: s.value,
+    color: seriesColors.get(s.value)!,
+  }));
 }
