@@ -20,6 +20,7 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: {
         '@': new URL('./src/', import.meta.url).pathname,
+        '~shared': new URL('./src-shared/', import.meta.url).pathname,
       },
     },
     base: env.PUBLIC_ENV__BASE_URL,
