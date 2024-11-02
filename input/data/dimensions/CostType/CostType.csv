@@ -1,4 +1,4 @@
-CostType,Description,Color
+id,label,color
 VAR,Variable costs,#4c5f84
 FIX,Fixed costs,#008b8b
 CAPINV,Capital investment,#6fe0ea

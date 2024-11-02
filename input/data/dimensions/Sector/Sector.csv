@@ -1,0 +1,7 @@
+id,label,color
+DEM,Demand,
+BLD,Fuel blending,
+HDG,Hydrogen production,
+PWR,Power,
+PFS,Primary fuel supply,
+TRA,Transport,

@@ -1,0 +1,8 @@
+id,label,color
+BUS,Bus,#c33b54
+CAR,Car,#4c5f85
+AIR,Air,#008b8b
+RAI,Rail,#6eeb83
+HDV,Heavy-duty vehicle,#4c5f85
+LDV,Light-duty vehicle,#f690f2
+MCY,Motorcycle,#f690f2

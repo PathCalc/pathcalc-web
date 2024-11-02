@@ -1,5 +1,5 @@
 {
-    "name": "TECHNOLOGY",
+    "id": "TECHNOLOGY",
     "label": "Technology",
-    "content": "content.csv"
+    "content": "TECHNOLOGY.csv"
 }

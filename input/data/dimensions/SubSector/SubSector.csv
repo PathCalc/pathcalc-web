@@ -1,0 +1,7 @@
+id,label,color
+GEN,Generation,
+INF,Infrastructure,
+FLT,Fleet,
+IMP,Imported,
+MIN,Domestic,
+EXP,Exports,
