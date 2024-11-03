@@ -21,13 +21,15 @@ export default tseslint.config(
     ],
   },
   eslint.configs.recommended,
-  ...tseslint.configs.recommended,
+  ...tseslint.configs.recommendedTypeChecked,
   {
     languageOptions: {
       parserOptions: {
         warnOnUnsupportedTypeScriptVersion: false,
         sourceType: 'module',
         ecmaVersion: 'latest',
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
       },
     },
   },
@@ -68,6 +70,8 @@ export default tseslint.config(
       'react/prop-types': 'off',
       'react/react-in-jsx-scope': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-floating-promises': 'error',
+      '@typescript-eslint/no-unsafe-assignment': 'warning',
     },
   },
   {

@@ -2,6 +2,7 @@ import { watch, WatchEventType } from 'fs';
 import { ZodError } from 'zod';
 
 import { readDimensionsConfigDirectory } from './configs/dimensions';
+import { readFactTablesConfigDirectory } from './configs/fact-tables';
 import { ProcessingContext } from './utils/processing-context';
 
 console.clear();
@@ -24,14 +25,16 @@ const watcher = watch('input/', { recursive: true }, (event, filename) => {
 
 let running = false;
 // event loop that checks if rerun is needed and runs the pipeline (awaiting its completion)
-const eventLoopInterval = setInterval(async () => {
-  if (!running && rerun) {
-    rerun = false;
-    running = true;
-    await doAll(fileChanges);
-    running = false;
-    fileChanges.clear();
-  }
+const eventLoopInterval = setInterval(() => {
+  void (async function () {
+    if (!running && rerun) {
+      rerun = false;
+      running = true;
+      await doAll(fileChanges);
+      running = false;
+      fileChanges.clear();
+    }
+  })();
 }, 100);
 
 process.on('SIGINT', () => {
@@ -49,6 +52,8 @@ async function doAll(fileChanges: FileChanges) {
     const ctx = new ProcessingContext();
     const dimensions = await ctx.addContext('Dimensions config').exec((c) => readDimensionsConfigDirectory(c));
 
+    dimensions.values().forEach((d) => d.log());
+
     console.table(
       [...dimensions.values()].map((d) => ({
         id: d.id,
@@ -57,6 +62,12 @@ async function doAll(fileChanges: FileChanges) {
         links: [...d.dimensionLinks.values()].map((x) => x.id).join(', '),
       })),
     );
+
+    const factTables = await ctx
+      .addContext('Fact tables config')
+      .exec((c) => readFactTablesConfigDirectory(c, dimensions));
+
+    factTables.forEach((f) => f.log());
 
     console.log('Pipeline finished without errors.');
   } catch (e) {

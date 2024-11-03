@@ -1,6 +1,8 @@
 import { Merge } from 'type-fest';
 import { z } from 'zod';
 
+export const dimensionIdSchema = z.string().regex(/^[a-zA-Z][a-zA-Z0-9_]*$/);
+
 export const dimensionValueConfigSchema = z
   .object({
     id: z.string(),
@@ -16,7 +18,7 @@ export const dimensionDomainConfigSchema = z.array(dimensionValueConfigSchema).m
 export type DimensionDomainConfig = z.infer<typeof dimensionDomainConfigSchema>;
 
 export const dimensionConfigBaseSchema = z.object({
-  id: z.string(),
+  id: dimensionIdSchema,
   label: z.string().optional(),
 });
 

@@ -29,7 +29,7 @@ export async function readDimensionsConfigDirectory(ctx: ProcessingContext) {
 
   const dimensionsLookup = new Map(dimensions.map((d) => [d.id, d]));
 
-  await populateDimensionLinks(ctx, dimensionsLookup);
+  await processDimensionLinks(ctx, dimensionsLookup);
 
   return dimensionsLookup;
 }
@@ -37,7 +37,7 @@ export async function readDimensionsConfigDirectory(ctx: ProcessingContext) {
 /** Populate links betwen dimensions. When a dimension content item has a field such as :Name then this links to dimension Name
  *
  */
-export async function populateDimensionLinks(ctx: ProcessingContext, dimensionsLookup: Map<string, Dimension>) {
+export async function processDimensionLinks(ctx: ProcessingContext, dimensionsLookup: Map<string, Dimension>) {
   for (const dimension of dimensionsLookup.values()) {
     for (const domainElement of dimension.domain) {
       for (const [field, fieldValue] of Object.entries(domainElement)) {
@@ -65,7 +65,9 @@ export async function populateDimensionLinks(ctx: ProcessingContext, dimensionsL
               if (linkValue == null) return;
 
               if (typeof linkValue !== 'string') {
-                throw new Error(`Dimension ${dimension.id} field ${field} should be a string, but is: ${linkValue}`);
+                throw new Error(
+                  `Dimension ${dimension.id} field ${field} should be a string, but is: ${JSON.stringify(linkValue)}`,
+                );
               }
 
               if (!dimensionToLink.domainValuesSet.has(linkValue)) {

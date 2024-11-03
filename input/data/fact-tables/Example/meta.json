@@ -1,5 +1,5 @@
 {
-    "name": "Example",
+    "id": "Example",
     "type": "raw",
     "sharding": [
         "Scenario"
@@ -10,14 +10,15 @@
     },
     "columns": [
         {
-            "name": "YEAR",
+            "id": "YEAR",
             "type": "dimension"
         },
         {
-            "name": "VALUE",
+            "id": "VALUE",
             "type": "measure",
             "label": "Example Variable",
-            "unit": "USD"
+            "unit": "USD",
+            "aggregationMethod": "sum"
         }
     ]
 }
