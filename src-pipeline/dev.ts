@@ -1,4 +1,4 @@
-import { watch } from 'fs';
+import { watch, WatchEventType } from 'fs';
 import { ZodError } from 'zod';
 
 import { readDimensionsConfigDirectory } from './configs/dimensions';
@@ -8,13 +8,18 @@ console.clear();
 
 console.log('Watching for changes in input/...');
 
+type FileChanges = Map<string, WatchEventType>;
 let rerun = true;
+const fileChanges: FileChanges = new Map();
 
 const watcher = watch('input/', { recursive: true }, (event, filename) => {
   console.clear();
   console.log(`Detected ${event} in ${filename}`);
 
   rerun = true;
+  if (filename) {
+    fileChanges.set(filename, event);
+  }
 });
 
 let running = false;
@@ -23,8 +28,9 @@ const eventLoopInterval = setInterval(async () => {
   if (!running && rerun) {
     rerun = false;
     running = true;
-    await doAll();
+    await doAll(fileChanges);
     running = false;
+    fileChanges.clear();
   }
 }, 100);
 
@@ -37,7 +43,7 @@ process.on('SIGINT', () => {
   process.exit(0);
 });
 
-async function doAll() {
+async function doAll(fileChanges: FileChanges) {
   console.log('Rerunning pipeline...');
   try {
     const ctx = new ProcessingContext();

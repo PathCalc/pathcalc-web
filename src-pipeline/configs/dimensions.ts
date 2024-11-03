@@ -20,9 +20,6 @@ export async function readDimensionsConfigDirectory(ctx: ProcessingContext) {
 
   const paths = [...globResult].toSorted();
 
-  // console.log('\nFound dimensions:');
-  // console.table(paths.map((path) => ({ name: nameFromPath(path), path, type: isDirectory(path) ? 'dir' : 'file' })));
-
   const dimensions = [];
 
   for (const path of paths) {
