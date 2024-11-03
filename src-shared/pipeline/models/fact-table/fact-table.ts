@@ -12,7 +12,7 @@ export class FactTable implements IFactTable {
   ) {}
 
   log() {
-    console.log(`Fact table: ${this.id}`);
+    console.log(`\nFact table: ${this.id}`);
     console.table(
       this.columns.map((c) => ({
         id: c.id,

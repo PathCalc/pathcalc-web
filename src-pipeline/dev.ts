@@ -1,15 +1,17 @@
 import { watch, WatchEventType } from 'fs';
-import { ZodError } from 'zod';
 
+import { reportDimensions } from '~shared/pipeline/models/dimension/report-dimensions';
+
+import { ConfigError } from '../src-shared/pipeline/utils/errors';
+import { ProcessingContext } from '../src-shared/pipeline/utils/processing-context';
 import { readDimensionsConfigDirectory } from './configs/dimensions';
 import { readFactTablesConfigDirectory } from './configs/fact-tables';
-import { ProcessingContext } from './utils/processing-context';
+import { FileChanges, ServerPipeline } from './server-pipeline';
 
 console.clear();
 
 console.log('Watching for changes in input/...');
 
-type FileChanges = Map<string, WatchEventType>;
 let rerun = true;
 const fileChanges: FileChanges = new Map();
 
@@ -46,28 +48,25 @@ process.on('SIGINT', () => {
   process.exit(0);
 });
 
+const serverPipeline = new ServerPipeline();
+
 async function doAll(fileChanges: FileChanges) {
   console.log('Rerunning pipeline...');
   try {
-    const ctx = new ProcessingContext();
-    const dimensions = await ctx.addContext('Dimensions config').exec((c) => readDimensionsConfigDirectory(c));
+    await serverPipeline.dryRun(fileChanges);
 
-    dimensions.values().forEach((d) => d.log());
+    // const ctx = new ProcessingContext();
+    // const dimensions = await ctx.addContext('Dimensions config').exec((c) => readDimensionsConfigDirectory(c));
 
-    console.table(
-      [...dimensions.values()].map((d) => ({
-        id: d.id,
-        label: d.label,
-        valueCount: d.domainValuesSet.size,
-        links: [...d.dimensionLinks.values()].map((x) => x.id).join(', '),
-      })),
-    );
+    // dimensions.values().forEach((d) => d.log());
 
-    const factTables = await ctx
-      .addContext('Fact tables config')
-      .exec((c) => readFactTablesConfigDirectory(c, dimensions));
+    // reportDimensions(dimensions.values().toArray());
 
-    factTables.forEach((f) => f.log());
+    // const factTables = await ctx
+    //   .addContext('Fact tables config')
+    //   .exec((c) => readFactTablesConfigDirectory(c, dimensions));
+
+    // factTables.forEach((f) => f.log());
 
     console.log('Pipeline finished without errors.');
   } catch (e) {
@@ -76,11 +75,10 @@ async function doAll(fileChanges: FileChanges) {
 }
 
 function reportError(e: unknown) {
-  if (e instanceof ZodError) {
-    console.error(e.toString());
-  } else if (e instanceof Error) {
-    console.error(e.message);
+  if (e instanceof ConfigError) {
+    console.error(e);
   } else {
+    console.error('An unexpected error occurred. This might be a bug in the pipeline:');
     console.error(e);
   }
 }

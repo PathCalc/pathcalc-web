@@ -4,8 +4,8 @@ import { Glob } from 'bun';
 import { Dimension } from '~shared/pipeline/models/dimension/dimension';
 import { FactTable } from '~shared/pipeline/models/fact-table/fact-table';
 import { factTableConfigSchema } from '~shared/pipeline/models/fact-table/fact-table-config-schema';
+import { ProcessingContext } from '~shared/pipeline/utils/processing-context';
 import { readJsonFileSync } from '@/utils/files';
-import { ProcessingContext } from '@/utils/processing-context';
 
 export async function readFactTablesConfigDirectory(ctx: ProcessingContext, dimensionsLookup: Map<string, Dimension>) {
   const globResult = new Glob('input/data/fact-tables/*/meta.json').scanSync();
@@ -19,7 +19,7 @@ export async function readFactTablesConfigDirectory(ctx: ProcessingContext, dime
     factTables.push(factTable);
   }
 
-  return factTables;
+  return new Map(factTables.map((d) => [d.id, d]));
 }
 
 function factTableIdFromMetaPath(path: string) {
@@ -41,7 +41,6 @@ export async function readFactTableConfigMetaFile(
     throw new Error(`Error parsing fact table config: ${error.message}`);
   }
 
-  console.log(parsedMeta);
   const { id, type, sharding, storage, columns } = parsedMeta;
 
   if (id !== factTableId) {

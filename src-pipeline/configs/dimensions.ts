@@ -9,9 +9,9 @@ import {
   dimensionConfigSplitFileSchema,
   dimensionDomainConfigSchema,
 } from '~shared/pipeline/models/dimension/dimension-config-schema';
+import { ProcessingContext } from '~shared/pipeline/utils/processing-context';
 import { csvParseToStringObjs } from '@/utils/csv';
 import { isDirectory, nameFromPath, readJsonFileSync } from '@/utils/files';
-import { ProcessingContext } from '@/utils/processing-context';
 
 export async function readDimensionsConfigDirectory(ctx: ProcessingContext) {
   const globResult = new Glob('input/data/dimensions/*').scanSync({
