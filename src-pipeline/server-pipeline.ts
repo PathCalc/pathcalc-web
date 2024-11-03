@@ -72,6 +72,8 @@ export class ServerPipeline {
       console.log('Pipeline config changes detected');
     }
 
+    // disable no-fallthrough because we want to start at the right stage and continue through subsequent steps
+    /* eslint-disable no-fallthrough */
     switch (true) {
       case firstRun:
       case dimensionChanges:

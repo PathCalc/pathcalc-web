@@ -1,11 +1,6 @@
-import { watch, WatchEventType } from 'fs';
-
-import { reportDimensions } from '~shared/pipeline/models/dimension/report-dimensions';
+import { watch } from 'fs';
 
 import { ConfigError } from '../src-shared/pipeline/utils/errors';
-import { ProcessingContext } from '../src-shared/pipeline/utils/processing-context';
-import { readDimensionsConfigDirectory } from './configs/dimensions';
-import { readFactTablesConfigDirectory } from './configs/fact-tables';
 import { FileChanges, ServerPipeline } from './server-pipeline';
 
 console.clear();
@@ -54,20 +49,6 @@ async function doAll(fileChanges: FileChanges) {
   console.log('Rerunning pipeline...');
   try {
     await serverPipeline.dryRun(fileChanges);
-
-    // const ctx = new ProcessingContext();
-    // const dimensions = await ctx.addContext('Dimensions config').exec((c) => readDimensionsConfigDirectory(c));
-
-    // dimensions.values().forEach((d) => d.log());
-
-    // reportDimensions(dimensions.values().toArray());
-
-    // const factTables = await ctx
-    //   .addContext('Fact tables config')
-    //   .exec((c) => readFactTablesConfigDirectory(c, dimensions));
-
-    // factTables.forEach((f) => f.log());
-
     console.log('Pipeline finished without errors.');
   } catch (e) {
     reportError(e);
