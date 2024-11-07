@@ -1,3 +1,4 @@
+/// <reference types="vitest/config" />
 import react from '@vitejs/plugin-react';
 import vike from 'vike/plugin';
 import { defineConfig, loadEnv } from 'vite';

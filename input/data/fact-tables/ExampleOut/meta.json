@@ -1,11 +1,11 @@
 {
-    "id": "Example",
-    "type": "raw",
+    "id": "ExampleOut",
+    "type": "web",
     "sharding": [
         "Scenario"
     ],
     "storage": {
-        "type": "local-input",
+        "type": "local-public",
         "pattern": "{Scenario}.csv"
     },
     "columns": [

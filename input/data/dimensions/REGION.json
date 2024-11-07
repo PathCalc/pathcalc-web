@@ -1,0 +1,9 @@
+{
+    "id": "REGION",
+    "label": "Region",
+    "domain": [
+        {
+            "id": "RE1"
+        }
+    ]
+}

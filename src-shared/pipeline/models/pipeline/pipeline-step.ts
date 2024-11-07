@@ -1,5 +1,33 @@
-import { PipelineStepConfig } from './pipeline-config-schema';
+import { ProcessingContext } from '~shared/pipeline/utils/processing-context';
 
-export class PipelineStep {
-  constructor(public config: PipelineStepConfig) {}
+import { Dataset, DatasetShard, ReadonlyDataset, ReadonlyDatasetShard } from '../dataset/types';
+import { PipelineStepConfig } from './pipeline-config-schema';
+import { PipelineEnvironment } from './pipeline-environment';
+
+export abstract class PipelineStep {
+  constructor(public readonly config: PipelineStepConfig) {}
+
+  abstract dryRun(
+    ctx: ProcessingContext,
+    dataset: ReadonlyDataset | undefined,
+    env: PipelineEnvironment,
+    tempVars: Map<string, ReadonlyDataset>,
+  ): Promise<Dataset>;
+
+  startShardedRun(): Promise<void> {
+    // do nothing
+    return Promise.resolve();
+  }
+
+  abstract processShard(
+    ctx: ProcessingContext,
+    // not readonly as we're passing around a single instance
+    datasetShard: DatasetShard,
+    tempVarsSharded: Map<string, ReadonlyDatasetShard>,
+  ): Promise<DatasetShard>;
+
+  endShardedRun(): Promise<void> {
+    // do nothing
+    return Promise.resolve();
+  }
 }

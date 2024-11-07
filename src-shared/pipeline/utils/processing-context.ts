@@ -1,6 +1,6 @@
 import { ZodError } from 'zod';
 
-import { ConfigError } from './errors';
+import { ConfigError, UnexpectedError } from './errors';
 
 export class ProcessingContext {
   constructor(
@@ -8,12 +8,12 @@ export class ProcessingContext {
     public readonly path: string[] = [],
   ) {}
 
-  addContext(context: string) {
+  addContext(context: string | number) {
     return new ProcessingContext(this.context + ' ' + context, this.path);
   }
 
-  addPath(path: string) {
-    return new ProcessingContext(this.context, this.path.concat(path));
+  addPath(path: string | number) {
+    return new ProcessingContext(this.context, this.path.concat(path.toString()));
   }
 
   async exec<T>(fn: (ctx: ProcessingContext) => Promise<T>) {
@@ -27,11 +27,14 @@ export class ProcessingContext {
 
       if (e instanceof ConfigError) {
         throw e;
+      } else if (e instanceof UnexpectedError) {
+        throw e;
       } else if (e instanceof ZodError) {
         throw new ConfigError(`${prefix}: ${e.toString()}`);
       } else if (e instanceof Error) {
         throw new ConfigError(`${prefix}: ${e.message}`);
       } else {
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         throw new ConfigError(`${prefix}: ${e}`);
       }
     }

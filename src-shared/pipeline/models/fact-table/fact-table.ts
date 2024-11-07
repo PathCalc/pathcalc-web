@@ -1,26 +1,57 @@
-import { Dimension } from '../dimension/dimension';
-import { FactTableStorageType, FactTableType, IFactTable } from './fact-table-config-schema';
+import { ColumnTable } from 'arquero';
 
-export class FactTable implements IFactTable {
+import { Dimension } from '../dimension/dimension';
+import { FactTableConfigColumn, FactTableStorageType, FactTableType } from './fact-table-config-schema';
+
+export abstract class FactTable {
   public readonly linkedDimensions: Map<string, Dimension> = new Map();
   constructor(
     public readonly id: string,
     public readonly type: FactTableType,
     public readonly sharding: string[],
     public readonly storage: { type: FactTableStorageType; pattern: string },
-    public readonly columns: any[],
   ) {}
+
+  /** Load data table from storage */
+  abstract load(shard: Record<string, string>): Promise<ColumnTable>;
+  abstract dryRunLoad(): Promise<void>;
+
+  /** Save data table to storage */
+  abstract save(shard: Record<string, string>, data: ColumnTable): Promise<void>;
+  abstract dryRunSave(): Promise<void>;
+
+  log() {
+    console.log(`\nFact table: ${this.id} (no columns)`);
+  }
+}
+
+export abstract class SourceFactTable extends FactTable {
+  constructor(
+    id: string,
+    type: 'raw',
+    sharding: string[],
+    storage: { type: FactTableStorageType; pattern: string },
+    public readonly columns: FactTableConfigColumn[],
+  ) {
+    super(id, type, sharding, storage);
+  }
 
   log() {
     console.log(`\nFact table: ${this.id}`);
     console.table(
-      this.columns.map((c) => ({
-        id: c.id,
+      this.columns.map((c: any) => ({
+        name: c.name,
         type: c.type,
         label: c.label,
         unit: c.unit,
         aggregationMethod: c.aggregationMethod,
       })),
     );
+  }
+}
+
+export abstract class WebFactTable extends FactTable {
+  constructor(id: string, type: 'web', sharding: string[], storage: { type: FactTableStorageType; pattern: string }) {
+    super(id, type, sharding, storage);
   }
 }

@@ -1,0 +1,63 @@
+{
+    "levers": [
+        {
+            "id": "Lever1",
+            "label": "Avoid",
+            "description": "",
+            "values": {
+                "min": 1,
+                "max": 4
+            }
+        },
+        {
+            "id": "Lever2",
+            "label": "Shift",
+            "description": "",
+            "values": {
+                "min": 1,
+                "max": 4
+            }
+        },
+        {
+            "id": "Lever3",
+            "label": "Improve",
+            "description": "",
+            "values": {
+                "min": 1,
+                "max": 4
+            }
+        },
+        {
+            "id": "Lever4",
+            "label": "Transform",
+            "description": "",
+            "values": {
+                "min": 1,
+                "max": 4
+            }
+        },
+        {
+            "id": "Lever5",
+            "label": "Costs",
+            "description": "",
+            "values": {
+                "min": 1,
+                "max": 4
+            }
+        }
+    ],
+    "presets": [
+        {
+            "id": "SomeScenario",
+            "label": "Some Scenario",
+            "description": "",
+            "Scenario": "12121"
+        },
+        {
+            "id": "AnotherScenario",
+            "label": "Another Scenario",
+            "description": "",
+            "Scenario": "12122"
+        }
+    ]
+}

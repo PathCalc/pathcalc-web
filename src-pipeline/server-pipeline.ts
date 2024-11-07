@@ -15,19 +15,25 @@ export type FileChanges = Map<string, WatchEventType>;
 export class ServerPipeline {
   private pipelineEnvironment: PipelineEnvironment = new PipelineEnvironment('server', new Map(), new Map());
   private pipelineMultiflows: PipelineMultiflow[] = [];
-  private ctx: ProcessingContext = new ProcessingContext();
 
-  async processDimensionsConfig() {
-    const dimensions = await this.ctx.addContext('Dimensions config').exec((c) => readDimensionsConfigDirectory(c));
+  protected async processDimensionsConfig(ctx: ProcessingContext) {
+    const dimensions = await ctx.addContext('Dimensions config').exec((c) => readDimensionsConfigDirectory(c));
 
     this.pipelineEnvironment.dimensions = dimensions;
-    // dimensions.values().forEach((d) => d.log());
+
+    for (const dimension of dimensions.values()) {
+      dimension.log();
+
+      // temporary saving of dimensions to files
+      // const dimensionPath = `output/${dimension.id}.json`;
+      // await Bun.write(dimensionPath, JSON.stringify(dimension, null, 2));
+    }
 
     reportDimensions(dimensions.values().toArray());
   }
 
-  async processFactTablesConfig() {
-    const factTables = await this.ctx
+  protected async processFactTablesConfig(ctx: ProcessingContext) {
+    const factTables = await ctx
       .addContext('Fact tables config')
       .exec((c) => readFactTablesConfigDirectory(c, this.pipelineEnvironment.dimensions));
 
@@ -36,17 +42,15 @@ export class ServerPipeline {
     reportFactTables(factTables.values().toArray());
   }
 
-  async processPipelineFlowsConfig() {
-    const pipelineMultiflows = await this.ctx
+  protected async processPipelineFlowsConfig(ctx: ProcessingContext) {
+    const pipelineMultiflows = await ctx
       .addContext('Pipeline flows config')
       .exec((c) => readPipelineFlowsConfigDirectory(c));
 
     this.pipelineMultiflows = pipelineMultiflows;
   }
 
-  async dryRun(fileChanges: FileChanges) {
-    this.ctx = new ProcessingContext();
-
+  public async dryRun(ctx: ProcessingContext, fileChanges: FileChanges) {
     const fileChangePaths = fileChanges.keys().toArray();
 
     let firstRun = false,
@@ -59,7 +63,7 @@ export class ServerPipeline {
       firstRun = true;
       console.log('First run');
     }
-    if (fileChangePaths.some((p) => p.startsWith('dimensions/'))) {
+    if (fileChangePaths.some((p) => p.startsWith('data/dimensions/'))) {
       dimensionChanges = true;
       console.log('Dimensions config changes detected');
     }
@@ -78,19 +82,25 @@ export class ServerPipeline {
       case firstRun:
       case dimensionChanges:
         console.log('Reprocessing dimensions config');
-        await this.processDimensionsConfig();
+        await this.processDimensionsConfig(ctx);
       case factTableChanges:
         console.log('Reprocessing fact tables config');
-        await this.processFactTablesConfig();
+        await this.processFactTablesConfig(ctx);
       case pipelineChanges:
         console.log('Reprocessing pipeline config');
-        await this.processPipelineFlowsConfig();
+        await this.processPipelineFlowsConfig(ctx);
 
         // console.log('Pipeline environment:');
         // console.log(this.pipelineEnvironment);
 
+        console.log('Running pipeline files');
         for (const pipelineMultiflow of this.pipelineMultiflows) {
-          await pipelineMultiflow.dryRun(this.ctx, this.pipelineEnvironment);
+          await ctx
+            .addContext('Pipeline run')
+            .addPath(pipelineMultiflow.id)
+            .exec(async (c) => {
+              await pipelineMultiflow.dryRun(c, this.pipelineEnvironment);
+            });
         }
 
         break;
@@ -100,7 +110,7 @@ export class ServerPipeline {
     }
   }
 
-  async run() {
+  public async run() {
     throw new Error('Not implemented');
   }
 }

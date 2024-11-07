@@ -3,7 +3,7 @@ import { Glob } from 'bun';
 import { pipelineConfigSchema } from '~shared/pipeline/models/pipeline/pipeline-config-schema';
 import { PipelineFlow } from '~shared/pipeline/models/pipeline/pipeline-flow';
 import { PipelineMultiflow } from '~shared/pipeline/models/pipeline/pipeline-multiflow';
-import { PipelineStep } from '~shared/pipeline/models/pipeline/pipeline-step';
+import { createStep } from '~shared/pipeline/transforms/create-step';
 import { ProcessingContext } from '~shared/pipeline/utils/processing-context';
 import { nameFromPath, readJsonFileSync } from '@/utils/files';
 
@@ -40,8 +40,8 @@ export async function readPipelineFileConfig(ctx: ProcessingContext, path: strin
 
   const multiFlowConfig = parsedMeta;
 
-  const flows = multiFlowConfig.map((steps) => {
-    return new PipelineFlow(steps.map((stepCfg) => new PipelineStep(stepCfg)));
+  const flows = multiFlowConfig.flows.map((steps) => {
+    return new PipelineFlow(steps.map((stepCfg) => createStep(stepCfg)));
   });
 
   return new PipelineMultiflow(id, flows);

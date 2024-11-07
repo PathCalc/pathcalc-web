@@ -1,41 +1,60 @@
-[
-    [
-        {
-            "$": "load",
-            "from": "AnnualTechnologyEmission",
-            "sharding": [
-                "Scenario"
-            ]
-        },
-        {
-            "$": "filter",
-            "column": "TECHNOLOGY:Sector",
-            "in": [
-                "TRA",
-                "PWRGEN"
-            ]
-        },
-        {
-            "$": "filter",
-            "column": "EMISSION",
-            "in": [
-                "CO2_PWR",
-                "CO2_TRA"
-            ]
-        },
-        {
-            "$": "aggregate",
-            "groupby": [
-                "TECHNOLOGY:Sector",
-                "YEAR"
-            ]
-        },
-        {
-            "$": "save",
-            "to": "Overview1",
-            "sharding": [
-                "Scenario"
-            ]
-        }
+{
+    "sharding": [
+        "Scenario"
+    ],
+    "flows": [
+        [
+            {
+                "$": "load",
+                "from": "AnnualTechnologyEmission",
+                "sharding": [
+                    "Scenario"
+                ]
+            },
+            {
+                "$": "filter",
+                "column": "TECHNOLOGY:Sector",
+                "in": [
+                    "TRA",
+                    "PWRGEN"
+                ]
+            },
+            {
+                "$": "filter",
+                "column": "EMISSION",
+                "in": [
+                    "CO2_PWR",
+                    "CO2_TRA"
+                ]
+            },
+            {
+                "$": "aggregate",
+                "groupby": [
+                    "TECHNOLOGY:Sector",
+                    "YEAR"
+                ]
+            },
+            {
+                "$": "save",
+                "to": "Overview1",
+                "sharding": [
+                    "Scenario"
+                ]
+            },
+            {
+                "$": "aggregate",
+                "groupby": [
+                    "YEAR:Period",
+                    "TECHNOLOGY:Sector"
+                ]
+            },
+            {
+                "$": "save",
+                "to": "Overview1agg",
+                "sharding": [
+                    "Scenario"
+                ]
+            }
+        ]
     ]
-]
+}

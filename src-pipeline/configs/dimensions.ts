@@ -1,7 +1,6 @@
 import { extname, join } from 'path';
 import { Glob } from 'bun';
-import { indexBy } from 'remeda';
-import { inferSchema, initParser, SchemaColumnType } from 'udsv';
+import { unique } from 'remeda';
 
 import { Dimension } from '~shared/pipeline/models/dimension/dimension';
 import {
@@ -39,45 +38,44 @@ export async function readDimensionsConfigDirectory(ctx: ProcessingContext) {
  */
 export async function processDimensionLinks(ctx: ProcessingContext, dimensionsLookup: Map<string, Dimension>) {
   for (const dimension of dimensionsLookup.values()) {
-    for (const domainElement of dimension.domain) {
-      for (const [field, fieldValue] of Object.entries(domainElement)) {
-        await ctx
-          .addContext('- linked dimensions:\n')
-          .addPath(`Dim ${dimension.id}`)
-          .addPath(`-> value ${domainElement.id}`)
-          .addPath(`-> attr ${field}`)
-          .exec(async () => {
-            const match = field.match(/^:(.+)$/);
-            if (match) {
-              const linkedDimensionId = match[1];
-              const dimensionToLink = dimensionsLookup.get(linkedDimensionId);
-              if (!dimensionToLink) {
-                throw new Error(`Dimension ${dimension.id} links to non-existent dimension ${linkedDimensionId}`);
-              }
+    for (const domainColumn of dimension.domainColumns.filter(
+      (c) => c.type === 'dimension' && c.domainType === 'linked',
+    )) {
+      await ctx
+        .addContext('- linked dimensions:\n')
+        .addPath(`Dim ${dimension.id}`)
+        .addPath(`-> column ${domainColumn.name}`)
+        .exec(async (c) => {
+          const linkedDimensionId = domainColumn.name;
+          const dimensionToLink = dimensionsLookup.get(linkedDimensionId);
+          if (!dimensionToLink) {
+            throw new Error(`Dimension ${dimension.id} links to non-existent dimension ${linkedDimensionId}`);
+          }
 
-              const alreadyLinked = dimension.dimensionLinks.has(linkedDimensionId);
+          const alreadyLinked = dimension.dimensionLinks.has(linkedDimensionId);
 
-              if (!alreadyLinked) {
-                dimension.dimensionLinks.set(linkedDimensionId, dimensionToLink);
-              }
+          if (!alreadyLinked) {
+            dimension.dimensionLinks.set(linkedDimensionId, dimensionToLink);
+          }
 
-              const linkValue = fieldValue;
+          for (const linkValue of unique(dimension.domainTable.array(domainColumn.name) as any[])) {
+            await c.addPath(`-> value ${linkValue}`).exec(async () => {
               if (linkValue == null) return;
 
               if (typeof linkValue !== 'string') {
                 throw new Error(
-                  `Dimension ${dimension.id} field ${field} should be a string, but is: ${JSON.stringify(linkValue)}`,
+                  `Values of dimension column ${linkedDimensionId} should be strings, but found: ${JSON.stringify(linkValue)}`,
                 );
               }
 
               if (!dimensionToLink.domainValuesSet.has(linkValue)) {
                 throw new Error(
-                  `field ${field} with value ${linkValue} links to non-existent value in dimension ${linkedDimensionId}`,
+                  `Dimension column ${linkedDimensionId} contains value ${linkValue} which links to non-existent value in dimension ${linkedDimensionId}`,
                 );
               }
-            }
-          });
-      }
+            });
+          }
+        });
     }
   }
 }

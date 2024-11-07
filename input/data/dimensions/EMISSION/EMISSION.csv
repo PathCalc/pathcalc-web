@@ -1,3 +1,8 @@
 id,label,Emission type,Sub-type 1
 CO2_TRA,CO2 Transport,CO2,Transport
 CO2_PWR,CO2 Power,CO2,Power
+RD_Death,,,
+PM25,,,
+PM10,,,
+NOX,,,
+SOx,,, 
