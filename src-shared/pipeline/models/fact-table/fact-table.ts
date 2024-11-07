@@ -1,5 +1,6 @@
 import { ColumnTable } from 'arquero';
 
+import { Dataset } from '../dataset/types';
 import { Dimension } from '../dimension/dimension';
 import { FactTableConfigColumn, FactTableStorageType, FactTableType } from './fact-table-config-schema';
 
@@ -19,6 +20,10 @@ export abstract class FactTable {
   /** Save data table to storage */
   abstract save(shard: Record<string, string>, data: ColumnTable): Promise<void>;
   abstract dryRunSave(): Promise<void>;
+
+  async saveDataset(dataset: Dataset): Promise<void> {
+    throw new Error('Method not implemented.');
+  }
 
   log() {
     console.log(`\nFact table: ${this.id} (no columns)`);

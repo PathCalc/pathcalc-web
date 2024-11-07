@@ -22,7 +22,7 @@ export class ProcessingContext {
     } catch (e) {
       let prefix = this.context;
       if (this.path.length > 0) {
-        prefix += ' [' + this.path.join(' ') + ']';
+        prefix += ' [' + this.path.join(' / ') + ']';
       }
 
       if (e instanceof ConfigError) {

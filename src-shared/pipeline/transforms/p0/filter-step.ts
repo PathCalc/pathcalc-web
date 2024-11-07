@@ -29,6 +29,11 @@ export class FilterStep extends PipelineStep {
     super(_config);
   }
 
+  async reset() {
+    this._inDataset = undefined;
+    this._dimLookup = undefined;
+  }
+
   async dryRun(
     ctx: ProcessingContext,
     dataset: ReadonlyDataset,
@@ -71,6 +76,9 @@ export class FilterStep extends PipelineStep {
     datasetShard: DatasetShard,
     tempVarsSharded: Map<string, ReadonlyDatasetShard>,
   ): Promise<DatasetShard> {
+    if (datasetShard.table == null) {
+      throw new Error(`${this._config.$} cannot be the first step in a flow`);
+    }
     if (this._inDataset == null) {
       throw new UnexpectedError('Pipeline step was not initialised before running');
     }

@@ -14,7 +14,7 @@ import {
   ReadonlyDatasetShard,
 } from '~shared/pipeline/models/dataset/types';
 import { Dimension } from '~shared/pipeline/models/dimension/dimension';
-import { FactTable } from '~shared/pipeline/models/fact-table/fact-table';
+import { SourceFactTable } from '~shared/pipeline/models/fact-table/fact-table';
 import { PipelineEnvironment } from '~shared/pipeline/models/pipeline/pipeline-environment';
 import { PipelineStep } from '~shared/pipeline/models/pipeline/pipeline-step';
 import { UnexpectedError } from '~shared/pipeline/utils/errors';
@@ -29,11 +29,16 @@ export const opLoadSchema = z.object({
 export type LoadConfig = z.infer<typeof opLoadSchema>;
 
 export class LoadStep extends PipelineStep {
-  private _sourceFactTable: FactTable | undefined;
+  private _sourceFactTable: SourceFactTable | undefined;
 
   constructor(private _config: LoadConfig) {
     super(_config);
   }
+
+  async reset() {
+    this._sourceFactTable = undefined;
+  }
+
   async dryRun(
     ctx: ProcessingContext,
     dataset: ReadonlyDataset,
@@ -47,14 +52,19 @@ export class LoadStep extends PipelineStep {
     if (from == null || typeof from !== 'string') {
       throw new Error('$:load step must have "from" field defined');
     }
-    const sourceFactTable = env.factTables.get(from);
-    if (sourceFactTable == null) {
+    const foundFactTable = env.factTables.get(from);
+    if (foundFactTable == null) {
       throw new Error(`Fact table not found: ${from}`);
     }
 
+    if (foundFactTable.type !== 'raw') {
+      throw new Error(`Fact table to load must be of type raw`);
+    }
+
+    const sourceFactTable = foundFactTable as SourceFactTable;
     this._sourceFactTable = sourceFactTable;
 
-    await this._sourceFactTable.dryRunLoad();
+    await sourceFactTable.dryRunLoad();
 
     if (this._config.sharding == null) {
       throw new Error('$:load step must have sharding defined');

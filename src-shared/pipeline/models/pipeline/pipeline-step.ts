@@ -7,6 +7,8 @@ import { PipelineEnvironment } from './pipeline-environment';
 export abstract class PipelineStep {
   constructor(public readonly config: PipelineStepConfig) {}
 
+  abstract reset(): Promise<void>;
+
   abstract dryRun(
     ctx: ProcessingContext,
     dataset: ReadonlyDataset | undefined,
@@ -14,7 +16,7 @@ export abstract class PipelineStep {
     tempVars: Map<string, ReadonlyDataset>,
   ): Promise<Dataset>;
 
-  startShardedRun(): Promise<void> {
+  startShardedRun(ctx: ProcessingContext): Promise<void> {
     // do nothing
     return Promise.resolve();
   }
@@ -26,7 +28,7 @@ export abstract class PipelineStep {
     tempVarsSharded: Map<string, ReadonlyDatasetShard>,
   ): Promise<DatasetShard>;
 
-  endShardedRun(): Promise<void> {
+  endShardedRun(ctx: ProcessingContext): Promise<void> {
     // do nothing
     return Promise.resolve();
   }

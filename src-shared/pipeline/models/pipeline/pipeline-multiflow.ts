@@ -1,18 +1,26 @@
 import { ProcessingContext } from '~shared/pipeline/utils/processing-context';
 
-import { Dataset } from '../dataset/types';
+import { Dataset, DatasetShard } from '../dataset/types';
 import { PipelineEnvironment } from './pipeline-environment';
 import { PipelineFlow } from './pipeline-flow';
 
 export class PipelineMultiflow {
   private _tempVars: Map<string, Dataset> = new Map();
+  private _shardedTempVars: Map<string, DatasetShard> = new Map();
   constructor(
     public id: string,
     public flows: PipelineFlow[],
   ) {}
 
-  reset() {
+  async reset() {
     this._tempVars = new Map();
+    for (const flow of this.flows) {
+      await flow.reset();
+    }
+  }
+
+  async resetShardedRun() {
+    this._shardedTempVars = new Map();
   }
 
   async dryRun(ctx: ProcessingContext, env: PipelineEnvironment) {
@@ -40,11 +48,51 @@ export class PipelineMultiflow {
   }
 
   async run(ctx: ProcessingContext, env: PipelineEnvironment) {
-    // === PROTOTYPE ===
-    /* eslint-disable */
+    // TODO: allow other sharding than by Scenario
+    const scenarioDimension = env.dimensions.get('Scenario');
+    if (scenarioDimension == null) {
+      throw new Error('Scenario dimension not found');
+    }
 
+    const scenarios = scenarioDimension.domain.map((x) => x.id);
+
+    await ctx.addContext('Sharded run start').exec(async (c) => {
+      await this.startShardedRun(c);
+    });
+
+    for (const scenario of scenarios) {
+      await ctx.addPath(scenario).exec(async (c) => {
+        await this.runShard(c, { Scenario: scenario }, env);
+      });
+    }
+
+    await ctx.addContext('Sharded run end').exec(async (c) => {
+      await this.endShardedRun(c);
+    });
+  }
+
+  private async startShardedRun(ctx: ProcessingContext) {
     for (const [index, flow] of this.flows.entries()) {
-      console.log('\nMultiflow:', this.id, '-> Sub-flow:', index + 1);
+      await ctx.addPath(`Flow ${index}`).exec(async (c) => {
+        await flow.startShardedRun(c);
+      });
+    }
+  }
+
+  private async runShard(ctx: ProcessingContext, shard: Record<string, string>, env: PipelineEnvironment) {
+    console.log('Scenario:', shard['Scenario']);
+    for (const [index, flow] of this.flows.entries()) {
+      // console.log('\nMultiflow:', this.id, '-> Sub-flow:', index);
+
+      await ctx.addPath(index + '').exec(async (c) => {
+        await flow.processShard(c, shard, env, this._shardedTempVars);
+      });
+    }
+  }
+
+  private async endShardedRun(ctx: ProcessingContext) {
+    for (const flow of this.flows) {
+      await flow.endShardedRun(ctx);
     }
   }
 }

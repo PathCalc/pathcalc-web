@@ -1,6 +1,7 @@
 import { ColumnTable, from } from 'arquero';
 import { inferSchema, initParser } from 'udsv';
 
+import { Dataset } from '~shared/pipeline/models/dataset/types';
 import { SourceFactTable, WebFactTable } from '~shared/pipeline/models/fact-table/fact-table';
 import {
   FactTableConfigColumn,
@@ -108,6 +109,11 @@ export class ServerWebFactTable extends WebFactTable {
     await Bun.write(`${basePath}${shardPath}`, csvText);
 
     return;
+  }
+
+  async saveDataset(dataset: Dataset): Promise<void> {
+    const filePath = `public/data/fact-tables/${this.id}/_meta.json`;
+    await Bun.write(filePath, JSON.stringify(dataset));
   }
 }
 

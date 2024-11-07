@@ -1,6 +1,6 @@
 import { ProcessingContext } from '~shared/pipeline/utils/processing-context';
 
-import { Dataset } from '../dataset/types';
+import { Dataset, DatasetShard } from '../dataset/types';
 import { PipelineEnvironment } from './pipeline-environment';
 import { PipelineStep } from './pipeline-step';
 
@@ -8,6 +8,12 @@ export class PipelineFlow {
   constructor(public readonly steps: PipelineStep[]) {
     if (steps.length === 0) {
       throw new Error('Pipeline flow must have at least one step');
+    }
+  }
+
+  public async reset() {
+    for (const step of this.steps) {
+      await step.reset();
     }
   }
 
@@ -44,5 +50,47 @@ export class PipelineFlow {
     return currentDataset!;
   }
 
-  public async processShard() {}
+  public async startShardedRun(ctx: ProcessingContext) {
+    for (const step of this.steps) {
+      await step.startShardedRun(ctx);
+    }
+  }
+
+  public async processShard(
+    ctx: ProcessingContext,
+    shard: Record<string, string>,
+    env: PipelineEnvironment,
+    shardTempVars: Map<string, DatasetShard>,
+  ) {
+    let currentShard: DatasetShard = {
+      table: undefined,
+      shard,
+    };
+
+    for (const [index, step] of this.steps.entries()) {
+      currentShard = await ctx.addPath(index + '').exec(async () => {
+        // console.log('\nStep:', index + 1);
+        const newShard = await step.processShard(ctx, currentShard, shardTempVars);
+
+        if (newShard == null) {
+          throw new Error('Step did not return a dataset shard');
+        }
+
+        // console.log(newShard);
+        // console.log(
+        //   (newDataset.columns.find((c) => c.name === 'TECHNOLOGY') as DimensionTypeColumnLinked).domain.content.columns,
+        // );
+
+        return newShard;
+      });
+    }
+
+    return currentShard;
+  }
+
+  public async endShardedRun(ctx: ProcessingContext) {
+    for (const step of this.steps) {
+      await step.endShardedRun(ctx);
+    }
+  }
 }

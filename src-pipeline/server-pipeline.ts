@@ -96,9 +96,10 @@ export class ServerPipeline {
         console.log('Running pipeline files');
         for (const pipelineMultiflow of this.pipelineMultiflows) {
           await ctx
-            .addContext('Pipeline run')
+            .addContext('Pipeline dry run')
             .addPath(pipelineMultiflow.id)
             .exec(async (c) => {
+              await pipelineMultiflow.reset();
               await pipelineMultiflow.dryRun(c, this.pipelineEnvironment);
             });
         }
@@ -110,7 +111,18 @@ export class ServerPipeline {
     }
   }
 
-  public async run() {
-    throw new Error('Not implemented');
+  public async run(ctx: ProcessingContext) {
+    await ctx.addContext('Dry run before run').exec(async (c) => {
+      await this.dryRun(c, new Map());
+    });
+
+    for (const pipelineMultiflow of this.pipelineMultiflows) {
+      await ctx
+        .addContext('Pipeline run')
+        .addPath(pipelineMultiflow.id)
+        .exec(async (c) => {
+          await pipelineMultiflow.run(c, this.pipelineEnvironment);
+        });
+    }
   }
 }

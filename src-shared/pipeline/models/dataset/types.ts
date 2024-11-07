@@ -63,7 +63,7 @@ export interface Dataset {
 export type ReadonlyDataset = ReadonlyDeep<Dataset>;
 
 export interface DatasetShard {
-  table: ColumnTable;
+  table: ColumnTable | undefined;
   shard: Record<string, any>;
 }
 
