@@ -6,37 +6,30 @@
         [
             {
                 "$": "load",
-                "from": "AnnualTechnologyEmission",
+                "from": "CombinedCosts",
                 "sharding": [
                     "Scenario"
                 ]
             },
             {
                 "$": "filter",
-                "column": "TECHNOLOGY:Sector",
+                "column": "CostType",
                 "in": [
-                    "TRA",
-                    "PWR"
-                ]
-            },
-            {
-                "$": "filter",
-                "column": "EMISSION",
-                "in": [
-                    "CO2_PWR",
-                    "CO2_TRA"
+                    "VAR",
+                    "FIX",
+                    "CAPINV"
                 ]
             },
             {
                 "$": "aggregate",
                 "groupby": [
-                    "TECHNOLOGY:Sector",
-                    "YEAR"
+                    "YEAR",
+                    "CostType"
                 ]
             },
             {
                 "$": "save",
-                "to": "Overview1",
+                "to": "Overview2",
                 "sharding": [
                     "Scenario"
                 ]
@@ -45,12 +38,12 @@
                 "$": "aggregate",
                 "groupby": [
                     "YEAR:Period",
-                    "TECHNOLOGY:Sector"
+                    "CostType"
                 ]
             },
             {
                 "$": "save",
-                "to": "Overview1agg",
+                "to": "Overview2agg",
                 "sharding": [
                     "Scenario"
                 ]

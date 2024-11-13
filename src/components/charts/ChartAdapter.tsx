@@ -3,134 +3,115 @@ import { schemeTableau10 } from 'd3-scale-chromatic';
 import { indexBy } from 'remeda';
 
 import { d3 } from '@/lib/d3';
-import { checkPrimaryKey, orderByList, sameItems } from '@/lib/data-utils';
+import { orderByList, sameItems } from '@/lib/data-utils';
 
 import { Chart } from './Chart';
 
-const STORAGE = {
-  'gh-pages': {
-    async get({ path }: { path: string }) {
-      const res = await fetch(`/data/${path}`);
-      const csv = await res.text();
-      return csv;
-    },
-  },
-};
-
-const FACT_TABLES = {
-  gOverview1Data: {
-    storage: 'gh-pages',
-    sharding: ['Scenario'],
-    path: '/facts/{$}/{Scenario}.csv',
-    dimensions: [],
-  },
-};
-
-async function getFactTable({ variable, params }: { variable: string; params: Record<string, string> }) {}
-
-type DimensionValue = {
+type ChartDimensionValue = {
   value: string | number;
   label?: string;
   color?: string;
 };
 
-export type DimensionColumn = {
+export type ChartDimensionColumn = {
   type: 'dimension';
   id: string;
   label: string;
-  values: DimensionValue[];
+  values: ChartDimensionValue[];
 };
 
-export type MeasureColumn = {
+export type ChartMeasureColumn = {
   type: 'measure';
   id: string;
   label: string;
-  unit: string;
-  stats: { grouping: string[]; column: string; min: number; max: number }[];
+  stats?: { grouping: string[]; column: string; min: number; max: number }[];
 };
 
+export type ChartAdapterColumns = (ChartDimensionColumn | ChartMeasureColumn)[];
+
 export function ChartAdapter({
-  rawData,
-  columns,
-  XVariable,
-  YVariable,
-  SeriesVariable,
-  emptyIsZero,
-  includeEmptySeries,
+  //
+  table,
+  xColumn,
+  yColumn,
+  seriesColumn,
+  sharding,
+  //
   type,
-  stacked,
-  statGrouping,
-  seriesShapeProps,
-  chartProps,
+  stacked = false,
+  //
+  legend,
+  yLabel,
+  emptyIsZero = true,
+  includeEmptySeries = false,
+  //
+  seriesShapeProps = {},
+  chartProps = {},
+  chartComponentProps = {},
 }: {
-  rawData: ColumnTable;
-  columns: (DimensionColumn | MeasureColumn)[];
-  XVariable: string;
-  YVariable: string;
-  SeriesVariable: string;
-  emptyIsZero: boolean;
-  includeEmptySeries: boolean;
+  /** Dataset table */
+  table: ColumnTable;
+  xColumn: ChartDimensionColumn;
+  yColumn: ChartMeasureColumn;
+  seriesColumn: ChartDimensionColumn;
+  sharding: string[];
+  //
   type: 'line' | 'area' | 'bar';
-  stacked: boolean;
-  statGrouping: string[];
+  stacked?: boolean;
+  legend?: boolean | 'bottom' | 'right';
+  yLabel?: string;
+  emptyIsZero?: boolean;
+  includeEmptySeries?: boolean;
+  //
+  /** Properties that will be passed to each of the series shapes */
   seriesShapeProps?: Record<string, unknown>;
+  /** Properties that will be passed to the main chart component */
   chartProps?: Record<string, unknown>;
+  chartComponentProps?: Record<string, unknown>;
 }) {
-  // Prepare config / data
-  checkPrimaryKey(rawData, [XVariable, SeriesVariable]);
-
-  const columnLookup = indexBy(columns, (x) => x.id);
-
-  const seriesColumn = columnLookup[SeriesVariable];
-  if (seriesColumn == null || seriesColumn.type !== 'dimension') {
-    throw new Error('Invalid series column');
-  }
-  const xColumn = columnLookup[XVariable];
-  if (xColumn == null || xColumn.type !== 'dimension') {
-    throw new Error('Invalid x column');
-  }
-  const yColumn = columnLookup[YVariable];
-  if (yColumn == null || yColumn.type !== 'measure') {
-    throw new Error('Invalid y column');
-  }
-
   const seriesColors = prepareSeriesColors(seriesColumn.values);
 
-  const series = seriesColumn.values;
-  const visibleSeries = prepareVisibleSeries(rawData, seriesColumn, includeEmptySeries);
+  const allSeries = seriesColumn.values;
+  const visibleSeries = prepareVisibleSeries(table, seriesColumn, includeEmptySeries);
 
   const dataGrid = prepareDataGrid(xColumn, seriesColumn);
 
-  const chartData = prepareChartData(dataGrid, rawData, emptyIsZero, xColumn.id, yColumn.id, seriesColumn.id, series);
-  const chartConfig = prepareChartConfig(xColumn, yColumn, series, seriesColors);
-  const chartSeries = prepareChartSeries(series, seriesColors);
+  const chartData = prepareChartData(dataGrid, table, emptyIsZero, xColumn.id, yColumn.id, seriesColumn.id, allSeries);
+  const chartConfig = prepareChartConfig(xColumn, yColumn, allSeries, seriesColors);
+  const chartSeries = prepareChartSeries(allSeries, seriesColors);
+
+  const statGrouping = [xColumn.id, ...sharding];
   const yRange = prepareYRange(yColumn, statGrouping);
 
   return (
     <Chart
-      type={type}
-      stacked={stacked}
-      XVariable={XVariable}
-      YVariable={YVariable}
-      YRange={yRange}
       data={chartData}
       series={chartSeries}
+      xVariable={xColumn.id}
+      yVariable={yColumn.id}
+      //
+      type={type}
+      stacked={stacked}
       visibleSeries={visibleSeries}
+      yRange={yRange}
+      yLabel={yLabel ?? yColumn.label}
+      legend={legend}
+      chartConfig={chartConfig}
       seriesShapeProps={seriesShapeProps}
       chartProps={chartProps}
-      chartConfig={chartConfig}
+      chartComponentProps={chartComponentProps}
     />
   );
 }
 
-function prepareSeriesColors(allSeries: DimensionValue[]) {
+function prepareSeriesColors(allSeries: ChartDimensionValue[]) {
   const basePalette10Categorical = schemeTableau10;
   return new Map(
     allSeries.map((v, i) => [v.value, v.color ?? basePalette10Categorical[i % basePalette10Categorical.length]]),
   );
 }
 
-function prepareVisibleSeries(data: ColumnTable, seriesColumn: DimensionColumn, includeEmptySeries: boolean) {
+function prepareVisibleSeries(data: ColumnTable, seriesColumn: ChartDimensionColumn, includeEmptySeries: boolean) {
   if (includeEmptySeries) {
     return seriesColumn.values.map((v) => v.value);
   }
@@ -141,7 +122,7 @@ function prepareVisibleSeries(data: ColumnTable, seriesColumn: DimensionColumn, 
 
 // build an arquero table defining the full grid of x axis / series combinations, based on config
 // we're not using data here at all, just the config, to create an empty grid
-function prepareDataGrid(xColumn: DimensionColumn, seriesColumn: DimensionColumn) {
+function prepareDataGrid(xColumn: ChartDimensionColumn, seriesColumn: ChartDimensionColumn) {
   const xValues = xColumn.values.map((v) => ({ [xColumn.id]: v.value }));
   const seriesValues = seriesColumn.values.map((v) => ({ [seriesColumn.id]: v.value }));
   return from(xValues).cross(from(seriesValues));
@@ -154,7 +135,7 @@ function prepareChartData(
   xColId: string,
   yColId: string,
   seriesColId: string,
-  seriesValues: DimensionValue[],
+  seriesValues: ChartDimensionValue[],
 ) {
   const expandedData = dataGrid.join_left(data);
   const filledData = emptyIsZero ? expandedData.impute({ [yColId]: 0 }) : expandedData;
@@ -182,9 +163,9 @@ function prepareChartData(
 }
 
 function prepareChartConfig(
-  xColumn: DimensionColumn,
-  yColumn: MeasureColumn,
-  seriesValues: DimensionValue[],
+  xColumn: ChartDimensionColumn,
+  yColumn: ChartMeasureColumn,
+  seriesValues: ChartDimensionValue[],
   seriesColors: Map<string | number, string>,
 ) {
   const axesConfig = [xColumn, yColumn].map((c) => ({ id: c.id, label: c.label }));
@@ -194,9 +175,9 @@ function prepareChartConfig(
   return indexBy([...axesConfig, ...seriesConfig], (x) => x.id);
 }
 
-function prepareYRange(yColumn: MeasureColumn, statGrouping: string[]) {
+function prepareYRange(yColumn: ChartMeasureColumn, statGrouping: string[]) {
   // find stats array element where grouping matches the items of statGrouping, regardless of order
-  const stats = yColumn.stats.find((s) => sameItems(s.grouping, statGrouping));
+  const stats = yColumn.stats?.find((s) => sameItems(s.grouping, statGrouping));
 
   if (stats == null) {
     return ['dataMin', 'dataMax'];
@@ -209,7 +190,7 @@ function prepareYRange(yColumn: MeasureColumn, statGrouping: string[]) {
     .domain() as [number, number];
 }
 
-function prepareChartSeries(series: DimensionValue[], seriesColors: Map<string | number, string>) {
+function prepareChartSeries(series: ChartDimensionValue[], seriesColors: Map<string | number, string>) {
   return series.map((s) => ({
     dataKey: s.value,
     color: seriesColors.get(s.value)!,

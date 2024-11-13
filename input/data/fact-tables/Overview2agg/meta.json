@@ -1,0 +1,11 @@
+{
+    "id": "Overview2agg",
+    "type": "web",
+    "sharding": [
+        "Scenario"
+    ],
+    "storage": {
+        "type": "local-public",
+        "pattern": "{Scenario}.csv"
+    }
+}

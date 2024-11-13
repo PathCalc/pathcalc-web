@@ -1,45 +1,45 @@
 {
     "levers": [
         {
-            "id": "Lever1",
+            "id": "avoid",
             "label": "Avoid",
-            "description": "",
+            "description": "Here goes a potentially longer description for the Avoid lever",
             "values": {
                 "min": 1,
                 "max": 4
             }
         },
         {
-            "id": "Lever2",
+            "id": "shift",
             "label": "Shift",
-            "description": "",
+            "description": "Here goes a potentially longer description for the Shift lever",
             "values": {
                 "min": 1,
                 "max": 4
             }
         },
         {
-            "id": "Lever3",
+            "id": "improve",
             "label": "Improve",
-            "description": "",
+            "description": "Here goes a potentially longer description for the Improve lever",
             "values": {
                 "min": 1,
                 "max": 4
             }
         },
         {
-            "id": "Lever4",
+            "id": "transform",
             "label": "Transform",
-            "description": "",
+            "description": "Here goes a potentially longer description for the Transform lever",
             "values": {
                 "min": 1,
                 "max": 4
             }
         },
         {
-            "id": "Lever5",
+            "id": "costs",
             "label": "Costs",
-            "description": "",
+            "description": "Here goes a potentially longer description for the Costs lever",
             "values": {
                 "min": 1,
                 "max": 4
@@ -51,13 +51,13 @@
             "id": "SomeScenario",
             "label": "Some Scenario",
             "description": "",
-            "Scenario": "12121"
+            "scenario": "12121"
         },
         {
             "id": "AnotherScenario",
             "label": "Another Scenario",
             "description": "",
-            "Scenario": "12122"
+            "scenario": "12122"
         }
     ]
 }

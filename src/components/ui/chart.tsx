@@ -100,6 +100,7 @@ const ChartTooltipContent = React.forwardRef<
       indicator?: 'line' | 'dot' | 'dashed';
       nameKey?: string;
       labelKey?: string;
+      valueFormatter?: (value: number) => string;
     }
 >(
   (
@@ -114,6 +115,7 @@ const ChartTooltipContent = React.forwardRef<
       labelFormatter,
       labelClassName,
       formatter,
+      valueFormatter,
       color,
       nameKey,
       labelKey,
@@ -130,10 +132,7 @@ const ChartTooltipContent = React.forwardRef<
       const [item] = payload;
       const key = `${labelKey || item.dataKey || item.name || 'value'}`;
       const itemConfig = getPayloadConfigFromPayload(config, item, key);
-      const value =
-        !labelKey && typeof label === 'string'
-          ? config[label as keyof typeof config]?.label || label
-          : itemConfig?.label;
+      const value = !labelKey && typeof label === 'string' ? config[label]?.label || label : itemConfig?.label;
 
       if (labelFormatter) {
         return <div className={cn('font-medium', labelClassName)}>{labelFormatter(value, payload)}</div>;
@@ -203,7 +202,7 @@ const ChartTooltipContent = React.forwardRef<
                     )}
                     <div
                       className={cn(
-                        'flex flex-1 justify-between leading-none',
+                        'flex flex-1 justify-between leading-none gap-1',
                         nestLabel ? 'items-end' : 'items-center',
                       )}
                     >
@@ -213,7 +212,9 @@ const ChartTooltipContent = React.forwardRef<
                       </div>
                       {item.value && (
                         <span className="font-mono font-medium tabular-nums text-foreground">
-                          {item.value.toLocaleString()}
+                          {valueFormatter && typeof item.value == 'number'
+                            ? valueFormatter(item.value)
+                            : item.value.toLocaleString()}
                         </span>
                       )}
                     </div>
@@ -234,11 +235,11 @@ const ChartLegend = RechartsPrimitive.Legend;
 const ChartLegendContent = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<'div'> &
-    Pick<RechartsPrimitive.LegendProps, 'payload' | 'verticalAlign'> & {
+    Pick<RechartsPrimitive.LegendProps, 'payload' | 'verticalAlign' | 'layout' | 'align'> & {
       hideIcon?: boolean;
       nameKey?: string;
     }
->(({ className, hideIcon = false, payload, verticalAlign = 'bottom', nameKey }, ref) => {
+>(({ className, hideIcon = false, payload, layout, align, verticalAlign = 'bottom', nameKey }, ref) => {
   const { config } = useChart();
 
   if (!payload?.length) {
@@ -248,9 +249,16 @@ const ChartLegendContent = React.forwardRef<
   return (
     <div
       ref={ref}
-      className={cn('flex items-center justify-center gap-4', verticalAlign === 'top' ? 'pb-3' : 'pt-3', className)}
+      className={cn(
+        'flex justify-center ',
+        layout === 'vertical' ? 'flex-col items-start gap-1' : 'flex-row items-center gap-4',
+        verticalAlign === 'top' ? 'pb-3' : 'pt-3',
+        layout === 'vertical' && align === 'right' && 'pl-3',
+        layout === 'vertical' && align === 'left' && 'pr-3',
+        className,
+      )}
     >
-      {payload.map((item) => {
+      {payload.toReversed().map((item) => {
         const key = `${nameKey || item.dataKey || 'value'}`;
         const itemConfig = getPayloadConfigFromPayload(config, item, key);
 
@@ -303,7 +311,7 @@ function getPayloadConfigFromPayload(config: ChartConfig, payload: unknown, key:
     configLabelKey = payloadPayload[key as keyof typeof payloadPayload] as string;
   }
 
-  return configLabelKey in config ? config[configLabelKey] : config[key as keyof typeof config];
+  return configLabelKey in config ? config[configLabelKey] : config[key];
 }
 
 export { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent, ChartStyle };

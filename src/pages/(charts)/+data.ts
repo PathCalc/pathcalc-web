@@ -24,8 +24,11 @@ export async function data(pageContext: PageContextServer) {
     throw render(404, `Chart page "${slug}" doesn't exist`);
   }
 
+  const detailConfig = (await import(`@/../public/config/pages/${chartPage.slug}.json`)).default;
+
   return {
     currentPage: chartPage,
+    currentDetail: detailConfig,
     allPages: config,
   };
 }

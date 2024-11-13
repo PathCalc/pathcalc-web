@@ -1,8 +1,9 @@
 import { from, op } from 'arquero';
 import { atom, useAtom } from 'jotai';
-import { Suspense, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { inferSchema, initParser } from 'udsv';
 
+import { Dataset } from '~shared/pipeline/models/dataset/types';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { $atomFamily } from '@/lib/jotai';
@@ -17,7 +18,9 @@ interface DataFetchFamilyParam {
 
 const s_rawDataFetchFamily = $atomFamily(({ dataset, scenario }: DataFetchFamilyParam) =>
   atom(async () => {
-    const res = await fetch(`/data/facts/${dataset}/${scenario}.csv`);
+    const res = await fetch(
+      (import.meta.env.PUBLIC_ENV__BASE_URL ?? '') + `/data/fact-tables/${dataset}/${scenario}.csv`,
+    );
     const csv = await res.text();
     const schema = inferSchema(csv);
     const parser = initParser(schema);
@@ -34,6 +37,24 @@ export const s_overviewData1Family = $atomFamily(({ scenario }: { scenario: stri
     });
   }),
 );
+
+const s_datasetMetadataFamily = $atomFamily(({ datasetName }: { datasetName: string }) =>
+  atom(async () => {
+    const res = await fetch(
+      (import.meta.env.PUBLIC_ENV__BASE_URL ?? '') + `/data/fact-tables/${datasetName}/_meta.json`,
+    );
+    const data = await res.json();
+    return data as Dataset;
+  }),
+);
+
+const s_dataColumnFamily = $atomFamily(({ datasetName }: { datasetName: string }) => {
+  return atom(async (get) => {
+    const metadata = await get(s_datasetMetadataFamily({ datasetName }));
+
+    return metadata.columns;
+  });
+});
 
 export const OverviewChart1A = withSuspense(OverviewChart1AImpl, <h1 className="text-xl">Loading</h1>);
 

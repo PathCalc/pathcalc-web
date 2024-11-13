@@ -9,12 +9,32 @@ export function makeHref(h: string) {
   if (h.startsWith('http://') || h.startsWith('https://')) {
     return h;
   }
-  const base = import.meta.env.PUBLIC_ENV__BASE_URL;
-  if (base == null || h.startsWith(base)) {
-    return normalizePath(h);
-  }
-
+  const base: string | undefined = import.meta.env.PUBLIC_ENV__BASE_URL ?? '';
   return normalizePath(base + h);
+}
+
+function removeDuplicateSlashes(path: string) {
+  return path.replace(/\/{2,}/g, '/');
+}
+
+if (import.meta.vitest) {
+  const { it, expect } = import.meta.vitest;
+
+  it.each([
+    ['', ''],
+    ['/', '/'],
+    ['//', '/'],
+    ['a', 'a'],
+    ['a/', 'a/'],
+    ['/a', '/a'],
+    ['/a/', '/a/'],
+    ['a//b', 'a/b'],
+    ['a//b/', 'a/b/'],
+    ['/a//b', '/a/b'],
+    ['/a//b/', '/a/b/'],
+  ])('removeDuplicateSlashes("%s") -> "%s"', (x: string, expected: string) => {
+    expect(removeDuplicateSlashes(x)).toBe(expected);
+  });
 }
 
 /**
@@ -25,6 +45,32 @@ export function makeHref(h: string) {
  * @returns normalized path
  */
 export function normalizePath(path: string) {
-  const h = '/' + path.split('/').filter(Boolean).join('/');
-  return h === '/' ? h : h + '/';
+  return removeDuplicateSlashes(path + '/');
+}
+
+if (import.meta.vitest) {
+  const { it, expect } = import.meta.vitest;
+
+  it.each([
+    ['', '/'],
+    ['/', '/'],
+    ['a', 'a/'],
+    ['a/', 'a/'],
+    ['/a', '/a/'],
+    ['/a/', '/a/'],
+    ['a/b', 'a/b/'],
+    ['a/b/', 'a/b/'],
+    ['/a/b', '/a/b/'],
+    ['/a/b/', '/a/b/'],
+    ['a///b', 'a/b/'],
+    ['a///b/', 'a/b/'],
+    ['/a///b', '/a/b/'],
+  ])('normalizePath("%s") -> "%s"', (x, expected) => {
+    expect(normalizePath(x)).toBe(expected);
+  });
+}
+
+export function makeFilePath(p: string) {
+  const base: string | undefined = import.meta.env.PUBLIC_ENV__BASE_URL;
+  return removeDuplicateSlashes((base != null ? base + '/' : '') + p);
 }

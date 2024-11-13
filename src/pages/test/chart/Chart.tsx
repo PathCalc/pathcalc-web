@@ -21,18 +21,22 @@ export function Chart({
   chartProps = {},
   YVariable,
   YRange,
+  YLabel,
 }: {
+  data: any[];
+  XVariable: string;
+  YVariable: string;
+  series: { dataKey: string | number; color: string }[];
+  visibleSeries?: (string | number)[];
+  //
   type: 'line' | 'area' | 'bar';
   stacked: boolean;
   chartConfig: ChartConfig;
-  data: any[];
-  XVariable: string;
-  series: { dataKey: string | number; color: string }[];
-  visibleSeries?: (string | number)[];
+  YRange?: AxisDomain;
+  YLabel?: string;
+  //
   seriesShapeProps?: Record<string, unknown>;
   chartProps?: Record<string, unknown>;
-  YVariable: string;
-  YRange?: AxisDomain;
 }) {
   const ShapeChart = getShapeChart(type);
   const Shape = getShape(type);
@@ -44,7 +48,7 @@ export function Chart({
       <ShapeChart accessibilityLayer data={data} {...chartProps}>
         <CartesianGrid />
         <XAxis dataKey={XVariable} tickLine={false} tickMargin={10} axisLine={false} />
-        <YAxis domain={is100PercentStacked ? undefined : YRange} />
+        <YAxis domain={is100PercentStacked ? undefined : YRange} label={YLabel} />
         {series.map((s) => {
           const visible = visibleSeries.includes(s.dataKey);
           return (

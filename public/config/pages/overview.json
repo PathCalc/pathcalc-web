@@ -8,13 +8,13 @@
                 "items": [
                     {
                         "type": "chart",
-                        "data": "Overview1",
+                        "dataset": "Overview1",
+                        "x": "YEAR",
+                        "y": "VALUE",
+                        "series": "TECHNOLOGY:Sector",
                         "options": {
                             "type": "area",
                             "stacked": true,
-                            "x": "YEAR",
-                            "y": "VALUE",
-                            "series": "TECHNOLOGY:Sector",
                             "legend": false,
                             "emptyIsZero": true,
                             "showEmptySeries": true,
@@ -26,35 +26,30 @@
                                 "chartSeries": {
                                     "stroke": "#000000"
                                 },
-                                "chartComponent": {}
+                                "chartComponents": {
+                                    "CartesianGrid": {
+                                        "vertical": false
+                                    }
+                                }
                             }
                         }
                     },
                     {
                         "type": "chart",
+                        "dataset": "Overview1agg",
+                        "x": "YEAR:Period",
+                        "y": "VALUE",
+                        "series": "TECHNOLOGY:Sector",
                         "options": {
                             "type": "bar",
                             "stacked": true,
-                            "x": "YEAR:Period",
-                            "y": "VALUE",
-                            "series": "TECHNOLOGY:Sector",
-                            "legend": true
-                        },
-                        "data": [
-                            {
-                                "$": "load",
-                                "from": "Overview1",
-                                "sharding": [
-                                    "Scenario"
-                                ]
-                            },
-                            {
-                                "$": "aggregate",
-                                "groupby": [
-                                    "YEAR:Period"
-                                ]
+                            "legend": true,
+                            "extraProps": {
+                                "chartSeries": {
+                                    "barSize": 70
+                                }
                             }
-                        ]
+                        }
                     }
                 ]
             },
@@ -64,8 +59,46 @@
                 "items": [
                     {
                         "type": "chart",
-                        "data": "Overview2",
-                        "options": {}
+                        "dataset": "Overview2",
+                        "x": "YEAR",
+                        "y": "VALUE",
+                        "series": "CostType",
+                        "options": {
+                            "type": "area",
+                            "stacked": true,
+                            "legend": false,
+                            "extraProps": {
+                                "chart": {
+                                    "syncId": "year",
+                                    "stackOffset": "sign"
+                                },
+                                "chartSeries": {
+                                    "dot": false
+                                },
+                                "chartComponents": {
+                                    "XAxis": {
+                                        "tickLine": true
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "type": "chart",
+                        "dataset": "Overview2agg",
+                        "x": "YEAR:Period",
+                        "y": "VALUE",
+                        "series": "CostType",
+                        "options": {
+                            "type": "bar",
+                            "stacked": true,
+                            "legend": "right",
+                            "extraProps": {
+                                "chartSeries": {
+                                    "barSize": 70
+                                }
+                            }
+                        }
                     }
                 ]
             }

@@ -2,23 +2,19 @@
     "config": [
         {
             "title": "Overview",
-            "slug": "overview",
-            "content": {}
+            "slug": "overview"
         },
         {
             "title": "Costs",
-            "slug": "costs",
-            "content": {}
+            "slug": "costs"
         },
         {
             "title": "Transport",
-            "slug": "transport",
-            "content": {}
+            "slug": "transport"
         },
         {
             "title": "Power",
-            "slug": "power",
-            "content": {}
+            "slug": "power"
         }
     ]
 }
