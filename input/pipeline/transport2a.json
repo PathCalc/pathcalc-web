@@ -6,44 +6,28 @@
         [
             {
                 "$": "load",
-                "from": "_CombinedCosts",
+                "from": "_Production",
                 "sharding": [
                     "Scenario"
                 ]
             },
             {
                 "$": "filter",
-                "column": "CostType",
+                "column": "TECHNOLOGY:Service",
                 "in": [
-                    "VAR",
-                    "FIX",
-                    "CAP"
+                    "PSG"
                 ]
             },
             {
                 "$": "aggregate",
                 "groupby": [
                     "YEAR",
-                    "CostType"
+                    "TECHNOLOGY:TraMode"
                 ]
             },
             {
                 "$": "save",
-                "to": "Overview2",
-                "sharding": [
-                    "Scenario"
-                ]
-            },
-            {
-                "$": "aggregate",
-                "groupby": [
-                    "YEAR:Period",
-                    "CostType"
-                ]
-            },
-            {
-                "$": "save",
-                "to": "Overview2agg",
+                "to": "Transport2A",
                 "sharding": [
                     "Scenario"
                 ]

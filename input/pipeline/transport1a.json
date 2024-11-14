@@ -6,44 +6,28 @@
         [
             {
                 "$": "load",
-                "from": "_CombinedCosts",
+                "from": "_TechnologyEmission",
                 "sharding": [
                     "Scenario"
                 ]
             },
             {
                 "$": "filter",
-                "column": "CostType",
+                "column": "TECHNOLOGY:Sector",
                 "in": [
-                    "VAR",
-                    "FIX",
-                    "CAP"
+                    "TRA"
                 ]
             },
             {
                 "$": "aggregate",
                 "groupby": [
                     "YEAR",
-                    "CostType"
+                    "TECHNOLOGY:Service"
                 ]
             },
             {
                 "$": "save",
-                "to": "Overview2",
-                "sharding": [
-                    "Scenario"
-                ]
-            },
-            {
-                "$": "aggregate",
-                "groupby": [
-                    "YEAR:Period",
-                    "CostType"
-                ]
-            },
-            {
-                "$": "save",
-                "to": "Overview2agg",
+                "to": "Transport1A",
                 "sharding": [
                     "Scenario"
                 ]

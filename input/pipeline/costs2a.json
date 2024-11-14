@@ -15,9 +15,16 @@
                 "$": "filter",
                 "column": "CostType",
                 "in": [
-                    "VAR",
-                    "FIX",
-                    "CAP"
+                    "CAP",
+                    "FIX"
+                ]
+            },
+            {
+                "$": "filter",
+                "column": "TECHNOLOGY:Sector",
+                "in": [
+                    "TRA",
+                    "HDG"
                 ]
             },
             {
@@ -29,21 +36,7 @@
             },
             {
                 "$": "save",
-                "to": "Overview2",
-                "sharding": [
-                    "Scenario"
-                ]
-            },
-            {
-                "$": "aggregate",
-                "groupby": [
-                    "YEAR:Period",
-                    "CostType"
-                ]
-            },
-            {
-                "$": "save",
-                "to": "Overview2agg",
+                "to": "Costs2A",
                 "sharding": [
                     "Scenario"
                 ]

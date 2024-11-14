@@ -6,44 +6,29 @@
         [
             {
                 "$": "load",
-                "from": "_CombinedCosts",
+                "from": "_Use",
                 "sharding": [
                     "Scenario"
                 ]
             },
             {
                 "$": "filter",
-                "column": "CostType",
+                "column": "TECHNOLOGY:Sector",
                 "in": [
-                    "VAR",
-                    "FIX",
-                    "CAP"
+                    "TRA",
+                    "HDG"
                 ]
             },
             {
                 "$": "aggregate",
                 "groupby": [
                     "YEAR",
-                    "CostType"
+                    "COMMODITY:Type"
                 ]
             },
             {
                 "$": "save",
-                "to": "Overview2",
-                "sharding": [
-                    "Scenario"
-                ]
-            },
-            {
-                "$": "aggregate",
-                "groupby": [
-                    "YEAR:Period",
-                    "CostType"
-                ]
-            },
-            {
-                "$": "save",
-                "to": "Overview2agg",
+                "to": "Transport1B",
                 "sharding": [
                     "Scenario"
                 ]

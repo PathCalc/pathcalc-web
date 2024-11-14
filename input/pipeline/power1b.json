@@ -6,7 +6,7 @@
         [
             {
                 "$": "load",
-                "from": "_TechnologyEmission",
+                "from": "_TotalCapacity",
                 "sharding": [
                     "Scenario"
                 ]
@@ -15,42 +15,26 @@
                 "$": "filter",
                 "column": "TECHNOLOGY:Sector",
                 "in": [
-                    "TRA",
                     "PWR"
                 ]
             },
             {
                 "$": "filter",
-                "column": "EMISSION",
+                "column": "TECHNOLOGY:SubSector",
                 "in": [
-                    "CO2_PWR",
-                    "CO2_TRA"
+                    "GEN"
                 ]
             },
             {
                 "$": "aggregate",
                 "groupby": [
-                    "TECHNOLOGY:Sector",
-                    "YEAR"
+                    "YEAR",
+                    "TECHNOLOGY:Type"
                 ]
             },
             {
                 "$": "save",
-                "to": "Overview1",
-                "sharding": [
-                    "Scenario"
-                ]
-            },
-            {
-                "$": "aggregate",
-                "groupby": [
-                    "YEAR:Period",
-                    "TECHNOLOGY:Sector"
-                ]
-            },
-            {
-                "$": "save",
-                "to": "Overview1agg",
+                "to": "Power1B",
                 "sharding": [
                     "Scenario"
                 ]
