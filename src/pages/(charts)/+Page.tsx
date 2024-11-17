@@ -1,11 +1,14 @@
 import { useMemo } from 'react';
-import ReactFromJSON from 'react-from-json';
+import ReactFromJSONpkg from 'react-from-json';
 import { useData } from 'vike-react/useData';
 
 import { ChartBlock } from '@/components/page-blocks/chart-block';
 import { ContainerBlock, RowBlock } from '@/components/page-blocks/layout-blocks';
 
 import { Data } from './+data';
+
+// fix issue with react-from-json CJS export in server/client
+const ReactFromJSON = ((ReactFromJSONpkg as any).default as typeof ReactFromJSONpkg) || ReactFromJSONpkg;
 
 const mapping = {
   container: ContainerBlock,
