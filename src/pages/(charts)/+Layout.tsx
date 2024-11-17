@@ -1,15 +1,11 @@
-import { Info } from 'lucide-react';
-import { FC, ReactNode, useId, useState } from 'react';
+import { FC, ReactNode, useState } from 'react';
 import { useData } from 'vike-react/useData';
 
 import { Link } from '@/components/Link';
 import { NavLink } from '@/components/NavLink';
 import { SimpleSelect } from '@/components/SimpleSelect';
-import { Label } from '@/components/ui/label';
-import { Slider } from '@/components/ui/slider';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { LeverConfig, useLever, useLeversConfig } from '@/state/scenario';
 
+import { Levers } from './(components)/Levers';
 import { Data } from './+data';
 
 export const Layout: FC<{ children?: ReactNode }> = ({ children }) => {
@@ -52,7 +48,7 @@ function Tabs({ allPages }: { allPages: Data['allPages'] }) {
     <div className="flex flex-row gap-3 items-center h-full">
       <NavLink href="/">{allPages[0].title}</NavLink>
       {allPages.slice(1).map((page) => (
-        <NavLink key={page.slug} href={page.slug}>
+        <NavLink key={page.slug} href={`/${page.slug}`}>
           {page.title}
         </NavLink>
       ))}
@@ -89,45 +85,4 @@ const presetOptions = [
 function Presets() {
   const [value, onChange] = useState(presetOptions[0].value);
   return <SimpleSelect options={presetOptions} value={value} onChange={onChange} />;
-}
-
-function Levers() {
-  const leverConfigs = useLeversConfig();
-  return (
-    <div className="flex flex-col gap-10 my-10">
-      {leverConfigs.map((lever) => (
-        <Lever key={lever.id} {...lever} />
-      ))}
-    </div>
-  );
-}
-
-function Lever({ id, label, description, values }: LeverConfig) {
-  const [value, onChange] = useLever(id);
-  const sliderId = useId();
-  return (
-    <div className="flex flex-col gap-4 items-stretch">
-      <div className="flex flex-row justify-between items-center">
-        <Label htmlFor={sliderId}>{label}</Label>
-        <TooltipProvider delayDuration={100}>
-          <Tooltip>
-            <TooltipTrigger>
-              {/* <Button className="rounded-full" variant="ghost" size="icon"> */}
-              <Info size={15} />
-              {/* </Button> */}
-            </TooltipTrigger>
-            <TooltipContent side="right">{description}</TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      </div>
-      <Slider
-        id={sliderId}
-        value={[value]}
-        onValueChange={([v]) => onChange(v)}
-        min={values.min}
-        max={values.max}
-        step={1}
-      />
-    </div>
-  );
 }
