@@ -1,14 +1,17 @@
 import { Suspense, useDeferredValue } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 import { z } from 'zod';
 
 import { useScenario } from '@/state/scenario';
 
 import { ChartDataAdapter } from '../charts/ChartDataAdapter';
+import { ErrorFallback } from '../react/ErrorFallback';
 
 export const chartTypeSchema = z.enum(['line', 'bar', 'area']);
 
 export const chartBlockConfigSchema = z.object({
   type: z.literal('chart'),
+  title: z.string().optional(),
   dataset: z.string().describe('The '),
   x: z.string(),
   y: z.string(),
@@ -48,14 +51,17 @@ export type ChartBlockConfig = z.infer<typeof chartBlockConfigSchema>;
 
 export type ChartBlockProps = Omit<ChartBlockConfig, 'type'>;
 
-export const ChartBlock = (props: ChartBlockProps) => {
+export const ChartBlock = ({ title, ...props }: ChartBlockProps) => {
   const scenario = useScenario();
   const deferredScenario = useDeferredValue(scenario);
   return (
-    <div className="grow w-1/2 h-[300px] max-h-[300px]">
-      <Suspense fallback={null}>
-        <ChartDataAdapter scenario={deferredScenario} {...props} />
-      </Suspense>
+    <div className="grow w-full min-h-[300px] h-[300px] max-h-[300px] flex flex-col items-stretch justify-start">
+      <div>{title != null ? <h3 className="inline-block">{title}</h3> : null}</div>
+      <ErrorBoundary fallback={<ErrorFallback message="Something went wrong while displaying this chart." />}>
+        <Suspense fallback={null}>
+          <ChartDataAdapter scenario={deferredScenario} {...props} />
+        </Suspense>
+      </ErrorBoundary>
     </div>
   );
 };
