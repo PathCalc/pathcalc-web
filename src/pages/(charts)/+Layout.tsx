@@ -86,7 +86,7 @@ function Logo() {
 
 function MoreInfo() {
   return (
-    <div className="h-full p-3 flex flex-row justify-center items-center">
+    <div className="h-full p-5 flex flex-row justify-center items-center">
       <HoverCard openDelay={100}>
         <HoverCardTrigger>
           <a href="#">
