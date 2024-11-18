@@ -104,13 +104,13 @@ export function Chart({
     <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
       <ShapeChart accessibilityLayer data={data} margin={{ top: 20 }} {...chartProps}>
         <CartesianGrid vertical={false} {...cg} />
-        <XAxis dataKey={xVariable} tickLine={false} tickMargin={10} axisLine={false} {...xa} />
+        <XAxis dataKey={xVariable} tickLine={true} tickMargin={10} axisLine={true} {...xa} />
         <YAxis
           domain={is100PercentStacked ? undefined : yRange}
           label={{
             value: yUnit,
-            position: 'insideTopRight',
-            offset: -12,
+            position: 'top',
+            offset: 10,
           }}
           {...ya}
           tickFormatter={(tick: number) =>
@@ -156,7 +156,7 @@ export function Chart({
             {...cl}
           />
         )}
-        <ReferenceLine y={0} stroke="#888" strokeWidth={1.5} />
+        <ReferenceLine y={0} stroke="#aaa" strokeWidth={1} />
       </ShapeChart>
     </ChartContainer>
   );
