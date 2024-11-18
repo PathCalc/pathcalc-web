@@ -1,4 +1,4 @@
-import { Area, AreaChart, Bar, BarChart, CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts';
+import { Area, AreaChart, Bar, BarChart, CartesianGrid, Line, LineChart, ReferenceLine, XAxis, YAxis } from 'recharts';
 import { AxisDomain } from 'recharts/types/util/types';
 
 import {
@@ -139,6 +139,7 @@ export function Chart({
             {...cl}
           />
         )}
+        <ReferenceLine y={0} stroke="#888" strokeWidth={1.5} />
       </ShapeChart>
     </ChartContainer>
   );

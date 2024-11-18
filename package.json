@@ -32,6 +32,7 @@
     "clsx": "^2.1.1",
     "d3-format": "^3.1.0",
     "d3-scale-chromatic": "^3.1.0",
+    "deep-equality-data-structures": "^1.5.1",
     "jotai": "^2.10.1",
     "jotai-optics": "^0.4.0",
     "jotai-tanstack-query": "^0.9.0",

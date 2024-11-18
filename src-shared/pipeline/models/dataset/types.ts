@@ -3,12 +3,18 @@ import { ReadonlyDeep, Simplify } from 'type-fest';
 
 import { DIMENSION_METADATA_COLUMN_NAMES } from '../dimension/dimension';
 import { MeasureColumnConfig } from '../fact-table/fact-table-config-schema';
+import { ChartStatDefinition, ChartStatResult } from '../stats';
 
 export type DimensionPath = string;
 
+export interface ChartStat {
+  definition: ChartStatDefinition;
+  result: ChartStatResult;
+}
+
 export type MeasureTypeColumn = Simplify<
   MeasureColumnConfig & {
-    stats?: any; // TODO
+    stats?: ChartStat[];
   }
 >;
 

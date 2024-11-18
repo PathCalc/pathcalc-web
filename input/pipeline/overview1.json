@@ -39,7 +39,10 @@
                 "to": "Overview1",
                 "sharding": [
                     "Scenario"
-                ]
+                ],
+                "stats": {
+                    "xaxis": "YEAR"
+                }
             },
             {
                 "$": "aggregate",
@@ -53,7 +56,10 @@
                 "to": "Overview1agg",
                 "sharding": [
                     "Scenario"
-                ]
+                ],
+                "stats": {
+                    "xaxis": "YEAR:Period"
+                }
             }
         ]
     ]

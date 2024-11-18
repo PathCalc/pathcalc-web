@@ -2,8 +2,10 @@ import { ColumnTable, escape, from } from 'arquero';
 import { schemeTableau10 } from 'd3-scale-chromatic';
 import { indexBy } from 'remeda';
 
+import { ChartStat } from '~shared/pipeline/models/dataset/types';
+import { ChartStatDefinition, isChartStatDefinitionEqual } from '~shared/pipeline/models/stats';
 import { d3 } from '@/lib/d3';
-import { orderByList, sameItems } from '@/lib/data-utils';
+import { orderByList } from '@/lib/data-utils';
 
 import { Chart } from './Chart';
 
@@ -24,7 +26,7 @@ export type ChartMeasureColumn = {
   type: 'measure';
   id: string;
   label: string;
-  stats?: { grouping: string[]; column: string; min: number; max: number }[];
+  stats?: ChartStat[];
 };
 
 export type ChartAdapterColumns = (ChartDimensionColumn | ChartMeasureColumn)[];
@@ -80,8 +82,12 @@ export function ChartAdapter({
   const chartConfig = prepareChartConfig(xColumn, yColumn, allSeries, seriesColors);
   const chartSeries = prepareChartSeries(allSeries, seriesColors);
 
-  const statGrouping = [xColumn.id, ...sharding];
-  const yRange = prepareYRange(yColumn, statGrouping);
+  const statDefinition: ChartStatDefinition = {
+    crossSectionType: type === 'line' ? 'point' : 'line',
+    stacked,
+    grouping: [xColumn.id, ...sharding],
+  };
+  const yRange = prepareYRange(yColumn, statDefinition);
 
   return (
     <Chart
@@ -175,17 +181,23 @@ function prepareChartConfig(
   return indexBy([...axesConfig, ...seriesConfig], (x) => x.id);
 }
 
-function prepareYRange(yColumn: ChartMeasureColumn, statGrouping: string[]) {
+function prepareYRange(yColumn: ChartMeasureColumn, statDefinition: ChartStatDefinition) {
   // find stats array element where grouping matches the items of statGrouping, regardless of order
-  const stats = yColumn.stats?.find((s) => sameItems(s.grouping, statGrouping));
+  console.log(yColumn.stats);
+  const stats = yColumn.stats?.find((s) => isChartStatDefinitionEqual(s.definition, statDefinition));
 
   if (stats == null) {
     return ['dataMin', 'dataMax'];
   }
 
+  const statResult = stats.result;
+
   return d3
     .scaleLinear()
-    .domain([0, stats.max * 1.05])
+    .domain([
+      statResult.lower < 0 ? statResult.lower * 1.05 : statResult.lower * 0.95,
+      statResult.upper > 0 ? statResult.upper * 1.05 : statResult.upper * 0.95,
+    ])
     .nice()
     .domain() as [number, number];
 }

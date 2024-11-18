@@ -7,7 +7,7 @@ import { makeDimensionLookupTable } from '~shared/pipeline/models/dataset/make-d
 import { Dataset, DatasetShard, ReadonlyDataset, ReadonlyDatasetShard } from '~shared/pipeline/models/dataset/types';
 import { PipelineEnvironment } from '~shared/pipeline/models/pipeline/pipeline-environment';
 import { PipelineStep } from '~shared/pipeline/models/pipeline/pipeline-step';
-import { dimensionPathSchema } from '~shared/pipeline/models/transforms/transforms';
+import { dimensionPathSchema } from '~shared/pipeline/models/transforms/dimension-path-schema';
 import { UnexpectedError } from '~shared/pipeline/utils/errors';
 import { ProcessingContext } from '~shared/pipeline/utils/processing-context';
 
