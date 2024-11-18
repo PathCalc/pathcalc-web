@@ -57,7 +57,7 @@ export const ChartBlock = ({ title, ...props }: ChartBlockProps) => {
   const scenario = useScenario();
   const deferredScenario = useDeferredValue(scenario);
   return (
-    <div className="grow w-full min-h-[300px] h-[300px] max-h-[300px] flex flex-col items-stretch justify-start">
+    <div className="grow w-full min-h-[220px] h-[220px] max-h-[220px] flex flex-col items-stretch justify-start gap-2">
       <div>{title != null ? <h3 className="inline-block">{title}</h3> : null}</div>
       <ErrorBoundary fallback={<ErrorFallback message="Something went wrong while displaying this chart." />}>
         <Suspense fallback={null}>
