@@ -10,6 +10,23 @@ import {
   ChartTooltipContent,
 } from '@/components/ui/chart';
 
+const defaultSeriesShapeProps = {
+  area: {
+    stroke: '#000',
+  },
+  line: {
+    strokeWidth: 2,
+  },
+  bar: {
+    stroke: '#000',
+    barSize: 70,
+  },
+};
+
+const defaultNumberFormatting = {
+  maximumSignificantDigits: 3,
+};
+
 export function Chart({
   type,
   stacked,
@@ -21,6 +38,7 @@ export function Chart({
   yVariable,
   yRange,
   yLabel,
+  yUnit,
   tooltip = true,
   legend,
   //
@@ -47,6 +65,7 @@ export function Chart({
   chartConfig: ChartConfig;
   yRange?: AxisDomain;
   yLabel?: string;
+  yUnit?: string;
   tooltip?: boolean;
   legend?: boolean | 'bottom' | 'right';
   //
@@ -69,16 +88,12 @@ export function Chart({
         <ChartTooltipContent
           labelKey={yVariable}
           labelFormatter={(label, payload) => {
-            return `${label} - ${payload[0].payload[xVariable]}`;
+            return `${label == null ? '' : `${label} - `}${payload[0].payload[xVariable]}`;
           }}
-          valueFormatter={(v) => v.toLocaleString('en-GB', { maximumSignificantDigits: 3 })}
+          valueFormatter={(v) => v.toLocaleString('en-GB', defaultNumberFormatting)}
           {...ctc}
         />
       }
-      // cursorStyle={{
-      //   fillOpacity: 0.5,
-      //   opacity: 0.1,
-      // }}
       allowEscapeViewBox={{ x: true }}
       wrapperStyle={{ zIndex: 1000 }}
       {...ct}
@@ -87,15 +102,15 @@ export function Chart({
 
   return (
     <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
-      <ShapeChart accessibilityLayer data={data} {...chartProps}>
+      <ShapeChart accessibilityLayer data={data} margin={{ top: 20 }} {...chartProps}>
         <CartesianGrid vertical={false} {...cg} />
         <XAxis dataKey={xVariable} tickLine={false} tickMargin={10} axisLine={false} {...xa} />
         <YAxis
           domain={is100PercentStacked ? undefined : yRange}
           label={{
-            value: yLabel,
-            position: 'insideTopLeft',
-            offset: 10,
+            value: yUnit,
+            position: 'insideTopRight',
+            offset: -12,
           }}
           {...ya}
           tickFormatter={(tick: number) =>
@@ -120,6 +135,7 @@ export function Chart({
               dot={false}
               activeDot={false}
               //
+              {...defaultSeriesShapeProps[type]}
               {...seriesShapeProps}
             />
           );
@@ -135,6 +151,7 @@ export function Chart({
                   layout: 'vertical',
                   align: 'right',
                   verticalAlign: 'middle',
+                  width: 100,
                 })}
             {...cl}
           />

@@ -12,13 +12,15 @@ export const chartTypeSchema = z.enum(['line', 'bar', 'area']);
 export const chartBlockConfigSchema = z.object({
   type: z.literal('chart'),
   title: z.string().optional(),
-  dataset: z.string().describe('The '),
+  dataset: z.string(),
   x: z.string(),
   y: z.string(),
   series: z.string(),
   options: z.object({
     type: chartTypeSchema,
     stacked: z.boolean().optional(),
+    yLabel: z.string().optional(),
+    yUnit: z.string().optional(),
     legend: z
       .boolean()
       .or(z.enum(['bottom', 'right']))

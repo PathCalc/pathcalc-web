@@ -44,6 +44,7 @@ export function ChartAdapter({
   //
   legend,
   yLabel,
+  yUnit,
   emptyIsZero = true,
   includeEmptySeries = false,
   //
@@ -62,6 +63,7 @@ export function ChartAdapter({
   stacked?: boolean;
   legend?: boolean | 'bottom' | 'right';
   yLabel?: string;
+  yUnit?: string;
   emptyIsZero?: boolean;
   includeEmptySeries?: boolean;
   //
@@ -71,6 +73,7 @@ export function ChartAdapter({
   chartProps?: Record<string, unknown>;
   chartComponentProps?: Record<string, unknown>;
 }) {
+  console.log({ yLabel, yUnit, yColumn });
   const seriesColors = prepareSeriesColors(seriesColumn.values);
 
   const allSeries = seriesColumn.values;
@@ -79,7 +82,7 @@ export function ChartAdapter({
   const dataGrid = prepareDataGrid(xColumn, seriesColumn);
 
   const chartData = prepareChartData(dataGrid, table, emptyIsZero, xColumn.id, yColumn.id, seriesColumn.id, allSeries);
-  const chartConfig = prepareChartConfig(xColumn, yColumn, allSeries, seriesColors);
+  const chartConfig = prepareChartConfig(xColumn, yColumn, allSeries, seriesColors, yLabel, yUnit);
   const chartSeries = prepareChartSeries(allSeries, seriesColors);
 
   const statDefinition: ChartStatDefinition = {
@@ -101,6 +104,7 @@ export function ChartAdapter({
       visibleSeries={visibleSeries}
       yRange={yRange}
       yLabel={yLabel ?? yColumn.label}
+      yUnit={yUnit}
       legend={legend}
       chartConfig={chartConfig}
       seriesShapeProps={seriesShapeProps}
@@ -173,10 +177,21 @@ function prepareChartConfig(
   yColumn: ChartMeasureColumn,
   seriesValues: ChartDimensionValue[],
   seriesColors: Map<string | number, string>,
+  yLabel?: string,
+  yUnit?: string,
 ) {
-  const axesConfig = [xColumn, yColumn].map((c) => ({ id: c.id, label: c.label }));
+  const label = yLabel != null ? `${yLabel}${yUnit != null ? ` (${yUnit})` : ''}` : yLabel;
+  const axesConfig = [xColumn, yColumn].map((c) => ({
+    id: c.id,
+    label: c.label ?? (c.id === yColumn.id ? label : undefined),
+  }));
 
-  const seriesConfig = seriesValues.map((v) => ({ id: v.value, label: v.label, color: seriesColors.get(v.value) }));
+  console.log({ label, seriesValues });
+  const seriesConfig = seriesValues.map((v) => ({
+    id: v.value,
+    label: v.label ?? label,
+    color: seriesColors.get(v.value),
+  }));
 
   return indexBy([...axesConfig, ...seriesConfig], (x) => x.id);
 }
