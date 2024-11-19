@@ -1,6 +1,7 @@
 import vikeReact from 'vike-react/config';
 import type { Config } from 'vike/types';
 
+import generalConfig from '../../public/config/general.json';
 import Layout from '../layouts/LayoutDefault.jsx';
 
 // Default config (can be overridden by pages)
@@ -11,8 +12,8 @@ export default {
   Layout,
 
   // https://vike.dev/head-tags
-  title: 'PathCalc',
-  description: 'PathCalc visualisation system',
+  title: generalConfig.title,
+  description: generalConfig.description,
 
   extends: vikeReact,
 } satisfies Config;

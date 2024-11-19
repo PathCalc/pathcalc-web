@@ -9,7 +9,7 @@ import { LeverConfig, useLever, useLeversConfig } from '@/state/scenario';
 export function Levers() {
   const leverConfigs = useLeversConfig();
   return (
-    <div className="flex flex-col gap-10 my-10">
+    <div className="flex flex-col gap-10">
       {leverConfigs.map((lever) => (
         <Lever key={lever.id} {...lever} />
       ))}

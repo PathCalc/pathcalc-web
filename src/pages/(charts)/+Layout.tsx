@@ -12,7 +12,12 @@ import { Levers } from './(components)/Levers';
 import { Data } from './+data';
 
 export const Layout: FC<{ children?: ReactNode }> = ({ children }) => {
-  const { allPages } = useData<Data>();
+  const {
+    allPages,
+    general: {
+      logo: { title, subtitle },
+    },
+  } = useData<Data>();
 
   return (
     <>
@@ -20,7 +25,7 @@ export const Layout: FC<{ children?: ReactNode }> = ({ children }) => {
       <div className="h-[56px] flex flex-col justify-center items-center bg-[#C72335] text-white">
         <div className="grow w-full max-w-5xl flex flex-row items-stretch">
           <div className="w-72 shrink-0 flex flex-row justify-between">
-            <Logo />
+            <Logo title={title} subtitle={subtitle} />
             <MoreInfo />
           </div>
           <div className="grow h-full">
@@ -45,7 +50,7 @@ export const Layout: FC<{ children?: ReactNode }> = ({ children }) => {
 
 function Sidebar({ children }: { children: React.ReactNode }) {
   return (
-    <div id="sidebar" className="w-72 p-5 flex flex-col shrink-0 border-r-2 border-r-gray-200">
+    <div id="sidebar" className="w-72 p-5 pt-10 flex flex-col shrink-0 border-r-2 border-r-gray-200">
       {children}
     </div>
   );
@@ -74,11 +79,11 @@ function Content({ children }: { children: React.ReactNode }) {
   );
 }
 
-function Logo() {
+function Logo({ title, subtitle }: { title: string; subtitle?: string }) {
   return (
     <div className="p-5 mb-2 h-full flex flex-row justify-start items-center">
       <Link className="font-manrope text-2xl text-nowrap" href="/">
-        <span className="font-bold">PathCalc</span> <span className="font-thin">Laos</span>
+        <span className="font-bold">{title}</span> <span className="font-thin">{subtitle ?? ''}</span>
       </Link>
     </div>
   );
