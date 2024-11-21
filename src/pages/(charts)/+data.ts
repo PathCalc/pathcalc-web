@@ -1,4 +1,3 @@
-import { useConfig } from 'vike-react/useConfig';
 import { render } from 'vike/abort';
 import { PageContextServer } from 'vike/types';
 
@@ -18,7 +17,6 @@ import generalConfig from '@/../public/config/general.json';
 // });
 
 export async function data(pageContext: PageContextServer) {
-  const config = useConfig();
   const { chartId: slug } = pageContext.routeParams;
   const pageConfig = chartPagesConfig.config;
   const chartPage = slug === undefined ? pageConfig[0] : pageConfig.find((page) => page.slug === slug);
@@ -28,10 +26,6 @@ export async function data(pageContext: PageContextServer) {
   }
 
   const detailConfig = (await import(`@/../public/config/pages/${chartPage.slug}.json`)).default;
-
-  config({
-    title: `${chartPage.title} |  ${generalConfig.title}`,
-  });
 
   return {
     currentPage: chartPage,

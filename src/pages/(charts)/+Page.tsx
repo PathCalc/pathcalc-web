@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import ReactFromJSONpkg from 'react-from-json';
+import { Config } from 'vike-react/Config';
 import { useData } from 'vike-react/useData';
 
 import { ChartBlock } from '@/components/page-blocks/chart-block';
@@ -32,10 +33,14 @@ function mapProp(prop: any): any {
 }
 
 export function Page() {
+  const { currentPage, general } = useData<Data>();
   return (
-    <ErrorBoundary fallback={<ErrorFallback message="There was an error while displaying this page." />}>
-      <ConfigurablePage />
-    </ErrorBoundary>
+    <>
+      <Config title={`${currentPage.title} | ${general.title}`} />
+      <ErrorBoundary fallback={<ErrorFallback message="There was an error while displaying this page." />}>
+        <ConfigurablePage />
+      </ErrorBoundary>
+    </>
   );
 }
 
