@@ -73,7 +73,6 @@ export function ChartAdapter({
   chartProps?: Record<string, unknown>;
   chartComponentProps?: Record<string, unknown>;
 }) {
-  console.log({ yLabel, yUnit, yColumn });
   const seriesColors = prepareSeriesColors(seriesColumn.values);
 
   const allSeries = seriesColumn.values;
@@ -186,7 +185,6 @@ function prepareChartConfig(
     label: c.label ?? (c.id === yColumn.id ? label : undefined),
   }));
 
-  console.log({ label, seriesValues });
   const seriesConfig = seriesValues.map((v) => ({
     id: v.value,
     label: v.label ?? label,
@@ -198,7 +196,6 @@ function prepareChartConfig(
 
 function prepareYRange(yColumn: ChartMeasureColumn, statDefinition: ChartStatDefinition) {
   // find stats array element where grouping matches the items of statGrouping, regardless of order
-  console.log(yColumn.stats);
   const stats = yColumn.stats?.find((s) => isChartStatDefinitionEqual(s.definition, statDefinition));
 
   if (stats == null) {
