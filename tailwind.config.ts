@@ -2,11 +2,14 @@ import tailwindContainerQueries from '@tailwindcss/container-queries';
 import type { Config } from 'tailwindcss';
 import tailwindAnimate from 'tailwindcss-animate';
 
+import { screens } from './src/layouts/tailwind.screens';
+
 export default {
   darkMode: ['class'],
   content: ['./src/{pages,layouts,components,src}/**/*.{html,js,jsx,ts,tsx,vue}'],
   theme: {
     extend: {
+      screens,
       keyframes: {
         'caret-blink': {
           '0%,70%,100%': { opacity: '1' },
