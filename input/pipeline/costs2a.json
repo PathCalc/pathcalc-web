@@ -15,9 +15,16 @@
                 "$": "filter",
                 "column": "CostType",
                 "in": [
-                    "VAR",
-                    "FIX",
-                    "CAP"
+                    "CAP",
+                    "FIX"
+                ]
+            },
+            {
+                "$": "filter",
+                "column": "TECHNOLOGY:Sector",
+                "in": [
+                    "TRA",
+                    "HDG"
                 ]
             },
             {
@@ -29,30 +36,10 @@
             },
             {
                 "$": "save",
-                "to": "Overview2",
+                "to": "Costs2A",
                 "sharding": [
                     "Scenario"
-                ],
-                "stats": {
-                    "xaxis": "YEAR"
-                }
-            },
-            {
-                "$": "aggregate",
-                "groupby": [
-                    "YEAR:Period",
-                    "CostType"
                 ]
-            },
-            {
-                "$": "save",
-                "to": "Overview2agg",
-                "sharding": [
-                    "Scenario"
-                ],
-                "stats": {
-                    "xaxis": "YEAR:Period"
-                }
             }
         ]
     ]

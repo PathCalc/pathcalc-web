@@ -6,7 +6,7 @@
         [
             {
                 "$": "load",
-                "from": "AnnualTechnologyEmission",
+                "from": "_TechnologyEmission",
                 "sharding": [
                     "Scenario"
                 ]

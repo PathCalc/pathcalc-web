@@ -1,3 +1,127 @@
 {
-    "content": null
+    "content": {
+        "type": "container",
+        "items": [
+            {
+                "type": "row",
+                "title": "Primary fuel supply",
+                "items": [
+                    {
+                        "type": "chart",
+                        "dataset": "Costs1A",
+                        "x": "YEAR",
+                        "y": "VALUE",
+                        "series": "TECHNOLOGY:SubSector",
+                        "options": {
+                            "type": "area",
+                            "stacked": true,
+                            "legend": true,
+                            "emptyIsZero": true,
+                            "showEmptySeries": true,
+                            "extraProps": {
+                                "chart": {
+                                    "syncId": "year",
+                                    "syncMethod": "value"
+                                },
+                                "chartSeries": {
+                                    "stroke": "#000000"
+                                },
+                                "chartComponents": {
+                                    "CartesianGrid": {
+                                        "vertical": false
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "type": "chart",
+                        "dataset": "Costs1B",
+                        "x": "YEAR",
+                        "y": "VALUE",
+                        "series": "TECHNOLOGY:Type",
+                        "options": {
+                            "type": "area",
+                            "stacked": true,
+                            "legend": true,
+                            "emptyIsZero": true,
+                            "showEmptySeries": true,
+                            "extraProps": {
+                                "chart": {
+                                    "syncId": "year",
+                                    "syncMethod": "value"
+                                },
+                                "chartSeries": {
+                                    "stroke": "#000000"
+                                },
+                                "chartComponents": {
+                                    "CartesianGrid": {
+                                        "vertical": false
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "type": "row",
+                "title": "By fuel",
+                "items": [
+                    {
+                        "type": "chart",
+                        "dataset": "Costs2A",
+                        "x": "YEAR",
+                        "y": "VALUE",
+                        "series": "CostType",
+                        "options": {
+                            "type": "area",
+                            "stacked": true,
+                            "legend": true,
+                            "extraProps": {
+                                "chart": {
+                                    "syncId": "year",
+                                    "stackOffset": "sign"
+                                },
+                                "chartSeries": {
+                                    "dot": false
+                                },
+                                "chartComponents": {
+                                    "XAxis": {
+                                        "tickLine": true
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "type": "chart",
+                        "dataset": "Costs2B",
+                        "x": "YEAR",
+                        "y": "VALUE",
+                        "series": "CostType",
+                        "options": {
+                            "type": "area",
+                            "stacked": true,
+                            "legend": true,
+                            "extraProps": {
+                                "chart": {
+                                    "syncId": "year",
+                                    "stackOffset": "sign"
+                                },
+                                "chartSeries": {
+                                    "dot": false
+                                },
+                                "chartComponents": {
+                                    "XAxis": {
+                                        "tickLine": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        ]
+    }
 }

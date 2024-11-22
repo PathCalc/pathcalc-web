@@ -1,0 +1,37 @@
+{
+    "sharding": [
+        "Scenario"
+    ],
+    "flows": [
+        [
+            {
+                "$": "load",
+                "from": "_TechnologyEmission",
+                "sharding": [
+                    "Scenario"
+                ]
+            },
+            {
+                "$": "filter",
+                "column": "TECHNOLOGY:Sector",
+                "in": [
+                    "TRA"
+                ]
+            },
+            {
+                "$": "aggregate",
+                "groupby": [
+                    "YEAR",
+                    "TECHNOLOGY:Service"
+                ]
+            },
+            {
+                "$": "save",
+                "to": "Transport1A",
+                "sharding": [
+                    "Scenario"
+                ]
+            }
+        ]
+    ]
+}

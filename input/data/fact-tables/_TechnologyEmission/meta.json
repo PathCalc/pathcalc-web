@@ -1,5 +1,5 @@
 {
-    "id": "CombinedCosts",
+    "id": "_TechnologyEmission",
     "type": "raw",
     "sharding": [
         "Scenario"
@@ -18,16 +18,16 @@
             "type": "dimension"
         },
         {
+            "name": "EMISSION",
+            "type": "dimension"
+        },
+        {
             "name": "YEAR",
             "type": "dimension"
         },
         {
             "name": "VALUE",
             "type": "measure"
-        },
-        {
-            "name": "CostType",
-            "type": "dimension"
         }
     ]
 }

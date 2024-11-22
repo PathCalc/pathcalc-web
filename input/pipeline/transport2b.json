@@ -1,0 +1,37 @@
+{
+    "sharding": [
+        "Scenario"
+    ],
+    "flows": [
+        [
+            {
+                "$": "load",
+                "from": "_Production",
+                "sharding": [
+                    "Scenario"
+                ]
+            },
+            {
+                "$": "filter",
+                "column": "TECHNOLOGY:Service",
+                "in": [
+                    "FRT"
+                ]
+            },
+            {
+                "$": "aggregate",
+                "groupby": [
+                    "YEAR",
+                    "TECHNOLOGY:TraMode"
+                ]
+            },
+            {
+                "$": "save",
+                "to": "Transport2B",
+                "sharding": [
+                    "Scenario"
+                ]
+            }
+        ]
+    ]
+}

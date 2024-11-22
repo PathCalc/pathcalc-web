@@ -15,44 +15,29 @@
                 "$": "filter",
                 "column": "CostType",
                 "in": [
-                    "VAR",
-                    "FIX",
-                    "CAP"
+                    "VAR"
+                ]
+            },
+            {
+                "$": "filter",
+                "column": "TECHNOLOGY:Sector",
+                "in": [
+                    "PFS"
                 ]
             },
             {
                 "$": "aggregate",
                 "groupby": [
                     "YEAR",
-                    "CostType"
+                    "TECHNOLOGY:SubSector"
                 ]
             },
             {
                 "$": "save",
-                "to": "Overview2",
+                "to": "Costs1A",
                 "sharding": [
                     "Scenario"
-                ],
-                "stats": {
-                    "xaxis": "YEAR"
-                }
-            },
-            {
-                "$": "aggregate",
-                "groupby": [
-                    "YEAR:Period",
-                    "CostType"
                 ]
-            },
-            {
-                "$": "save",
-                "to": "Overview2agg",
-                "sharding": [
-                    "Scenario"
-                ],
-                "stats": {
-                    "xaxis": "YEAR:Period"
-                }
             }
         ]
     ]
