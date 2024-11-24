@@ -37,7 +37,10 @@
                 "to": "Power1B",
                 "sharding": [
                     "Scenario"
-                ]
+                ],
+                "stats": {
+                    "xaxis": "YEAR"
+                }
             }
         ]
     ]

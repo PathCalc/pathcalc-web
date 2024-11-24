@@ -39,7 +39,10 @@
                 "to": "Costs2A",
                 "sharding": [
                     "Scenario"
-                ]
+                ],
+                "stats": {
+                    "xaxis": "YEAR"
+                }
             }
         ]
     ]

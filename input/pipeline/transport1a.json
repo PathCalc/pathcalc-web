@@ -30,7 +30,10 @@
                 "to": "Transport1A",
                 "sharding": [
                     "Scenario"
-                ]
+                ],
+                "stats": {
+                    "xaxis": "YEAR"
+                }
             }
         ]
     ]
