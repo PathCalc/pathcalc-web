@@ -3,7 +3,7 @@
         {
             "id": "avoid",
             "label": "Avoid",
-            "description": "Demand is reduced",
+            "description": "Passenger and freight transport demand reduction",
             "values": {
                 "min": 1,
                 "max": 4
@@ -12,7 +12,7 @@
         {
             "id": "shift",
             "label": "Shift",
-            "description": "Here goes a potentially longer description for the Shift lever",
+            "description": "Modal shift, vehicle utilisation rate increase, vehicle occupancy increase",
             "values": {
                 "min": 1,
                 "max": 4
@@ -21,7 +21,7 @@
         {
             "id": "improve",
             "label": "Improve",
-            "description": "Here goes a potentially longer description for the Improve lever",
+            "description": "Transport technology switch away from emitting vehicles",
             "values": {
                 "min": 1,
                 "max": 4
@@ -30,7 +30,7 @@
         {
             "id": "transform",
             "label": "Transform",
-            "description": "Here goes a potentially longer description for the Transform lever",
+            "description": "Decarbonisation of the power sector and fuel blending",
             "values": {
                 "min": 1,
                 "max": 4
@@ -39,7 +39,7 @@
         {
             "id": "costs",
             "label": "Costs",
-            "description": "Here goes a potentially longer description for the Costs lever",
+            "description": "Steeper cost reductions for developing technologies",
             "values": {
                 "min": 1,
                 "max": 4
