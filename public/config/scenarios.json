@@ -3,7 +3,7 @@
         {
             "id": "avoid",
             "label": "Avoid",
-            "description": "Here goes a potentially longer description for the Avoid lever",
+            "description": "Demand is reduced",
             "values": {
                 "min": 1,
                 "max": 4

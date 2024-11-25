@@ -1,0 +1,47 @@
+{
+    "sharding": [
+        "Scenario"
+    ],
+    "flows": [
+        [
+            {
+                "$": "load",
+                "from": "_CombinedCosts",
+                "sharding": [
+                    "Scenario"
+                ]
+            },
+            {
+                "$": "filter",
+                "column": "CostType",
+                "in": [
+                    "VAR"
+                ]
+            },
+            {
+                "$": "filter",
+                "column": "TECHNOLOGY:Sector",
+                "in": [
+                    "PFS"
+                ]
+            },
+            {
+                "$": "aggregate",
+                "groupby": [
+                    "YEAR",
+                    "TECHNOLOGY:Type"
+                ]
+            },
+            {
+                "$": "save",
+                "to": "Costs1B",
+                "sharding": [
+                    "Scenario"
+                ],
+                "stats": {
+                    "xaxis": "YEAR"
+                }
+            }
+        ]
+    ]
+}

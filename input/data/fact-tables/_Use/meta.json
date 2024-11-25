@@ -1,0 +1,33 @@
+{
+    "id": "_Use",
+    "type": "raw",
+    "sharding": [
+        "Scenario"
+    ],
+    "storage": {
+        "type": "local-input",
+        "pattern": "shards/{Scenario}.csv"
+    },
+    "columns": [
+        {
+            "name": "REGION",
+            "type": "dimension"
+        },
+        {
+            "name": "TECHNOLOGY",
+            "type": "dimension"
+        },
+        {
+            "name": "COMMODITY",
+            "type": "dimension"
+        },
+        {
+            "name": "YEAR",
+            "type": "dimension"
+        },
+        {
+            "name": "VALUE",
+            "type": "measure"
+        }
+    ]
+}

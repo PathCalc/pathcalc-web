@@ -1,3 +1,68 @@
 {
-    "content": null
+    "content": {
+        "type": "container",
+        "items": [
+            {
+                "type": "row",
+                "items": [
+                    {
+                        "type": "chart",
+                        "dataset": "Power1A",
+                        "x": "YEAR",
+                        "y": "VALUE",
+                        "series": "TECHNOLOGY:Type",
+                        "options": {
+                            "type": "area",
+                            "stacked": true,
+                            "legend": true,
+                            "emptyIsZero": true,
+                            "showEmptySeries": true,
+                            "extraProps": {
+                                "chart": {
+                                    "syncId": "year",
+                                    "syncMethod": "value"
+                                },
+                                "chartSeries": {
+                                    "stroke": "#000000"
+                                },
+                                "chartComponents": {
+                                    "CartesianGrid": {
+                                        "vertical": false
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "type": "chart",
+                        "dataset": "Power1B",
+                        "x": "YEAR",
+                        "y": "VALUE",
+                        "series": "TECHNOLOGY:Type",
+                        "options": {
+                            "type": "area",
+                            "stacked": true,
+                            "legend": true,
+                            "emptyIsZero": true,
+                            "showEmptySeries": true,
+                            "extraProps": {
+                                "chart": {
+                                    "syncId": "year",
+                                    "syncMethod": "value"
+                                },
+                                "chartSeries": {
+                                    "stroke": "#000000"
+                                },
+                                "chartComponents": {
+                                    "CartesianGrid": {
+                                        "vertical": false
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        ]
+    }
 }

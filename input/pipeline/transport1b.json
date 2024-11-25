@@ -1,0 +1,41 @@
+{
+    "sharding": [
+        "Scenario"
+    ],
+    "flows": [
+        [
+            {
+                "$": "load",
+                "from": "_Use",
+                "sharding": [
+                    "Scenario"
+                ]
+            },
+            {
+                "$": "filter",
+                "column": "TECHNOLOGY:Sector",
+                "in": [
+                    "TRA",
+                    "HDG"
+                ]
+            },
+            {
+                "$": "aggregate",
+                "groupby": [
+                    "YEAR",
+                    "COMMODITY:Type"
+                ]
+            },
+            {
+                "$": "save",
+                "to": "Transport1B",
+                "sharding": [
+                    "Scenario"
+                ],
+                "stats": {
+                    "xaxis": "YEAR"
+                }
+            }
+        ]
+    ]
+}

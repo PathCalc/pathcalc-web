@@ -6,7 +6,7 @@
         [
             {
                 "$": "load",
-                "from": "CombinedCosts",
+                "from": "_CombinedCosts",
                 "sharding": [
                     "Scenario"
                 ]
@@ -17,7 +17,7 @@
                 "in": [
                     "VAR",
                     "FIX",
-                    "CAPINV"
+                    "CAP"
                 ]
             },
             {

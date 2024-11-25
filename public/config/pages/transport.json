@@ -1,3 +1,184 @@
 {
-    "content": null
+    "content": {
+        "type": "container",
+        "items": [
+            {
+                "type": "row",
+                "items": [
+                    {
+                        "type": "chart",
+                        "dataset": "Transport1A",
+                        "x": "YEAR",
+                        "y": "VALUE",
+                        "series": "TECHNOLOGY:Service",
+                        "options": {
+                            "type": "area",
+                            "stacked": true,
+                            "legend": true,
+                            "emptyIsZero": true,
+                            "showEmptySeries": true,
+                            "extraProps": {
+                                "chart": {
+                                    "syncId": "year",
+                                    "syncMethod": "value"
+                                },
+                                "chartSeries": {
+                                    "stroke": "#000000"
+                                },
+                                "chartComponents": {
+                                    "CartesianGrid": {
+                                        "vertical": false
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "type": "chart",
+                        "dataset": "Transport1B",
+                        "x": "YEAR",
+                        "y": "VALUE",
+                        "series": "COMMODITY:Type",
+                        "options": {
+                            "type": "area",
+                            "stacked": true,
+                            "legend": true,
+                            "emptyIsZero": true,
+                            "showEmptySeries": true,
+                            "extraProps": {
+                                "chart": {
+                                    "syncId": "year",
+                                    "syncMethod": "value"
+                                },
+                                "chartSeries": {
+                                    "stroke": "#000000"
+                                },
+                                "chartComponents": {
+                                    "CartesianGrid": {
+                                        "vertical": false
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "type": "row",
+                "title": "Demand",
+                "items": [
+                    {
+                        "type": "chart",
+                        "dataset": "Transport2A",
+                        "x": "YEAR",
+                        "y": "VALUE",
+                        "series": "TECHNOLOGY:TraMode",
+                        "options": {
+                            "type": "area",
+                            "stacked": true,
+                            "legend": true,
+                            "extraProps": {
+                                "chart": {
+                                    "syncId": "year",
+                                    "stackOffset": "sign"
+                                },
+                                "chartSeries": {
+                                    "dot": false
+                                },
+                                "chartComponents": {
+                                    "XAxis": {
+                                        "tickLine": true
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "type": "chart",
+                        "dataset": "Transport2B",
+                        "x": "YEAR",
+                        "y": "VALUE",
+                        "series": "TECHNOLOGY:TraMode",
+                        "options": {
+                            "type": "area",
+                            "stacked": true,
+                            "legend": true,
+                            "extraProps": {
+                                "chart": {
+                                    "syncId": "year",
+                                    "stackOffset": "sign"
+                                },
+                                "chartSeries": {
+                                    "dot": false
+                                },
+                                "chartComponents": {
+                                    "XAxis": {
+                                        "tickLine": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "type": "row",
+                "title": "Engine types",
+                "items": [
+                    {
+                        "type": "chart",
+                        "dataset": "Transport3A",
+                        "x": "YEAR",
+                        "y": "VALUE",
+                        "series": "TECHNOLOGY:Type",
+                        "options": {
+                            "type": "area",
+                            "stacked": true,
+                            "legend": true,
+                            "extraProps": {
+                                "chart": {
+                                    "syncId": "year",
+                                    "stackOffset": "sign"
+                                },
+                                "chartSeries": {
+                                    "dot": false
+                                },
+                                "chartComponents": {
+                                    "XAxis": {
+                                        "tickLine": true
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "type": "chart",
+                        "dataset": "Transport3B",
+                        "x": "YEAR",
+                        "y": "VALUE",
+                        "series": "TECHNOLOGY:Type",
+                        "options": {
+                            "type": "area",
+                            "stacked": true,
+                            "legend": true,
+                            "extraProps": {
+                                "chart": {
+                                    "syncId": "year",
+                                    "stackOffset": "sign"
+                                },
+                                "chartSeries": {
+                                    "dot": false
+                                },
+                                "chartComponents": {
+                                    "XAxis": {
+                                        "tickLine": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        ]
+    }
 }

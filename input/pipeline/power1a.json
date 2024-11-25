@@ -1,0 +1,47 @@
+{
+    "sharding": [
+        "Scenario"
+    ],
+    "flows": [
+        [
+            {
+                "$": "load",
+                "from": "_Production",
+                "sharding": [
+                    "Scenario"
+                ]
+            },
+            {
+                "$": "filter",
+                "column": "TECHNOLOGY:Sector",
+                "in": [
+                    "PWR"
+                ]
+            },
+            {
+                "$": "filter",
+                "column": "TECHNOLOGY:SubSector",
+                "in": [
+                    "GEN"
+                ]
+            },
+            {
+                "$": "aggregate",
+                "groupby": [
+                    "YEAR",
+                    "TECHNOLOGY:Type"
+                ]
+            },
+            {
+                "$": "save",
+                "to": "Power1A",
+                "sharding": [
+                    "Scenario"
+                ],
+                "stats": {
+                    "xaxis": "YEAR"
+                }
+            }
+        ]
+    ]
+}

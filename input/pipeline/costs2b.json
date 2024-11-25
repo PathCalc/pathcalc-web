@@ -1,0 +1,56 @@
+{
+    "sharding": [
+        "Scenario"
+    ],
+    "flows": [
+        [
+            {
+                "$": "load",
+                "from": "_CombinedCosts",
+                "sharding": [
+                    "Scenario"
+                ]
+            },
+            {
+                "$": "filter",
+                "column": "CostType",
+                "in": [
+                    "CAP",
+                    "FIX"
+                ]
+            },
+            {
+                "$": "filter",
+                "column": "TECHNOLOGY:Sector",
+                "in": [
+                    "PWR"
+                ]
+            },
+            {
+                "$": "filter",
+                "column": "TECHNOLOGY:SubSector",
+                "in": [
+                    "GEN",
+                    "INF"
+                ]
+            },
+            {
+                "$": "aggregate",
+                "groupby": [
+                    "YEAR",
+                    "CostType"
+                ]
+            },
+            {
+                "$": "save",
+                "to": "Costs2B",
+                "sharding": [
+                    "Scenario"
+                ],
+                "stats": {
+                    "xaxis": "YEAR"
+                }
+            }
+        ]
+    ]
+}
