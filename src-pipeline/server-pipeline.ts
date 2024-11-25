@@ -111,18 +111,21 @@ export class ServerPipeline {
     }
   }
 
-  public async run(ctx: ProcessingContext) {
+  public async run(ctx: ProcessingContext, multiflowIds?: string[]) {
     await ctx.addContext('Dry run before run').exec(async (c) => {
       await this.dryRun(c, new Map());
     });
 
+    const isFilesListSpecified = multiflowIds && multiflowIds.length > 0;
     for (const pipelineMultiflow of this.pipelineMultiflows) {
-      await ctx
-        .addContext('Pipeline run')
-        .addPath(pipelineMultiflow.id)
-        .exec(async (c) => {
-          await pipelineMultiflow.run(c, this.pipelineEnvironment);
-        });
+      if (!isFilesListSpecified || multiflowIds?.includes(pipelineMultiflow.id)) {
+        await ctx
+          .addContext('Pipeline run')
+          .addPath(pipelineMultiflow.id)
+          .exec(async (c) => {
+            await pipelineMultiflow.run(c, this.pipelineEnvironment);
+          });
+      }
     }
   }
 }
