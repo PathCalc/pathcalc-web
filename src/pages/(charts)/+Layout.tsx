@@ -1,5 +1,3 @@
-import { HoverCardArrow } from '@radix-ui/react-hover-card';
-import { Info } from 'lucide-react';
 import { FC, ReactNode, useState } from 'react';
 import { useData } from 'vike-react/useData';
 
@@ -7,11 +5,11 @@ import { Link } from '@/components/Link';
 import { NavLink } from '@/components/NavLink';
 import { SimpleSelect } from '@/components/SimpleSelect';
 import { Drawer, DrawerContent } from '@/components/ui/drawer';
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useBreakpoint } from '@/lib/hooks/tailwind';
 
 import { Levers } from './(components)/Levers';
+import { MoreInfo } from './(components)/MoreInfo';
 import { Data } from './+data';
 
 export const Layout: FC<{ children?: ReactNode }> = ({ children }) => {
@@ -20,6 +18,7 @@ export const Layout: FC<{ children?: ReactNode }> = ({ children }) => {
     general: {
       logo: { title, subtitle },
     },
+    moreInfoMarkdown,
   } = useData<Data>();
 
   return (
@@ -29,7 +28,7 @@ export const Layout: FC<{ children?: ReactNode }> = ({ children }) => {
         <div className="grow shrink max-h-full w-full max-w-screen lg:max-w-5xl flex flex-row items-stretch">
           <div className="w-72 shrink md:shrink-0 flex flex-row justify-between">
             <Logo title={title} subtitle={subtitle} />
-            <MoreInfo />
+            <MoreInfo textMarkdown={moreInfoMarkdown} />
           </div>
           <ScrollArea orientation="horizontal" className="grow shrink h-full">
             <Tabs allPages={allPages} />
@@ -63,8 +62,8 @@ function ScenariosSidebar({ children }: { children: React.ReactNode }) {
 
 function DesktopSidebar({ children }: { children: ReactNode }) {
   return (
-    <div id="sidebar" className="w-72 p-5 pt-10 flex flex-col shrink-0 border-r-2 border-r-gray-200">
-      {children}
+    <div id="sidebar" className="w-72 shrink-0 border-r-2 border-r-gray-200">
+      <ScrollArea className="p-5 pt-10 flex flex-col h-[calc(100vh-56px)]">{children}</ScrollArea>
     </div>
   );
 }
@@ -84,7 +83,7 @@ function MobileDrawer({ children }: { children: ReactNode }) {
       noBodyStyles={true}
       handleOnly={true}
     >
-      <DrawerContent className="h-screen">
+      <DrawerContent className="h-screen z-40">
         <ScrollArea className="h-[calc(100vh-var(--snap-point-height)-60px)] mt-10 pb-10 px-5">{children}</ScrollArea>
       </DrawerContent>
     </Drawer>
@@ -110,39 +109,6 @@ function Logo({ title, subtitle }: { title: string; subtitle?: string }) {
       <Link className="font-manrope text-2xl text-nowrap" href="/">
         <span className="font-bold">{title}</span> <span className="font-thin">{subtitle ?? ''}</span>
       </Link>
-    </div>
-  );
-}
-
-function MoreInfo() {
-  const isDesktop = useBreakpoint('md');
-  return (
-    <div className="h-full p-5 flex flex-row justify-center items-center">
-      <HoverCard openDelay={100}>
-        <HoverCardTrigger>
-          <a href="#">
-            <Info size={20} className="cursor-pointer" />
-          </a>
-        </HoverCardTrigger>
-        <HoverCardContent side={isDesktop ? 'right' : 'bottom'} align={isDesktop ? 'start' : 'center'}>
-          <HoverCardArrow style={{ fill: 'white' }} />
-          <div className="flex flex-col gap-2">
-            <h2>PathCalc visualisation system</h2>
-            <p className="text-xs">More information about the system</p>
-            <h3 className="text-xs">Partners</h3>
-            <p className="text-xs">
-              <a
-                className="text-[#C72335]"
-                href="https://climatecompatiblegrowth.com/"
-                target="_blank"
-                rel="noreferrer"
-              >
-                CCG
-              </a>
-            </p>
-          </div>
-        </HoverCardContent>
-      </HoverCard>
     </div>
   );
 }
