@@ -1,6 +1,7 @@
 import { Info } from 'lucide-react';
 import { useId, useState, useTransition } from 'react';
 
+import { MarkdownContent } from '@/components/MarkdownContent';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
@@ -36,7 +37,11 @@ function Lever({ id, label, description, values }: LeverConfig) {
             <TooltipTrigger>
               <Info size={15} />
             </TooltipTrigger>
-            <TooltipContent side="right">{description}</TooltipContent>
+            <TooltipContent side="right" align="start" className="max-w-[70vw] md:max-w-screen-sm -mt-2">
+              <div className="flex flex-col gap-3">
+                <MarkdownContent textMarkdown={description} />
+              </div>
+            </TooltipContent>
           </Tooltip>
         </TooltipProvider>
       </div>

@@ -16,4 +16,5 @@ export default {
   description: generalConfig.description,
 
   extends: vikeReact,
+  ssr: false,
 } satisfies Config;

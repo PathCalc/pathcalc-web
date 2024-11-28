@@ -8,7 +8,6 @@
                 "items": [
                     {
                         "type": "chart",
-                        "title": "By Sector",
                         "dataset": "Overview1",
                         "x": "YEAR",
                         "y": "VALUE",
@@ -16,8 +15,8 @@
                         "options": {
                             "type": "area",
                             "stacked": true,
-                            "yLabel": "Emissions",
-                            "yUnit": "kt",
+                            "yLabel": "CO2 Emissions",
+                            "yUnit": "Mt",
                             "legend": false,
                             "emptyIsZero": true,
                             "showEmptySeries": true,
@@ -25,15 +24,12 @@
                                 "chart": {
                                     "syncId": "year",
                                     "syncMethod": "value"
-                                },
-                                "chartSeries": {},
-                                "chartComponents": {}
+                                }
                             }
                         }
                     },
                     {
                         "type": "chart",
-                        "title": "",
                         "dataset": "Overview1agg",
                         "x": "YEAR:Period",
                         "y": "VALUE",
@@ -41,12 +37,9 @@
                         "options": {
                             "type": "bar",
                             "stacked": true,
-                            "legend": true,
-                            "extraProps": {
-                                "chartSeries": {
-                                    "barSize": 70
-                                }
-                            }
+                            "yLabel": "CO2 Emissions",
+                            "yUnit": "Mt",
+                            "legend": true
                         }
                     }
                 ]
@@ -64,7 +57,7 @@
                         "options": {
                             "type": "area",
                             "stacked": true,
-                            "yUnit": "M$",
+                            "yUnit": "MUSD",
                             "legend": false,
                             "extraProps": {
                                 "chart": {
@@ -92,7 +85,7 @@
                             "type": "bar",
                             "stacked": true,
                             "legend": "right",
-                            "yUnit": "M$",
+                            "yUnit": "MUSD",
                             "extraProps": {
                                 "chartSeries": {
                                     "barSize": 70

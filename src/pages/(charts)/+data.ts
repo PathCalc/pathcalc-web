@@ -3,6 +3,7 @@ import { PageContextServer } from 'vike/types';
 
 import chartPagesConfig from '@/../public/config/chart-pages.json';
 import generalConfig from '@/../public/config/general.json';
+import moreInfoMarkdown from '@/../public/config/info.md';
 
 // // zod schema for chart-pages.json elements
 // const chartPageSchema = z.object({
@@ -32,6 +33,7 @@ export async function data(pageContext: PageContextServer) {
     currentDetail: detailConfig,
     allPages: pageConfig,
     general: generalConfig,
+    moreInfoMarkdown: moreInfoMarkdown,
   };
 }
 
