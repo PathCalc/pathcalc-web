@@ -1,4 +1,16 @@
-import { Area, AreaChart, Bar, BarChart, CartesianGrid, Line, LineChart, ReferenceLine, XAxis, YAxis } from 'recharts';
+import {
+  Area,
+  AreaChart,
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Label,
+  Line,
+  LineChart,
+  ReferenceLine,
+  XAxis,
+  YAxis,
+} from 'recharts';
 import { AxisDomain } from 'recharts/types/util/types';
 
 import {
@@ -42,6 +54,8 @@ export function Chart({
   yUnit,
   tooltip = true,
   legend,
+  numberFormat = defaultNumberFormatting,
+  axisNumberFormat = defaultNumberFormatting,
   //
   seriesShapeProps = {},
   chartProps = {},
@@ -69,6 +83,8 @@ export function Chart({
   yUnit?: string;
   tooltip?: boolean;
   legend?: boolean | 'bottom' | 'right';
+  numberFormat?: Intl.NumberFormatOptions;
+  axisNumberFormat?: Intl.NumberFormatOptions;
   //
   seriesShapeProps?: Record<string, unknown>;
   chartProps?: Record<string, unknown>;
@@ -93,7 +109,8 @@ export function Chart({
           labelFormatter={(label, payload) => {
             return `${label == null ? '' : `${label} - `}${payload[0].payload[xVariable]}`;
           }}
-          valueFormatter={(v) => v.toLocaleString('en-GB', defaultNumberFormatting)}
+          valueFormatter={(v) => v.toLocaleString('en-GB', numberFormat)}
+          visibleItems={visibleSeries}
           {...ctc}
         />
       }
@@ -110,17 +127,9 @@ export function Chart({
         <XAxis dataKey={xVariable} tickLine={true} tickMargin={10} axisLine={true} {...xa} />
         <YAxis
           domain={is100PercentStacked ? undefined : yRange}
-          label={{
-            value: yUnit,
-            position: 'top',
-            offset: 10,
-          }}
+          label={<Label position="top" offset={10} value={yUnit} textAnchor="start" />}
           {...ya}
-          tickFormatter={(tick: number) =>
-            tick.toLocaleString('en-GB', {
-              maximumSignificantDigits: 3,
-            })
-          }
+          tickFormatter={(tick: number) => tick.toLocaleString('en-GB', axisNumberFormat)}
         />
         {type === 'bar' && tooltipNodes}
         {series.map((s) => {
@@ -132,7 +141,7 @@ export function Chart({
               fill={s.color}
               fillOpacity={1}
               stroke={s.color}
-              hide={!visible}
+              hide={stacked ? false : !visible}
               legendType={visible ? undefined : 'none'}
               stackId={stacked ? 'a' : undefined}
               dot={false}

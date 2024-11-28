@@ -46,7 +46,7 @@ export const Layout: FC<{ children?: ReactNode }> = ({ children }) => {
           <div className="grow shrink">
             <ScrollArea className="h-[calc(100vh-56px)]">
               {children}
-              <div className="h-[50vh] sm:hidden"></div>
+              <div className="h-[50vh] sm:hidden" role="presentation"></div>
             </ScrollArea>
           </div>
         </div>

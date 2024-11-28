@@ -12,7 +12,7 @@
         {
             "id": "shift",
             "label": "Shift",
-            "description": "Modal shift, vehicle utilisation rate increase, vehicle occupancy increase. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi.",
+            "description": "Modal shift, vehicle utilisation rate increase, vehicle occupancy increase",
             "values": {
                 "min": 1,
                 "max": 4

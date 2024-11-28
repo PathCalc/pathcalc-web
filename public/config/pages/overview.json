@@ -18,8 +18,6 @@
                             "yLabel": "CO2 Emissions",
                             "yUnit": "Mt",
                             "legend": false,
-                            "emptyIsZero": true,
-                            "showEmptySeries": true,
                             "extraProps": {
                                 "chart": {
                                     "syncId": "year",
@@ -63,14 +61,6 @@
                                 "chart": {
                                     "syncId": "year",
                                     "stackOffset": "sign"
-                                },
-                                "chartSeries": {
-                                    "dot": false
-                                },
-                                "chartComponents": {
-                                    "XAxis": {
-                                        "tickLine": true
-                                    }
                                 }
                             }
                         }
@@ -85,12 +75,7 @@
                             "type": "bar",
                             "stacked": true,
                             "legend": "right",
-                            "yUnit": "MUSD",
-                            "extraProps": {
-                                "chartSeries": {
-                                    "barSize": 70
-                                }
-                            }
+                            "yUnit": "MUSD"
                         }
                     }
                 ]

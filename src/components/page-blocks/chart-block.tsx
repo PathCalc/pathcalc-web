@@ -9,6 +9,8 @@ import { ErrorFallback } from '../react/ErrorFallback';
 
 export const chartTypeSchema = z.enum(['line', 'bar', 'area']);
 
+export const numberFormatSchema = z.object({}).passthrough();
+
 export const chartBlockConfigSchema = z.object({
   type: z.literal('chart'),
   title: z.string().optional(),
@@ -25,6 +27,8 @@ export const chartBlockConfigSchema = z.object({
       .boolean()
       .or(z.enum(['bottom', 'right']))
       .optional(),
+    numberFormat: numberFormatSchema.optional(),
+    axisNumberFormat: numberFormatSchema.optional(),
     emptyIsZero: z.boolean().optional(),
     showEmptySeries: z.boolean().optional(),
     extraProps: z

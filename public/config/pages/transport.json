@@ -17,20 +17,10 @@
                             "yLabel": "CO2 Emissions",
                             "yUnit": "Mt",
                             "legend": true,
-                            "emptyIsZero": true,
-                            "showEmptySeries": true,
                             "extraProps": {
                                 "chart": {
                                     "syncId": "year",
                                     "syncMethod": "value"
-                                },
-                                "chartSeries": {
-                                    "stroke": "#000000"
-                                },
-                                "chartComponents": {
-                                    "CartesianGrid": {
-                                        "vertical": false
-                                    }
                                 }
                             }
                         }
@@ -47,20 +37,10 @@
                             "yLabel": "Energy consumption",
                             "yUnit": "PJ",
                             "legend": true,
-                            "emptyIsZero": true,
-                            "showEmptySeries": true,
                             "extraProps": {
                                 "chart": {
                                     "syncId": "year",
                                     "syncMethod": "value"
-                                },
-                                "chartSeries": {
-                                    "stroke": "#000000"
-                                },
-                                "chartComponents": {
-                                    "CartesianGrid": {
-                                        "vertical": false
-                                    }
                                 }
                             }
                         }
@@ -81,20 +61,12 @@
                             "type": "area",
                             "stacked": true,
                             "yLabel": "Passenger",
-                            "yUnit": "Billion passenger-km",
+                            "yUnit": "bln passenger-km",
                             "legend": true,
                             "extraProps": {
                                 "chart": {
                                     "syncId": "year",
                                     "stackOffset": "sign"
-                                },
-                                "chartSeries": {
-                                    "dot": false
-                                },
-                                "chartComponents": {
-                                    "XAxis": {
-                                        "tickLine": true
-                                    }
                                 }
                             }
                         }
@@ -109,20 +81,12 @@
                             "type": "area",
                             "stacked": true,
                             "yLabel": "Freight",
-                            "yUnit": "Billion tonne-km",
+                            "yUnit": "bln tonne-km",
                             "legend": true,
                             "extraProps": {
                                 "chart": {
                                     "syncId": "year",
                                     "stackOffset": "sign"
-                                },
-                                "chartSeries": {
-                                    "dot": false
-                                },
-                                "chartComponents": {
-                                    "XAxis": {
-                                        "tickLine": true
-                                    }
                                 }
                             }
                         }
@@ -143,20 +107,15 @@
                             "type": "area",
                             "stacked": true,
                             "yLabel": "Passenger",
-                            "yUnit": "Billion passenger-km",
+                            "yUnit": "bln passenger-km",
                             "legend": true,
+                            "axisNumberFormat": {
+                                "style": "percent"
+                            },
                             "extraProps": {
                                 "chart": {
                                     "syncId": "year",
-                                    "stackOffset": "sign"
-                                },
-                                "chartSeries": {
-                                    "dot": false
-                                },
-                                "chartComponents": {
-                                    "XAxis": {
-                                        "tickLine": true
-                                    }
+                                    "stackOffset": "expand"
                                 }
                             }
                         }
@@ -171,20 +130,15 @@
                             "type": "area",
                             "stacked": true,
                             "yLabel": "Freight",
-                            "yUnit": "Billion tonne-km",
+                            "yUnit": "bln tonne-km",
                             "legend": true,
+                            "axisNumberFormat": {
+                                "style": "percent"
+                            },
                             "extraProps": {
                                 "chart": {
                                     "syncId": "year",
-                                    "stackOffset": "sign"
-                                },
-                                "chartSeries": {
-                                    "dot": false
-                                },
-                                "chartComponents": {
-                                    "XAxis": {
-                                        "tickLine": true
-                                    }
+                                    "stackOffset": "expand"
                                 }
                             }
                         }
