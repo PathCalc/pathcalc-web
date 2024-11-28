@@ -5,7 +5,13 @@ import { z } from 'zod';
 import { findNavigationSequence } from '~shared/pipeline/models/dataset/find-navigation-sequence';
 import { resolveAllInDimensionNavigationSequence } from '~shared/pipeline/models/dataset/follow-navigation-sequence';
 import { makeDimensionLookupTable } from '~shared/pipeline/models/dataset/make-dimension-lookup-table';
-import { Dataset, DatasetShard, ReadonlyDataset, ReadonlyDatasetShard } from '~shared/pipeline/models/dataset/types';
+import {
+  Dataset,
+  DatasetShard,
+  DimensionTypeColumn,
+  ReadonlyDataset,
+  ReadonlyDatasetShard,
+} from '~shared/pipeline/models/dataset/types';
 import { PipelineEnvironment } from '~shared/pipeline/models/pipeline/pipeline-environment';
 import { PipelineStep } from '~shared/pipeline/models/pipeline/pipeline-step';
 import { dimensionPathSchema } from '~shared/pipeline/models/transforms/dimension-path-schema';
@@ -23,7 +29,7 @@ type FilterConfig = z.infer<typeof opFilterSchema>;
 export class FilterStep extends PipelineStep {
   private _inDataset: ReadonlyDataset | undefined = undefined;
 
-  private _dimLookup: [string, ColumnTable] | undefined = undefined;
+  private _dimLookup: [lookupKey: string, lookupTable: ColumnTable] | undefined = undefined;
 
   constructor(private _config: FilterConfig) {
     super(_config);
@@ -46,8 +52,8 @@ export class FilterStep extends PipelineStep {
     const column: string = this._config.column;
     const values: string[] = this._config.in;
 
+    this._inDataset = structuredClone(dataset) as Dataset;
     const datasetCopy = structuredClone(dataset) as Dataset;
-    this._inDataset = datasetCopy;
 
     const currentColumns = datasetCopy.columns;
 
@@ -66,6 +72,14 @@ export class FilterStep extends PipelineStep {
       // build the lookup table between the original dataset column values, and the new column values - based on all the intermediate tables in the navigation sequence
       const lookupTable = makeDimensionLookupTable(column, allSteps);
       this._dimLookup = [allSteps[0].name, lookupTable];
+
+      const dimensionToFilter = allSteps[allSteps.length - 1];
+      filterDownColumn(dimensionToFilter, values);
+    } else {
+      if (foundColumn.type !== 'dimension') {
+        throw new Error(`Column "${column}" is not a dimension`);
+      }
+      filterDownColumn(foundColumn, values);
     }
 
     return datasetCopy;
@@ -109,5 +123,13 @@ export class FilterStep extends PipelineStep {
     newDatasetShard.table = table;
 
     return newDatasetShard;
+  }
+}
+
+function filterDownColumn(column: DimensionTypeColumn, values: string[]) {
+  if (column.domainType === 'local') {
+    column.domain = column.domain.filter((d) => values.includes(d.id));
+  } else {
+    column.domain.content.table = column.domain.content.table.filter((r) => values.includes(r['id']));
   }
 }
