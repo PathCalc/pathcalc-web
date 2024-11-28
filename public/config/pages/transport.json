@@ -7,6 +7,7 @@
                 "items": [
                     {
                         "type": "chart",
+                        "title": "CO2 Emissions",
                         "dataset": "Transport1A",
                         "x": "YEAR",
                         "y": "VALUE",
@@ -14,7 +15,6 @@
                         "options": {
                             "type": "area",
                             "stacked": true,
-                            "yLabel": "CO2 Emissions",
                             "yUnit": "Mt",
                             "legend": true,
                             "extraProps": {
@@ -27,6 +27,7 @@
                     },
                     {
                         "type": "chart",
+                        "title": "Energy consumption",
                         "dataset": "Transport1B",
                         "x": "YEAR",
                         "y": "VALUE",
@@ -34,7 +35,6 @@
                         "options": {
                             "type": "area",
                             "stacked": true,
-                            "yLabel": "Energy consumption",
                             "yUnit": "PJ",
                             "legend": true,
                             "extraProps": {
@@ -53,6 +53,7 @@
                 "items": [
                     {
                         "type": "chart",
+                        "title": "Passenger",
                         "dataset": "Transport2A",
                         "x": "YEAR",
                         "y": "VALUE",
@@ -60,8 +61,7 @@
                         "options": {
                             "type": "area",
                             "stacked": true,
-                            "yLabel": "Passenger",
-                            "yUnit": "bln passenger-km",
+                            "yUnit": "bn p-km",
                             "legend": true,
                             "extraProps": {
                                 "chart": {
@@ -73,6 +73,7 @@
                     },
                     {
                         "type": "chart",
+                        "title": "Freight",
                         "dataset": "Transport2B",
                         "x": "YEAR",
                         "y": "VALUE",
@@ -80,8 +81,7 @@
                         "options": {
                             "type": "area",
                             "stacked": true,
-                            "yLabel": "Freight",
-                            "yUnit": "bln tonne-km",
+                            "yUnit": "bn t-km",
                             "legend": true,
                             "extraProps": {
                                 "chart": {
@@ -99,6 +99,7 @@
                 "items": [
                     {
                         "type": "chart",
+                        "title": "Passenger",
                         "dataset": "Transport3A",
                         "x": "YEAR",
                         "y": "VALUE",
@@ -106,8 +107,7 @@
                         "options": {
                             "type": "area",
                             "stacked": true,
-                            "yLabel": "Passenger",
-                            "yUnit": "bln passenger-km",
+                            "yUnit": "bn p-km",
                             "legend": true,
                             "axisNumberFormat": {
                                 "style": "percent"
@@ -122,6 +122,7 @@
                     },
                     {
                         "type": "chart",
+                        "title": "Freight",
                         "dataset": "Transport3B",
                         "x": "YEAR",
                         "y": "VALUE",
@@ -129,8 +130,7 @@
                         "options": {
                             "type": "area",
                             "stacked": true,
-                            "yLabel": "Freight",
-                            "yUnit": "bln tonne-km",
+                            "yUnit": "bn t-km",
                             "legend": true,
                             "axisNumberFormat": {
                                 "style": "percent"

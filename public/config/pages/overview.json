@@ -15,7 +15,6 @@
                         "options": {
                             "type": "area",
                             "stacked": true,
-                            "yLabel": "CO2 Emissions",
                             "yUnit": "Mt",
                             "legend": false,
                             "extraProps": {
@@ -35,7 +34,6 @@
                         "options": {
                             "type": "bar",
                             "stacked": true,
-                            "yLabel": "CO2 Emissions",
                             "yUnit": "Mt",
                             "legend": true
                         }

@@ -8,6 +8,7 @@
                 "items": [
                     {
                         "type": "chart",
+                        "title": "Imports and extraction",
                         "dataset": "Costs1A",
                         "x": "YEAR",
                         "y": "VALUE",
@@ -15,7 +16,6 @@
                         "options": {
                             "type": "area",
                             "stacked": true,
-                            "yLabel": "Imports and extraction",
                             "yUnit": "MUSD",
                             "legend": true,
                             "extraProps": {
@@ -28,6 +28,7 @@
                     },
                     {
                         "type": "chart",
+                        "title": "By fuel",
                         "dataset": "Costs1B",
                         "x": "YEAR",
                         "y": "VALUE",
@@ -35,7 +36,6 @@
                         "options": {
                             "type": "area",
                             "stacked": true,
-                            "yLabel": "By fuel",
                             "yUnit": "MUSD",
                             "legend": true,
                             "extraProps": {
@@ -54,6 +54,7 @@
                 "items": [
                     {
                         "type": "chart",
+                        "title": "Transport",
                         "dataset": "Costs2A",
                         "x": "YEAR",
                         "y": "VALUE",
@@ -61,7 +62,6 @@
                         "options": {
                             "type": "area",
                             "stacked": true,
-                            "yLabel": "Transport",
                             "yUnit": "MUSD",
                             "legend": true,
                             "extraProps": {
@@ -74,6 +74,7 @@
                     },
                     {
                         "type": "chart",
+                        "title": "Power",
                         "dataset": "Costs2B",
                         "x": "YEAR",
                         "y": "VALUE",
@@ -81,7 +82,6 @@
                         "options": {
                             "type": "area",
                             "stacked": true,
-                            "yLabel": "Power",
                             "yUnit": "MUSD",
                             "legend": true,
                             "extraProps": {
