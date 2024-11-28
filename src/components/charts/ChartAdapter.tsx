@@ -45,6 +45,8 @@ export function ChartAdapter({
   legend,
   yLabel,
   yUnit,
+  numberFormat,
+  axisNumberFormat,
   emptyIsZero = true,
   includeEmptySeries = false,
   //
@@ -64,6 +66,8 @@ export function ChartAdapter({
   legend?: boolean | 'bottom' | 'right';
   yLabel?: string;
   yUnit?: string;
+  numberFormat?: Intl.NumberFormatOptions;
+  axisNumberFormat?: Intl.NumberFormatOptions;
   emptyIsZero?: boolean;
   includeEmptySeries?: boolean;
   //
@@ -105,6 +109,8 @@ export function ChartAdapter({
       yLabel={yLabel ?? yColumn.label}
       yUnit={yUnit}
       legend={legend}
+      numberFormat={numberFormat}
+      axisNumberFormat={axisNumberFormat}
       chartConfig={chartConfig}
       seriesShapeProps={seriesShapeProps}
       chartProps={chartProps}

@@ -17,20 +17,10 @@
                             "yLabel": "Generation",
                             "yUnit": "PJ",
                             "legend": true,
-                            "emptyIsZero": true,
-                            "showEmptySeries": true,
                             "extraProps": {
                                 "chart": {
                                     "syncId": "year",
                                     "syncMethod": "value"
-                                },
-                                "chartSeries": {
-                                    "stroke": "#000000"
-                                },
-                                "chartComponents": {
-                                    "CartesianGrid": {
-                                        "vertical": false
-                                    }
                                 }
                             }
                         }
@@ -47,20 +37,10 @@
                             "yLabel": "Capacity",
                             "yUnit": "GW",
                             "legend": true,
-                            "emptyIsZero": true,
-                            "showEmptySeries": true,
                             "extraProps": {
                                 "chart": {
                                     "syncId": "year",
                                     "syncMethod": "value"
-                                },
-                                "chartSeries": {
-                                    "stroke": "#000000"
-                                },
-                                "chartComponents": {
-                                    "CartesianGrid": {
-                                        "vertical": false
-                                    }
                                 }
                             }
                         }

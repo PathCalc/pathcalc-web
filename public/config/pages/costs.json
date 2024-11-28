@@ -18,20 +18,10 @@
                             "yLabel": "Imports and extraction",
                             "yUnit": "MUSD",
                             "legend": true,
-                            "emptyIsZero": true,
-                            "showEmptySeries": true,
                             "extraProps": {
                                 "chart": {
                                     "syncId": "year",
                                     "syncMethod": "value"
-                                },
-                                "chartSeries": {
-                                    "stroke": "#000000"
-                                },
-                                "chartComponents": {
-                                    "CartesianGrid": {
-                                        "vertical": false
-                                    }
                                 }
                             }
                         }
@@ -48,20 +38,10 @@
                             "yLabel": "By fuel",
                             "yUnit": "MUSD",
                             "legend": true,
-                            "emptyIsZero": true,
-                            "showEmptySeries": true,
                             "extraProps": {
                                 "chart": {
                                     "syncId": "year",
                                     "syncMethod": "value"
-                                },
-                                "chartSeries": {
-                                    "stroke": "#000000"
-                                },
-                                "chartComponents": {
-                                    "CartesianGrid": {
-                                        "vertical": false
-                                    }
                                 }
                             }
                         }
@@ -88,14 +68,6 @@
                                 "chart": {
                                     "syncId": "year",
                                     "stackOffset": "sign"
-                                },
-                                "chartSeries": {
-                                    "dot": false
-                                },
-                                "chartComponents": {
-                                    "XAxis": {
-                                        "tickLine": true
-                                    }
                                 }
                             }
                         }
@@ -116,14 +88,6 @@
                                 "chart": {
                                     "syncId": "year",
                                     "stackOffset": "sign"
-                                },
-                                "chartSeries": {
-                                    "dot": false
-                                },
-                                "chartComponents": {
-                                    "XAxis": {
-                                        "tickLine": true
-                                    }
                                 }
                             }
                         }

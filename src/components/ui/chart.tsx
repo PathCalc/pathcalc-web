@@ -101,6 +101,7 @@ const ChartTooltipContent = React.forwardRef<
       nameKey?: string;
       labelKey?: string;
       valueFormatter?: (value: number) => string;
+      visibleItems?: string[];
     }
 >(
   (
@@ -119,6 +120,7 @@ const ChartTooltipContent = React.forwardRef<
       color,
       nameKey,
       labelKey,
+      visibleItems,
     },
     ref,
   ) => {
@@ -161,8 +163,9 @@ const ChartTooltipContent = React.forwardRef<
       >
         {!nestLabel ? tooltipLabel : null}
         <div className="grid gap-1.5">
-          {payload.map((item, index) => {
+          {payload.toReversed().map((item, index) => {
             const key = `${nameKey || item.name || item.dataKey || 'value'}`;
+            if (visibleItems?.includes(key) === false) return null;
             const itemConfig = getPayloadConfigFromPayload(config, item, key);
             // modified from shadcn - item.fill is not properly typed by recharts but it exists and we need it
             const indicatorColor =
@@ -314,4 +317,4 @@ function getPayloadConfigFromPayload(config: ChartConfig, payload: unknown, key:
   return configLabelKey in config ? config[configLabelKey] : config[key];
 }
 
-export { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent, ChartStyle };
+export { ChartContainer, ChartLegend, ChartLegendContent, ChartStyle, ChartTooltip, ChartTooltipContent };
