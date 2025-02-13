@@ -1,4 +1,4 @@
-import { WatchEventType } from 'fs';
+import { EventName as FileEventName } from 'chokidar/handler';
 
 import { reportDimensions } from '~shared/pipeline/models/dimension/report-dimensions';
 import { reportFactTables } from '~shared/pipeline/models/fact-table/report-fact-tables';
@@ -10,7 +10,7 @@ import { readDimensionsConfigDirectory } from './configs/dimensions';
 import { readFactTablesConfigDirectory } from './configs/fact-tables';
 import { readPipelineFlowsConfigDirectory } from './configs/pipelines';
 
-export type FileChanges = Map<string, WatchEventType>;
+export type FileChanges = Map<string, FileEventName>;
 
 export class ServerPipeline {
   private pipelineEnvironment: PipelineEnvironment = new PipelineEnvironment('server', new Map(), new Map());

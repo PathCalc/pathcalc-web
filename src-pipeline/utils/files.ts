@@ -1,5 +1,5 @@
 import { readdirSync, readFileSync } from 'node:fs';
-import { basename, dirname } from 'path';
+import { basename } from 'path';
 
 /**
  * Gets the name of a directory (or file, without the extensions) from a full path

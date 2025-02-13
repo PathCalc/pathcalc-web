@@ -262,7 +262,7 @@ const ChartLegendContent = React.forwardRef<
       )}
     >
       {payload.toReversed().map((item) => {
-        const key = `${nameKey || item.dataKey || 'value'}`;
+        const key = `${nameKey || (item.dataKey as string | number) /* exclude function from recharts dataKey type */ || 'value'}`;
         const itemConfig = getPayloadConfigFromPayload(config, item, key);
 
         if (item.type === 'none') return;

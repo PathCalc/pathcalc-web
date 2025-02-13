@@ -11,6 +11,7 @@ import tseslint from 'typescript-eslint';
 export default tseslint.config(
   {
     ignores: [
+      '.local/*',
       'dist/*',
       // Temporary compiled files
       '**/*.ts.build-*.mjs',
