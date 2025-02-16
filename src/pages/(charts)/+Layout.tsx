@@ -29,15 +29,17 @@ export const Layout: FC<{ children?: ReactNode }> = ({ children }) => {
   );
 };
 
-function ScenariosSidebar({ children }: { children: React.ReactNode }) {
+export function ScenariosSidebar({ children }: { children: React.ReactNode }) {
   const isDesktop = useBreakpoint('md');
   return isDesktop ? <DesktopSidebar>{children}</DesktopSidebar> : <MobileDrawer>{children}</MobileDrawer>;
 }
 
 function DesktopSidebar({ children }: { children: ReactNode }) {
   return (
-    <div id="sidebar" className="w-72 shrink-0 border-r-2 border-r-gray-200">
-      <ScrollArea className="p-5 pt-10 flex flex-col h-[calc(100vh-56px)]">{children}</ScrollArea>
+    <div className="w-72 shrink-0 border-r-2 border-r-gray-200">
+      <ScrollArea className="h-[calc(100vh-56px)]">
+        <div className="py-10 px-5">{children}</div>
+      </ScrollArea>
     </div>
   );
 }

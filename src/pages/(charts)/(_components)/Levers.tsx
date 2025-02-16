@@ -10,10 +10,13 @@ import { LeverConfig, useLever, useLeversConfig } from '@/state/scenario';
 export function Levers() {
   const leverConfigs = useLeversConfig();
   return (
-    <div className="flex flex-col gap-10">
-      {leverConfigs.map((lever) => (
-        <Lever key={lever.id} {...lever} />
-      ))}
+    <div className="flex flex-col gap-6">
+      <h2 className="">Ambition levers</h2>
+      <div className="flex flex-col gap-6">
+        {leverConfigs.map((lever) => (
+          <Lever key={lever.id} {...lever} />
+        ))}
+      </div>
     </div>
   );
 }
@@ -29,7 +32,7 @@ function Lever({ id, label, description, values }: LeverConfig) {
 
   const sliderId = useId();
   return (
-    <div className="flex flex-col gap-4 items-stretch">
+    <div className="flex flex-col gap-3 items-stretch">
       <div className="flex flex-row justify-between items-center">
         <Label htmlFor={sliderId}>{label}</Label>
         <TooltipProvider delayDuration={100}>
