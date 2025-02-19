@@ -5,20 +5,26 @@ import { MarkdownContent } from '@/components/MarkdownContent';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { LeverConfig, useLever, useLeversConfig } from '@/state/scenario';
+import { AtomEffect } from '@/lib/jotai';
+import { LeverConfig, se_leverValuesToUrl, useLever, useLeversConfig } from '@/state/scenario';
 
 export function Levers() {
   const leverConfigs = useLeversConfig();
+
   return (
-    <div className="flex flex-col gap-6">
-      <h2 className="">Ambition levers</h2>
+    <>
+      <AtomEffect atomEffect={se_leverValuesToUrl} />
       <div className="flex flex-col gap-6">
-        {leverConfigs.map((lever) => (
-          <Lever key={lever.id} {...lever} />
-        ))}
+        <h2 className="">Ambition levers</h2>
+        <div className="flex flex-col gap-6">
+          {leverConfigs.map((lever) => (
+            <Lever key={lever.id} {...lever} />
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
+}
 
 /** Bi-directional sync between a global value and a local value backing an input
  * (sync from local to global can be done in a transition)
