@@ -1,5 +1,5 @@
 import { Info } from 'lucide-react';
-import { useId, useState, useTransition } from 'react';
+import { useEffect, useId, useState, useTransition } from 'react';
 
 import { MarkdownContent } from '@/components/MarkdownContent';
 import { Label } from '@/components/ui/label';
@@ -19,16 +19,35 @@ export function Levers() {
       </div>
     </div>
   );
+
+/** Bi-directional sync between a global value and a local value backing an input
+ * (sync from local to global can be done in a transition)
+ **/
+function useLocalValue<T>(
+  globalValue: T,
+  setGlobalValue: (val: T) => void,
+  withTransition: boolean = false,
+): [T, (val: T) => void] {
+  const [localValue, setLocalValue] = useState(globalValue);
+  const [, startTransition] = useTransition();
+  const handleChange = (x: T) => {
+    setLocalValue(x);
+    if (withTransition) {
+      startTransition(() => setGlobalValue(x));
+    } else {
+      setGlobalValue(x);
+    }
+  };
+  useEffect(() => {
+    setLocalValue(globalValue);
+  }, [globalValue]);
+
+  return [localValue, handleChange];
 }
 
 function Lever({ id, label, description, values }: LeverConfig) {
   const [globalValue, setGlobalValue] = useLever(id);
-  const [value, setValue] = useState(globalValue);
-  const [, startTransition] = useTransition();
-  const handleChange = (x: number) => {
-    setValue(x);
-    startTransition(() => setGlobalValue(x));
-  };
+  const [value, handleChange] = useLocalValue(globalValue, setGlobalValue, true);
 
   const sliderId = useId();
   return (
