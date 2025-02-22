@@ -48,16 +48,40 @@
     ],
     "presets": [
         {
-            "id": "SomeScenario",
-            "label": "Some Scenario",
+            "id": "TechnologyForNetZero",
+            "label": "Technology for Net Zero",
             "description": "",
-            "scenario": "12121"
+            "scenario": {
+                "avoid": 1,
+                "shift": 1,
+                "improve": 4,
+                "transform": 4,
+                "costs": 3
+            }
         },
         {
-            "id": "AnotherScenario",
-            "label": "Another Scenario",
+            "id": "BehaviourChangeForNetZero",
+            "label": "Behaviour Change for Net Zero",
             "description": "",
-            "scenario": "12122"
+            "scenario": {
+                "avoid": 3,
+                "shift": 4,
+                "improve": 4,
+                "transform": 4,
+                "costs": 2
+            }
+        },
+        {
+            "id": "BalancedNetZero",
+            "label": "Balanced Net Zero",
+            "description": "",
+            "scenario": {
+                "avoid": 2,
+                "shift": 2,
+                "improve": 4,
+                "transform": 4,
+                "costs": 2
+            }
         }
     ]
 }

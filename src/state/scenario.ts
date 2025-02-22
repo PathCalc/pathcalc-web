@@ -1,5 +1,5 @@
 import { atom, useAtom, useAtomValue } from 'jotai';
-import { withAtomEffect } from 'jotai-effect';
+import { atomEffect, withAtomEffect } from 'jotai-effect';
 import { focusAtom } from 'jotai-optics';
 import { atomFamily, atomWithDefault } from 'jotai/utils';
 import { z } from 'zod';
@@ -28,7 +28,7 @@ export const presetConfigSchema = z.object({
   id: z.string(),
   label: z.string(),
   description: z.string(),
-  scenario: z.string(),
+  scenario: z.record(z.number()),
 });
 
 export type PresetConfig = z.infer<typeof presetConfigSchema>;
@@ -55,7 +55,7 @@ const s_defaultLeverValues = atom((get) => {
 // === URL LEVER VALUES STATE ===
 
 // Utility to parse scenario from URL format ("avoid+1;shift+4;costs+5")
-function parseScenario(scenarioString: string) {
+function parseLeverValues(scenarioString: string) {
   const parsedValues: Record<string, number> = {};
 
   scenarioString.split(';').forEach((entry) => {
@@ -69,7 +69,7 @@ function parseScenario(scenarioString: string) {
 }
 
 // Utility to serialize lever values into URL format
-function serializeScenario(leverValues: Record<string, number>) {
+function serializeLeverValues(leverValues: Record<string, number>) {
   return Object.entries(leverValues)
     .map(([key, value]) => `${key}:${value}`)
     .join(';');
@@ -83,7 +83,7 @@ const se_syncLeverValuesFromUrl: AtomEffectFn = (get, set) => {
 };
 
 export const s_urlLeverValues = withAtomEffect(
-  atomWithQueryParam(s_globalUrlLocation, 'scenario', serializeScenario, parseScenario),
+  atomWithQueryParam(s_globalUrlLocation, 'scenario', serializeLeverValues, parseLeverValues),
   se_syncLeverValuesFromUrl,
 );
 
@@ -119,3 +119,26 @@ export const s_firstScenario = atomWithDefault((get) => get(s_scenario));
 export function useScenario() {
   return useAtomValue(s_scenario);
 }
+
+// === PRESETS STATE ===
+
+export type PresetConfigWithKey = PresetConfig & { leverKey: string };
+
+export const s_presetConfigs = atom<PresetConfigWithKey[]>(
+  scenariosConfig.presets.map((p) => ({ ...p, leverKey: JSON.stringify(p.scenario) })),
+);
+
+export const s_selectedPreset = atomWithDefault<string | undefined>(() => undefined);
+
+export const se_leverValuesToPreset = atomEffect((get, set) => {
+  const presets = get(s_presetConfigs);
+  const leverValues = get(s_leverValues);
+  const leverKey = JSON.stringify(leverValues);
+
+  const presetConfigForLevers = presets.find((p) => p.leverKey === leverKey);
+  if (presetConfigForLevers) {
+    set(s_selectedPreset, presetConfigForLevers.id);
+  } else {
+    set(s_selectedPreset, undefined);
+  }
+});
