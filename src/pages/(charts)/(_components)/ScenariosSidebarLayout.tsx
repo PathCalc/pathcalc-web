@@ -34,8 +34,10 @@ export function MobileDrawer({ children }: { children: ReactNode }) {
       noBodyStyles={true}
       handleOnly={true}
     >
-      <DrawerContent className="h-screen z-40">
-        <ScrollArea className="h-[calc(100vh-var(--snap-point-height)-60px)] mt-10 pb-10 px-5">{children}</ScrollArea>
+      <DrawerContent className="h-screen z-40 max-w-[400px] mx-auto shadow-[0_-2px_4px_2px_rgba(0,0,0,0.1),0_-2px_4px_-1px_rgba(0,0,0,0.06)] bg-gray-50">
+        <ScrollArea className="h-[calc(100vh-var(--snap-point-height)-30px)]">
+          <div className="mt-10 pb-10 px-5 ">{children}</div>
+        </ScrollArea>
       </DrawerContent>
     </Drawer>
   );
