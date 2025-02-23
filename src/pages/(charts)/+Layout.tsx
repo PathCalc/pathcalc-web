@@ -18,7 +18,7 @@ export const Layout: FC<{ children?: ReactNode }> = ({ children }) => {
           </ScenariosSidebarLayout>
           <div className="grow shrink">
             <ScrollArea className="h-[calc(100vh-56px)]">
-              {children}
+              <div className="mx-2 md:mx-0">{children}</div>
               <div className="h-[50vh] md:hidden" role="presentation"></div>
             </ScrollArea>
           </div>

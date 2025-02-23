@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { z } from 'zod';
 
+import { MarkdownContent } from '../MarkdownContent';
 import { ErrorFallback } from '../react/ErrorFallback';
 
 export const someBlockConfigSchema = z
@@ -37,6 +38,23 @@ export const RowBlock = ({ title, children }: { children?: ReactNode } & RowBloc
       <ErrorBoundary fallback={<ErrorFallback />}>
         <div className="grow shrink flex flex-col lg:flex-row items-center gap-5">{children}</div>
       </ErrorBoundary>
+    </div>
+  );
+};
+
+export const textBlockConfigSchema = z.object({
+  type: z.literal('text'),
+  content: z.string(),
+});
+
+export type TextBlockConfig = z.infer<typeof textBlockConfigSchema>;
+
+type TextBlockConfigWithoutType = Omit<TextBlockConfig, 'type'>;
+
+export const TextBlock = ({ content }: TextBlockConfigWithoutType) => {
+  return (
+    <div className="prose prose-sm prose-a:text-[#C72335]">
+      <MarkdownContent textMarkdown={content} />
     </div>
   );
 };
