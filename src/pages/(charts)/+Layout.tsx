@@ -1,4 +1,5 @@
 import { FC, ReactNode } from 'react';
+import { usePageContext } from 'vike-react/usePageContext';
 
 import { ScrollArea } from '@/components/ui/scroll-area';
 
@@ -7,6 +8,7 @@ import { Presets } from './(_components)/Presets';
 import { ScenariosSidebarLayout } from './(_components)/ScenariosSidebarLayout';
 
 export const Layout: FC<{ children?: ReactNode }> = ({ children }) => {
+  const pageContext = usePageContext();
   return (
     <>
       {/* Main content */}
@@ -16,7 +18,7 @@ export const Layout: FC<{ children?: ReactNode }> = ({ children }) => {
             <Presets />
             <Levers />
           </ScenariosSidebarLayout>
-          <div className="grow shrink">
+          <div key={pageContext.urlPathname} className="grow shrink">
             <ScrollArea className="h-[calc(100dvh-56px)]">
               <div className="mx-2 sm:mx-0">{children}</div>
               <div className="h-[50vh] sm:hidden" role="presentation"></div>
