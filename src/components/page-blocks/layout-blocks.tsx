@@ -15,7 +15,7 @@ export type SomeBlockConfig = z.infer<typeof someBlockConfigSchema>;
 
 export const ContainerBlock = ({ children }: { children?: ReactNode }) => {
   return (
-    <div className="grow shrink flex flex-col justify-start items-stretch h-full p-2 pt-5 md:p-8 gap-10">
+    <div className="grow shrink flex flex-col justify-start items-stretch h-full p-2 pt-5 sm:p-8 gap-10">
       {children}
     </div>
   );

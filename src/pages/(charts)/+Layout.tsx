@@ -11,15 +11,15 @@ export const Layout: FC<{ children?: ReactNode }> = ({ children }) => {
     <>
       {/* Main content */}
       <div className="grow shrink max-h-full flex flex-col items-center">
-        <div className="grow shrink w-screen max-w-screen lg:max-w-5xl flex flex-row items-stretch">
+        <div className="grow shrink w-screen max-w-screen lg:max-w-7xl flex flex-row items-stretch">
           <ScenariosSidebarLayout>
             <Presets />
             <Levers />
           </ScenariosSidebarLayout>
           <div className="grow shrink">
-            <ScrollArea className="h-[calc(100vh-56px)]">
-              <div className="mx-2 md:mx-0">{children}</div>
-              <div className="h-[50vh] md:hidden" role="presentation"></div>
+            <ScrollArea className="h-[calc(100dvh-56px)]">
+              <div className="mx-2 sm:mx-0">{children}</div>
+              <div className="h-[50vh] sm:hidden" role="presentation"></div>
             </ScrollArea>
           </div>
         </div>

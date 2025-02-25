@@ -11,7 +11,7 @@ export function Page() {
   return (
     <ScrollArea className="h-[calc(100vh-56px)]">
       <div className="grow shrink max-h-full flex flex-col items-center">
-        <div className="grow shrink w-screen max-w-screen lg:max-w-5xl py-10 px-10">
+        <div className="grow shrink w-screen max-w-screen lg:max-w-7xl py-10 px-10">
           <article className="mx-auto prose prose-lg prose-a:text-[#C72335]">
             <MarkdownContent textMarkdown={moreInfoMarkdown} />
           </article>

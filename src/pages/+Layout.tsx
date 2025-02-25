@@ -20,7 +20,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <LayoutDefault>
       {/* Header */}
       <div className="h-[56px] max-w-screen flex flex-col justify-center items-center bg-[#C72335] text-white">
-        <div className="grow shrink max-h-full w-full max-w-screen lg:max-w-5xl flex flex-row items-stretch">
+        <div className="grow shrink max-h-full w-full max-w-screen lg:max-w-7xl flex flex-row items-stretch">
           <div className="w-72 shrink md:shrink-0 flex flex-row justify-between">
             <Logo title={title} subtitle={subtitle} />
           </div>
