@@ -1,0 +1,164 @@
+{
+  "anyOf": [
+    {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "raw"
+        },
+        "id": {
+          "type": "string",
+          "description": "Fact table unique identifier"
+        },
+        "sharding": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-zA-Z][a-zA-Z0-9_ ]*$",
+            "description": "Dimension unique identifier. Identifiers can contain letters, numbers, underscore, or spaces, but must start with a letter."
+          },
+          "maxItems": 1,
+          "description": "Fact table sharding. Currently only supports one dimension equal to \"Scenario\""
+        },
+        "storage": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "local-input",
+                  "description": "local-input: Local input/ folder fact table storage configuration (for loading raw data)"
+                },
+                "pattern": {
+                  "type": "string",
+                  "description": "Pattern for sharded CSV file paths.\nTreated as relative to /input/[NAME-OF-TABLE]/ folder.\nExample: \"shards/{Scenario}.csv\""
+                }
+              },
+              "required": [
+                "type",
+                "pattern"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "local-public",
+                  "description": "local-public: Local public/ folder fact table storage configuration (for writing out pre-processed web tables)"
+                },
+                "pattern": {
+                  "type": "string",
+                  "description": "Pattern for sharded CSV file paths.\nTreated as relative to /public/data/fact-tables/[NAME-OF-TABLE]/ folder.\nExample: \"{Scenario}.csv\""
+                }
+              },
+              "required": [
+                "type",
+                "pattern"
+              ],
+              "additionalProperties": false
+            }
+          ],
+          "description": "Fact table storage configuration"
+        },
+        "columns": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Unique column name. For a dimension column, this must refer to an existing dimension ID."
+                  },
+                  "type": {
+                    "type": "string",
+                    "const": "dimension",
+                    "description": "dimension: a column that contains categorical values which can be used to organise and process data and charts."
+                  }
+                },
+                "required": [
+                  "name",
+                  "type"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Unique column name."
+                  },
+                  "type": {
+                    "type": "string",
+                    "const": "measure",
+                    "description": "measure: a column that contains numeric values to be aggregated."
+                  },
+                  "label": {
+                    "type": "string",
+                    "description": "Human-readable label to be used in the app for the column."
+                  },
+                  "aggregationMethod": {
+                    "type": "string",
+                    "enum": [
+                      "sum"
+                    ]
+                  }
+                },
+                "required": [
+                  "name",
+                  "type"
+                ],
+                "additionalProperties": false
+              }
+            ],
+            "description": "Fact table column configuration"
+          },
+          "description": "List of fact table columns"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "sharding",
+        "storage",
+        "columns"
+      ],
+      "additionalProperties": false,
+      "description": "Raw / input fact table configuration"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "web"
+        },
+        "id": {
+          "$ref": "#/anyOf/0/properties/id"
+        },
+        "sharding": {
+          "$ref": "#/anyOf/0/properties/sharding"
+        },
+        "storage": {
+          "$ref": "#/anyOf/0/properties/storage"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "sharding",
+        "storage"
+      ],
+      "additionalProperties": false,
+      "description": "Web / output fact table configuration"
+    }
+  ],
+  "description": "Fact table configuration",
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

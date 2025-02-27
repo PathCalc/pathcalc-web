@@ -13,10 +13,20 @@ import { ProcessingContext } from '~shared/pipeline/utils/processing-context';
 
 export const DEFAULT_AGGREGATION = 'sum';
 
-export const opAggregateSchema = z.object({
-  $: z.literal('aggregate'),
-  groupby: z.array(dimensionPathSchema),
-});
+export const opAggregateSchema = z
+  .object({
+    $: z.literal('aggregate'),
+    groupby: z
+      .array(dimensionPathSchema)
+      .min(1)
+      .describe(
+        'List of columns to group by before aggregating. Can be column names or nested column paths of the  form X:Y:Z:etc',
+      ),
+  })
+  .describe(
+    `Operation to aggregate the dataset based on a list of columns.
+     The resulting dataset will have the grouping columns, as well as all measure columns, aggregated based on their default aggregation method.`,
+  );
 
 export type AggregateConfig = z.infer<typeof opAggregateSchema>;
 

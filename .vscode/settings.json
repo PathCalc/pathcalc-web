@@ -1,6 +1,24 @@
 {
   "typescript.tsdk": "node_modules/typescript/lib",
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
-  }
+    "source.fixAll.eslint": "explicit"
+  },
+  "json.schemas": [
+    {
+      "fileMatch": ["/input/data/dimensions/*/meta.json"],
+      "url": "./docs/schemas/input/data/dimensions/dimension-config-split-file.schema.json"
+    },
+    {
+      "fileMatch": ["/input/data/dimensions/*.json"],
+      "url": "./docs/schemas/input/data/dimensions/dimension-config-single-file.schema.json"
+    },
+    {
+      "fileMatch": ["/input/pipeline/*.json"],
+      "url": "./docs/schemas/input/pipeline/pipeline-config.schema.json"
+    },
+    {
+      "fileMatch": ["/input/data/fact-tables/*/meta.json"],
+      "url": "./docs/schemas/input/data/fact-tables/fact-table-config.schema.json"
+    }
+  ]
 }
