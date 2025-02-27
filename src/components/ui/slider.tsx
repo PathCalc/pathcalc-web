@@ -29,10 +29,16 @@ const Slider = React.forwardRef<
     };
   }, []);
 
+  const thumbHeight = 'h-5';
+
   return (
     <SliderPrimitive.Root
       ref={ref}
-      className={cn('relative flex w-full touch-none select-none items-center', className)}
+      className={cn(
+        'relative flex w-full touch-none select-none items-center overflow-visible',
+        thumbHeight, // make sure sidebar height covers the thumb
+        className,
+      )}
       onPointerDown={handlePointerDown}
       {...props}
     >
@@ -43,7 +49,10 @@ const Slider = React.forwardRef<
         <Tooltip open={showTooltip} delayDuration={100}>
           <TooltipTrigger asChild>
             <SliderPrimitive.Thumb
-              className="block h-5 w-5 rounded-full border-2 border-primary bg-background ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+              className={cn(
+                thumbHeight,
+                `block w-5 rounded-full border-2 border-primary bg-background ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50`,
+              )}
               onMouseEnter={() => setShowTooltip(true)}
               onMouseLeave={() => setShowTooltip(false)}
             />

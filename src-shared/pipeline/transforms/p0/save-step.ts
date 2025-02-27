@@ -250,7 +250,7 @@ function updateStats(
 
       table = table
         .derive({
-          sign: (d, $) => op.sign(d![$!.cname]),
+          sign: (d, $) => op.sign(d[$.cname]),
         })
         .groupby(...grouping, 'sign')
         .rollup({ [columnName]: op.sum(columnName) });

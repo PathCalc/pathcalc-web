@@ -113,7 +113,7 @@ export class FilterStep extends PipelineStep {
       column: column,
     }) as ColumnTable;
 
-    table = table.filter((row, $) => op.includes($!.values, row![$!.column]));
+    table = table.filter((row, $) => op.includes($.values, row[$.column]));
 
     if (this._dimLookup != null) {
       table = table.select(aq.not(column));

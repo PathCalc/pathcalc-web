@@ -40,7 +40,7 @@ const DrawerContent = React.forwardRef<
       )}
       {...props}
     >
-      <DrawerHandle className="mt-4 !w-[150px]" />
+      <DrawerHandle className="mt-4 mb-4 !w-[150px]" />
       {children}
     </DrawerPrimitive.Content>
   </DrawerPortal>

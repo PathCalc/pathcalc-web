@@ -21,7 +21,6 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart';
-import { useBreakpoint } from '@/lib/hooks/tailwind';
 
 const defaultSeriesShapeProps = {
   area: {
@@ -90,8 +89,6 @@ export function Chart({
   chartProps?: Record<string, unknown>;
   chartComponentProps?: Record<string, any>;
 }) {
-  const isDesktop = useBreakpoint('md');
-
   const ShapeChart = getShapeChart(type);
   const Shape = getShape(type);
 
@@ -114,7 +111,7 @@ export function Chart({
           {...ctc}
         />
       }
-      allowEscapeViewBox={{ x: isDesktop }}
+      allowEscapeViewBox={{ x: false, y: false }}
       wrapperStyle={{ zIndex: 40 }}
       {...ct}
     />

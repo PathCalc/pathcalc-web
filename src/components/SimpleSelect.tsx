@@ -4,6 +4,7 @@ export const SimpleSelect = ({
   value,
   onChange,
   options,
+  placeholder,
 }: {
   value: string | undefined;
   onChange: (value: string) => void;
@@ -11,11 +12,12 @@ export const SimpleSelect = ({
     value: string;
     label: string;
   }[];
+  placeholder?: string;
 }) => {
   return (
-    <Select value={value} onValueChange={onChange}>
-      <SelectTrigger>
-        <SelectValue />
+    <Select value={value ?? ''} onValueChange={onChange} required={false}>
+      <SelectTrigger className="text-left">
+        <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>
         {options.map((option) => (
@@ -23,9 +25,6 @@ export const SimpleSelect = ({
             {option.label}
           </SelectItem>
         ))}
-        {/* <SelectItem value="line">Line</SelectItem>
-        <SelectItem value="area">Area</SelectItem>
-        <SelectItem value="bar">Bar</SelectItem> */}
       </SelectContent>
     </Select>
   );

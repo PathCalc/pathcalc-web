@@ -381,7 +381,8 @@ test('aggregate single-nested column: processShard', async () => {
 
   const newDatasetShard = await aggStep.processShard(ctx, datasetShard, new Map());
 
-  expect(newDatasetShard.table.orderby('YEAR', 'TECHNOLOGY:Sector').objects()).toEqual([
+  expect(newDatasetShard.table).toBeDefined();
+  expect(newDatasetShard.table!.orderby('YEAR', 'TECHNOLOGY:Sector').objects()).toEqual([
     { YEAR: '2019', 'TECHNOLOGY:Sector': 'BLD', VALUE: 2000 },
     { YEAR: '2020', 'TECHNOLOGY:Sector': 'BLD', VALUE: 4000 },
     { YEAR: '2021', 'TECHNOLOGY:Sector': 'BLD', VALUE: 6000 },

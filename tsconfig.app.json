@@ -22,7 +22,14 @@
     "paths": {
       "@/*": ["src/*"],
       "~shared/*": ["src-shared/*"]
-    }
+    },
+    "plugins": [
+      {
+        "name": "ts-plugin-sort-import-suggestions",
+        "moveUpPatterns": ["^@/", "~shared/", "\\.{1,2}/"],
+        "moveDownPatterns": ["dist"]
+      }
+    ]
   },
   "exclude": ["dist", "src-pipeline"]
 }

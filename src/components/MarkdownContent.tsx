@@ -4,31 +4,21 @@ export const MarkdownContent = ({ textMarkdown }: { textMarkdown: string }) => {
   return (
     <Markdown
       components={{
-        h1: ({ node, ...props }) => (
-          <h2 {...props} className="text-lg font-bold">
-            {props.children}
-          </h2>
-        ),
-        h2: ({ node, ...props }) => (
-          <h3 {...props} className="text-md font-bold">
-            {props.children}
-          </h3>
-        ),
-        h3: ({ node, ...props }) => (
-          <h4 {...props} className="text-sm font-bold">
-            {props.children}
-          </h4>
-        ),
-        p: ({ node, ...props }) => (
-          <p {...props} className="text-sm">
-            {props.children}
-          </p>
-        ),
-        a: ({ node, ...props }) => (
-          <a {...props} className="text-[#C72335]" target="_blank">
-            {props.children}
-          </a>
-        ),
+        a: ({ node, ...props }) => {
+          const isLocalLink = props.href?.startsWith('/');
+          return (
+            <a {...props} target={isLocalLink ? '_self' : '_blank'}>
+              {props.children}
+            </a>
+          );
+        },
+      }}
+      urlTransform={(url) => {
+        if (url.startsWith('/')) {
+          const baseUrl = import.meta.env.BASE_URL;
+          return baseUrl.endsWith('/') ? baseUrl + url.slice(1) : baseUrl + url;
+        }
+        return url;
       }}
     >
       {textMarkdown}
