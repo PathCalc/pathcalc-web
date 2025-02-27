@@ -102,6 +102,7 @@ const ChartTooltipContent = React.forwardRef<
       labelKey?: string;
       valueFormatter?: (value: number) => string;
       visibleItems?: string[];
+      showTotal?: boolean;
     }
 >(
   (
@@ -121,6 +122,7 @@ const ChartTooltipContent = React.forwardRef<
       nameKey,
       labelKey,
       visibleItems,
+      showTotal = true,
     },
     ref,
   ) => {
@@ -153,17 +155,21 @@ const ChartTooltipContent = React.forwardRef<
 
     const nestLabel = payload.length === 1 && indicator !== 'dot';
 
+    const payloadReversed = payload.toReversed();
+
+    const total = showTotal ? payloadReversed.reduce((acc, item) => acc + (item.value as number), 0) : undefined;
+
     return (
       <div
         ref={ref}
         className={cn(
-          'grid min-w-[8rem] items-start gap-1.5 rounded-sm border border-border/50 bg-background opacity-90 px-2.5 py-1.5 text-xs shadow-xl',
+          'grid min-w-[8rem] max-w-[12rem] items-start gap-1.5 rounded-sm border border-border/50 bg-background opacity-90 px-2.5 py-1.5 text-xs shadow-xl',
           className,
         )}
       >
         {!nestLabel ? tooltipLabel : null}
         <div className="grid gap-1.5 opacity-100">
-          {payload.toReversed().map((item, index) => {
+          {payloadReversed.map((item, index) => {
             const key = `${nameKey || item.name || item.dataKey || 'value'}`;
             if (visibleItems?.includes(key) === false) return null;
             const itemConfig = getPayloadConfigFromPayload(config, item, key);
@@ -175,7 +181,7 @@ const ChartTooltipContent = React.forwardRef<
               <div
                 key={item.dataKey}
                 className={cn(
-                  'flex w-full flex-wrap items-stretch gap-2 [&>svg]:h-2.5 [&>svg]:w-2.5 [&>svg]:text-muted-foreground',
+                  'flex w-full flex-wrap items-start gap-2 [&>svg]:h-2.5 [&>svg]:w-2.5 [&>svg]:text-muted-foreground',
                   indicator === 'dot' && 'items-center',
                 )}
               >
@@ -205,7 +211,7 @@ const ChartTooltipContent = React.forwardRef<
                     )}
                     <div
                       className={cn(
-                        'flex flex-1 justify-between leading-none gap-1',
+                        'flex flex-1 justify-between leading-none gap-2',
                         nestLabel ? 'items-end' : 'items-center',
                       )}
                     >
@@ -213,7 +219,7 @@ const ChartTooltipContent = React.forwardRef<
                         {nestLabel ? tooltipLabel : null}
                         <span className="text-foreground">{itemConfig?.label || item.name}</span>
                       </div>
-                      {item.value && (
+                      {item.value != null && (
                         <span className="font-mono font-medium tabular-nums text-foreground">
                           {valueFormatter && typeof item.value == 'number'
                             ? valueFormatter(item.value)
@@ -226,6 +232,21 @@ const ChartTooltipContent = React.forwardRef<
               </div>
             );
           })}
+          {total != null && (
+            <>
+              <hr />
+              <div className="flex w-full gap-2">
+                {/* empty box indicator to take up the same amount of space as the indicators for payload items */}
+                <div className="w-2.5 h-2.5" role="presentation" />
+                <div className="flex w-full justify-between">
+                  <span className="text-foreground">Total</span>
+                  <span className="font-mono font-medium tabular-nums text-foreground">
+                    {valueFormatter ? valueFormatter(total) : total.toLocaleString()}
+                  </span>
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
     );
