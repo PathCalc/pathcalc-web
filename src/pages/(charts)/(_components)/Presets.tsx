@@ -28,7 +28,7 @@ export function Presets() {
     <>
       <AtomEffect atomEffect={se_leverValuesToPreset} />
       <div className="flex flex-col gap-3 mb-6">
-        <h2>Presets</h2>
+        <h2>Example scenarios</h2>
         <SimpleSelect options={presetOptions} value={preset} onChange={setPreset} placeholder="Select example preset" />
       </div>
     </>

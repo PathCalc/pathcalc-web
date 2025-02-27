@@ -15,7 +15,7 @@ export function Levers() {
     <>
       <AtomEffect atomEffect={se_leverValuesToUrl} />
       <div className="flex flex-col gap-6">
-        <h2 className="">Ambition levers</h2>
+        <h2 className="">Levers</h2>
         <div className="flex flex-col gap-6">
           {leverConfigs.map((lever) => (
             <Lever key={lever.id} {...lever} />
@@ -65,7 +65,7 @@ function Lever({ id, label, description, values }: LeverConfig) {
             <TooltipTrigger>
               <Info size={15} />
             </TooltipTrigger>
-            <TooltipContent side="right" align="start" className="max-w-[70vw] md:max-w-screen-sm -mt-2">
+            <TooltipContent side="right" align="start" className="max-w-[70vw] max-w-[400px] md:max-w-screen-sm -mt-2">
               <div className="flex flex-col gap-3">
                 <MarkdownContent textMarkdown={description} />
               </div>
