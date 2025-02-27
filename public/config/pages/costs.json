@@ -3,10 +3,6 @@
         "type": "container",
         "items": [
             {
-                "type": "text",
-                "content": "The costs of the energy system are divided into primary fuel costs and capital and fixed costs. Primary fuel costs are the costs of importing and extracting fuels, while capital and fixed costs are the costs of building and maintaining the energy system. The costs are shown in million US dollars (MUSD). See more [here](https://google.com)"
-            },
-            {
                 "type": "row",
                 "title": "Primary fuel costs",
                 "items": [
