@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import ReactFromJSONpkg from 'react-from-json';
+import { default as ReactFromJSON } from 'react-from-json';
 import { Config } from 'vike-react/Config';
 import { useData } from 'vike-react/useData';
 
@@ -9,9 +9,6 @@ import { ContainerBlock, RowBlock, TextBlock } from '@/components/page-blocks/la
 import { ErrorFallback } from '@/components/react/ErrorFallback';
 
 import { Data } from './+data';
-
-// fix issue with react-from-json CJS export in server/client
-const ReactFromJSON = ((ReactFromJSONpkg as any).default as typeof ReactFromJSONpkg) || ReactFromJSONpkg;
 
 const mapping = {
   container: ContainerBlock,

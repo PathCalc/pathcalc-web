@@ -17,7 +17,7 @@ export default defineConfig(({ mode }) => {
         },
       }),
       cjsInterop({
-        dependencies: ['react-compiler-runtime'],
+        dependencies: ['react-compiler-runtime', 'react-from-json'],
       }),
     ],
 
