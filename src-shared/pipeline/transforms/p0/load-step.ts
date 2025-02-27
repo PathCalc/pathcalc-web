@@ -20,11 +20,19 @@ import { PipelineStep } from '~shared/pipeline/models/pipeline/pipeline-step';
 import { UnexpectedError } from '~shared/pipeline/utils/errors';
 import { ProcessingContext } from '~shared/pipeline/utils/processing-context';
 
-export const opLoadSchema = z.object({
-  $: z.literal('load'),
-  from: z.string(),
-  sharding: z.array(z.string()),
-});
+export const opLoadSchema = z
+  .object({
+    $: z.literal('load'),
+    from: z
+      .string()
+      .describe('Name of fact table to load. Needs to match one of the fact tables defined in the configuration.'),
+    sharding: z
+      .array(z.string())
+      .describe('Sharding of the dataset to load. Must match the sharding of the fact table.'),
+  })
+  .describe(
+    'Operation to load a dataset from one of the fact tables. Can only appear as the first step in a pipeline flow.',
+  );
 
 export type LoadConfig = z.infer<typeof opLoadSchema>;
 

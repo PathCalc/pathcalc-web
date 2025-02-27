@@ -1,0 +1,148 @@
+{
+  "type": "object",
+  "properties": {
+    "sharding": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "flows": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$": {
+                  "type": "string",
+                  "const": "load"
+                },
+                "from": {
+                  "type": "string",
+                  "description": "Name of fact table to load. Needs to match one of the fact tables defined in the configuration."
+                },
+                "sharding": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Sharding of the dataset to load. Must match the sharding of the fact table."
+                }
+              },
+              "required": [
+                "$",
+                "from",
+                "sharding"
+              ],
+              "additionalProperties": false,
+              "description": "Operation to load a dataset from one of the fact tables. Can only appear as the first step in a pipeline flow."
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$": {
+                  "type": "string",
+                  "const": "save"
+                },
+                "to": {
+                  "type": "string",
+                  "description": "Name of the fact table to save to. Must match one of the fact tables defined in the configuration."
+                },
+                "sharding": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Sharding of the dataset to save. Must match the sharding of the fact table."
+                },
+                "stats": {
+                  "type": "object",
+                  "properties": {
+                    "xaxis": {
+                      "type": "string",
+                      "description": "Name of the column that is expected to be used as the X axis in charts that will use this dataset."
+                    }
+                  },
+                  "required": [
+                    "xaxis"
+                  ],
+                  "additionalProperties": false,
+                  "description": "Definition for how to calculate dataset-wide statistics that will be used for chart layouts."
+                }
+              },
+              "required": [
+                "$",
+                "to",
+                "sharding"
+              ],
+              "additionalProperties": false,
+              "description": "Operation to save the dataset to a fact table."
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$": {
+                  "type": "string",
+                  "const": "aggregate"
+                },
+                "groupby": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[a-zA-Z][a-zA-Z0-9_ ]*(:[a-zA-Z][a-zA-Z0-9_ ]*)*$",
+                    "description": "Dimension/column path. Can be a single name, or a nested access path separated by colons, such as X:Y:Z:etc."
+                  },
+                  "minItems": 1,
+                  "description": "List of columns to group by before aggregating. Can be column names or nested column paths of the  form X:Y:Z:etc"
+                }
+              },
+              "required": [
+                "$",
+                "groupby"
+              ],
+              "additionalProperties": false,
+              "description": "Operation to aggregate the dataset based on a list of columns.\n     The resulting dataset will have the grouping columns, as well as all measure columns, aggregated based on their default aggregation method."
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$": {
+                  "type": "string",
+                  "const": "filter"
+                },
+                "column": {
+                  "type": "string",
+                  "pattern": "^[a-zA-Z][a-zA-Z0-9_ ]*(:[a-zA-Z][a-zA-Z0-9_ ]*)*$",
+                  "description": "Column to filter by. \nDimension/column path. Can be a single name, or a nested access path separated by colons, such as X:Y:Z:etc."
+                },
+                "in": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "List of values to filter."
+                }
+              },
+              "required": [
+                "$",
+                "column",
+                "in"
+              ],
+              "additionalProperties": false,
+              "description": "Operation to filter the dataset based on the values of a single column."
+            }
+          ]
+        }
+      }
+    }
+  },
+  "required": [
+    "sharding",
+    "flows"
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

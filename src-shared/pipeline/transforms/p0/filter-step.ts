@@ -18,11 +18,13 @@ import { dimensionPathSchema } from '~shared/pipeline/models/transforms/dimensio
 import { UnexpectedError } from '~shared/pipeline/utils/errors';
 import { ProcessingContext } from '~shared/pipeline/utils/processing-context';
 
-export const opFilterSchema = z.object({
-  $: z.literal('filter'),
-  column: dimensionPathSchema,
-  in: z.array(z.string()),
-});
+export const opFilterSchema = z
+  .object({
+    $: z.literal('filter'),
+    column: dimensionPathSchema.describe(`Column to filter by. \n${dimensionPathSchema.description}`),
+    in: z.array(z.string()).describe('List of values to filter.'),
+  })
+  .describe('Operation to filter the dataset based on the values of a single column.');
 
 type FilterConfig = z.infer<typeof opFilterSchema>;
 

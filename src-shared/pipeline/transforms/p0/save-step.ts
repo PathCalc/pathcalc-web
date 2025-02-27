@@ -17,16 +17,27 @@ import { ChartStatDefinition, ChartStatResult } from '~shared/pipeline/models/st
 import { UnexpectedError } from '~shared/pipeline/utils/errors';
 import { ProcessingContext } from '~shared/pipeline/utils/processing-context';
 
-export const opSaveSchema = z.object({
-  $: z.literal('save'),
-  to: z.string(),
-  sharding: z.array(z.string()),
-  stats: z
-    .object({
-      xaxis: z.string(),
-    })
-    .optional(),
-});
+export const opSaveSchema = z
+  .object({
+    $: z.literal('save'),
+    to: z
+      .string()
+      .describe('Name of the fact table to save to. Must match one of the fact tables defined in the configuration.'),
+    sharding: z
+      .array(z.string())
+      .describe('Sharding of the dataset to save. Must match the sharding of the fact table.'),
+    stats: z
+      .object({
+        xaxis: z
+          .string()
+          .describe(
+            'Name of the column that is expected to be used as the X axis in charts that will use this dataset.',
+          ),
+      })
+      .optional()
+      .describe('Definition for how to calculate dataset-wide statistics that will be used for chart layouts.'),
+  })
+  .describe('Operation to save the dataset to a fact table.');
 
 export type SaveConfig = z.infer<typeof opSaveSchema>;
 
