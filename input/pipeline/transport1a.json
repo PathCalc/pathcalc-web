@@ -13,9 +13,9 @@
             },
             {
                 "$": "filter",
-                "column": "TECHNOLOGY:Sector",
+                "column": "EMISSION",
                 "in": [
-                    "TRA"
+                    "Co2e_TRA"
                 ]
             },
             {

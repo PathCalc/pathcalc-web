@@ -1,0 +1,33 @@
+{
+    "sharding": [
+        "Scenario"
+    ],
+    "flows": [
+        [
+            {
+                "$": "load",
+                "from": "_Input",
+                "sharding": [
+                    "Scenario"
+                ]
+            },
+            {
+                "$": "aggregate",
+                "groupby": [
+                    "YEAR",
+                    "TECHNOLOGY:TraMode"
+                ]
+            },
+            {
+                "$": "save",
+                "to": "Transport6A",
+                "sharding": [
+                    "Scenario"
+                ],
+                "stats": {
+                    "xaxis": "YEAR"
+                }
+            }
+        ]
+    ]
+}

@@ -1,0 +1,11 @@
+{
+    "id": "Transport5B",
+    "type": "web",
+    "sharding": [
+        "Scenario"
+    ],
+    "storage": {
+        "type": "local-public",
+        "pattern": "{Scenario}.csv"
+    }
+}

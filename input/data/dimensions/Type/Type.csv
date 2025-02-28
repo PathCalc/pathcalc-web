@@ -1,5 +1,5 @@
 id,label,color
-DSLBIO,Diesel and biodiesel,#4c5f85
+DSLBDL,Diesel and biodiesel,#4c5f85
 GASETH,Gasoline and ethanol,#718ec8
 JETABF,Jet fuel and aviation biofuels,#f690f2
 COM,Compression &  Storage & Liquefaction & Transport,
@@ -24,3 +24,8 @@ HYB,Hybrid,#008b8b
 ALK,ALK,
 PEM,PEM,
 ELCY,Electricity,#e04461
+NH3,Ammonia,
+LPG,Liquified petroleum gas,
+DSLHYB,Diesel hybrid,
+HAB,Haber Bosch,
+SOE,Solid oxide electrolyser,
