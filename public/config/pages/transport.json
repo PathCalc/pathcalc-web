@@ -144,6 +144,132 @@
                         }
                     }
                 ]
+            },
+            {
+                "type": "row",
+                "title": "Pollution",
+                "items": [
+                    {
+                        "type": "chart",
+                        "title": "PM 10",
+                        "dataset": "Transport4A",
+                        "x": "YEAR",
+                        "y": "VALUE",
+                        "series": "TECHNOLOGY:TraMode",
+                        "options": {
+                            "numberFormat": {
+                                "maximumSignificantDigits": 3,
+                                "maximumFractionDigits": 3,
+                                "roundingPriority": "lessPrecision"
+                                },
+                            "type": "area",
+                            "stacked": true,
+                            "yUnit": "kt",
+                            "legend": true,
+                            "extraProps": {
+                                "chart": {
+                                    "syncId": "year",
+                                    "syncMethod": "value"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "type": "chart",
+                        "title": "PM 2.5",
+                        "dataset": "Transport4B",
+                        "x": "YEAR",
+                        "y": "VALUE",
+                        "series": "TECHNOLOGY:TraMode",
+                        "options": {
+                            "type": "area",
+                            "stacked": true,
+                            "yUnit": "kt",
+                            "legend": true,
+                            "extraProps": {
+                                "chart": {
+                                    "syncId": "year",
+                                    "syncMethod": "value"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "type": "row",
+                "items": [
+                    {
+                        "type": "chart",
+                        "title": "NOx",
+                        "dataset": "Transport5A",
+                        "x": "YEAR",
+                        "y": "VALUE",
+                        "series": "TECHNOLOGY:TraMode",
+                        "options": {
+                            "type": "area",
+                            "stacked": true,
+                            "yUnit": "kt",
+                            "legend": true,
+                            "extraProps": {
+                                "chart": {
+                                    "syncId": "year",
+                                    "syncMethod": "value"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "type": "chart",
+                        "title": "SOx",
+                        "dataset": "Transport5B",
+                        "x": "YEAR",
+                        "y": "VALUE",
+                        "series": "TECHNOLOGY:TraMode",
+                        "options": {
+                            "type": "area",
+                            "stacked": true,
+                            "yUnit": "kt",
+                            "legend": true,
+                            "extraProps": {
+                                "chart": {
+                                    "syncId": "year",
+                                    "syncMethod": "value"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "type": "row",
+                "title": "Road casualities",
+                "items": [
+                    {
+                        "type": "chart",
+                        "title": "Fatalities",
+                        "dataset": "Transport6A",
+                        "x": "YEAR",
+                        "y": "VALUE",
+                        "series": "TECHNOLOGY:TraMode",
+                        "options": {
+                            "type": "area",
+                            "stacked": true,
+                            "yUnit": "Deaths",
+                            "legend": true,
+                            "extraProps": {
+                                "chart": {
+                                    "syncId": "year",
+                                    "syncMethod": "value"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "type": "container",
+                        "items": []
+                    }
+                ]
             }
         ]
     }

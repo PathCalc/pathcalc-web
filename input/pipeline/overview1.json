@@ -23,8 +23,8 @@
                 "$": "filter",
                 "column": "EMISSION",
                 "in": [
-                    "CO2_PWR",
-                    "CO2_TRA"
+                    "Co2e_PWR",
+                    "Co2e_TRA"
                 ]
             },
             {

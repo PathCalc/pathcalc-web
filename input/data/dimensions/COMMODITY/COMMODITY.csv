@@ -1,53 +1,50 @@
-id,label,:Type
-ELC002,Not used commodity,
-COA,Coal,COA
-HYD,Hydro resource,HYD
-SOL,Solar resource,SOL
-WND,Wind Resource,WND
-ELC003,Not used commodity,
-BIO,Biomass Resource,BIO
-NORELC,NOR region Electricity demand,
-VTEELC,VTE region Electricity demand,
-CENELC,CEN region Electricity demand,
-SOUELC,SOU region Electricity demand,
-NORELC003,NOR electricity after Distribution,ELCY
-VTEELC003,VTE electricity after Distribution,ELCY
-CENELC003,CEN electricity after Distribution,ELCY
-SOUELC003,SOU electricity after Distribution,ELCY
-NORELC002,NOR electricity after Transmission,ELCY
-VTEELC002,VTE electricity after Transmission,ELCY
-CENELC002,CEN electricity after Transmission,ELCY
-SOUELC002,SOU electricity after Transmission,ELCY
-NORELC001,NOR electricity from power plants,ELCY
-VTEELC001,VTE electricity from power plants,ELCY
-CENELC001,CEN electricity from power plants,ELCY
-SOUELC001,SOU electricity from power plants,ELCY
-EXPITH,IPPe exports to Thailand,ELCY
-EXPIVN,IPPe exports to Vietnam,ELCY
-EXPIKH,IPPe exports to Cambodia,ELCY
-ELECTH,Not used commodity,
-HDGELC,Electricity for H2 production,
-HDG001,Hydrogen commodity produced by the electrolyzers,
-HDG002,"Hydrogen commodity after compression, liquefaction, transport and storage",H2
-HDGEXP,Hydrogen for Export,
-TRAMCY,Motocycle passenger demand,
-GAS,Gasoline,GAS
-TRAELC001,Electricity for Transport before chargers,ELCY
-TRAELC002,Electricity for Transport  after chargers,ELCY
-DSL,Diesel,DSL
-BDL,Bio Diesel,BDL
-ETH,Ethanol,ETH
-GASETH,Blended Gasoline and Ethanol,GASETH
-DSLBIO,Blended Dioesel and Bio Diesel,DSLBIO
-TRACAR,Car passenger Demand,
-TRABUS,Bus Passenger Demand,
-TRALDV,LDV freight Demand,
-TRAHDV,HDV freight Demand,
-TRARAI001,Rail Passenger Transport Demand,
-TRARAI002,Rail Freight Transport Demand,
-TRAAIR001,Air travel passenger demand,
-TRAAIR002,Air travel Frieght demand,JETABF
-JET,Jet Fuel,JET
-ABF,Aviation Biofuel,ABF
-JETABF,Blended Avaition fuel (JET/ABF),JETABF
-AEF,Alternative e fuels for aviation (H2),AEF
+id,label,:Type,
+ELC002,Not used commodity,,Present in List B
+COA,Coal,COA,Present in List B
+HYD,Hydro resource,HYD,Present in List B
+SOL,Solar resource,SOL,Present in List B
+WND,Wind Resource,WND,Present in List B
+ELC003,Not used commodity,,Present in List B
+BIO,Biomass Resource,BIO,Present in List B
+NORELC,NOR region Electricity demand,,Present in List B
+CENELC,CEN region Electricity demand,,Present in List B
+SOUELC,SOU region Electricity demand,,Present in List B
+NORELC003,NOR electricity after Distribution,ELCY,Present in List B
+CENELC003,CEN electricity after Distribution,ELCY,Present in List B
+SOUELC003,SOU electricity after Distribution,ELCY,Present in List B
+NORELC002,NOR electricity after Transmission,ELCY,Present in List B
+CENELC002,CEN electricity after Transmission,ELCY,Present in List B
+SOUELC002,SOU electricity after Transmission,ELCY,Present in List B
+NORELC001,NOR electricity from power plants,ELCY,Present in List B
+CENELC001,CEN electricity from power plants,ELCY,Present in List B
+SOUELC001,SOU electricity from power plants,ELCY,Present in List B
+EXPITH,IPPe exports to Thailand,ELCY,Present in List B
+EXPIVN,IPPe exports to Vietnam,ELCY,Present in List B
+EXPIKH,IPPe exports to Cambodia,ELCY,Present in List B
+ELECTH,Not used commodity,,Present in List B
+HDGELC,Electricity for H2 production,,Present in List B
+HDG001,Hydrogen commodity produced by the electrolyzers,,Present in List B
+TRAMCY,Motocycle passenger demand,,Present in List B
+GAS,Gasoline,GAS,Present in List B
+TRAELC001,Electricity for Transport before chargers,ELCY,Present in List B
+TRAELC002,Electricity for Transport  after chargers,ELCY,Present in List B
+DSL,Diesel,DSL,Present in List B
+BDL,Bio Diesel,BDL,Present in List B
+ETH,Ethanol,ETH,Present in List B
+GASETH,Blended Gasoline and Ethanol,GASETH,Present in List B
+DSLBDL,Blended Dioesel and Bio Diesel,DSLBDL,Present in List B
+TRACAR,Car passenger Demand,,Present in List B
+TRABUS,Bus Passenger Demand,,Present in List B
+TRALDV,LDV freight Demand,,Present in List B
+TRAHDV,HDV freight Demand,,Present in List B
+TRARLYP,Rail Passenger Transport Demand,,Present in List B
+TRARLYF,Rail Freight Transport Demand,,Present in List B
+TRAAIRP,Air travel passenger demand,,Present in List B
+TRAAIRF,Air travel Frieght demand,JETABF,Present in List B
+JET,Jet Fuel,JET,Present in List B
+ABF,Aviation Biofuel,ABF,Present in List B
+JETABF,Blended Avaition fuel (JET/ABF),JETABF,Present in List B
+AEF,Alternative e fuels for aviation (H2),AEF,Present in List B
+NH3001,Ammonia,NH3,
+LPG,Liquified Petroleum Gas,LPG,
+DEA,Deaths,,
