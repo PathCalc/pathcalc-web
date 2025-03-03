@@ -34,7 +34,7 @@ export class ServerSourceFactTable extends SourceFactTable {
     if (this.storage.type === 'local-public') {
       throw new Error('Server-side pipeline should not load datasets intended for the web');
     } else if (this.storage.type === 'local-input') {
-      const basePath = `input/data/fact-tables/${this.id}/`;
+      const basePath = `input-raw/fact-tables/${this.id}/`;
 
       const shardPath = interpolateShardPath(this.storage.pattern, shard);
 
