@@ -1,4 +1,4 @@
-id,label,Emission type,Sub-type 1
+id,label,EmissionType,EmissionSubType
 Co2e_TRA,CO2 Transport,CO2,Transport
 Co2e_PWR,CO2 Power,CO2,Power
 PM_25,PM2.5,,

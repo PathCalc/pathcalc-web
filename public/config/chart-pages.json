@@ -13,6 +13,10 @@
             "slug": "transport"
         },
         {
+            "title": "Pollution & Safety",
+            "slug": "pollution-safety"
+        },
+        {
             "title": "Power",
             "slug": "power"
         }

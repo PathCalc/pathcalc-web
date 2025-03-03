@@ -11,7 +11,7 @@
                         "dataset": "Overview1",
                         "x": "YEAR",
                         "y": "VALUE",
-                        "series": "TECHNOLOGY:Sector",
+                        "series": "EMISSION:EmissionSubType",
                         "options": {
                             "type": "area",
                             "stacked": true,
@@ -30,7 +30,7 @@
                         "dataset": "Overview1agg",
                         "x": "YEAR:Period",
                         "y": "VALUE",
-                        "series": "TECHNOLOGY:Sector",
+                        "series": "EMISSION:EmissionSubType",
                         "options": {
                             "type": "bar",
                             "stacked": true,

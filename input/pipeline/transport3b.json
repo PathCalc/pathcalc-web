@@ -19,6 +19,13 @@
                 ]
             },
             {
+                "$": "filter",
+                "column": "TECHNOLOGY:SubSector",
+                "in": [
+                    "FLT"
+                ]
+            },
+            {
                 "$": "aggregate",
                 "groupby": [
                     "YEAR",

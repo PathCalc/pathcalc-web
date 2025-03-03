@@ -246,7 +246,7 @@ TRACARELC,Electric Cars,TRA,FLT,ELC,PSG,CAR
 TRACARGASBIO,Gasoline Cars With blending option,TRA,FLT,GAS,PSG,CAR
 TRACARGASHYB,Gasoline Hybrid cars,TRA,FLT,HYB,PSG,CAR
 TRACARH2,H2 Fuel Cell Cars,TRA,FLT,H2,PSG,CAR
-TRAEVC,Electricity charging infrastructure,TRA,INF,BKSTP,FRT,AIR
+TRAEVC,Electricity charging infrastructure,TRA,INF,EVC,,
 TRAFAIRJETH2,Aviation Frieght on E fuels (H2),TRA,FLT,H2,FRT,AIR
 TRAFAIRJETBIO,Aviation Frieght on JET/ABF,TRA,FLT,JET,FRT,AIR
 TRAFRLYELC,Railway Freight Electric,TRA,FLT,ELC,FRT,RAI
