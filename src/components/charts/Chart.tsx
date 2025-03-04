@@ -35,8 +35,10 @@ const defaultSeriesShapeProps = {
   },
 };
 
-const defaultNumberFormatting = {
-  maximumSignificantDigits: 3,
+const defaultNumberFormatting: ConstructorParameters<typeof Intl.NumberFormat>[1] = {
+  maximumSignificantDigits: 2,
+  maximumFractionDigits: 2,
+  roundingPriority: 'lessPrecision',
 };
 
 export function Chart({
