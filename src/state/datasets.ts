@@ -26,9 +26,15 @@ interface DataFetchFamilyParam {
 
 const s_datasetMetadataFamily = $atomFamily(({ datasetName }: { datasetName: string }) =>
   atom(async () => {
-    const res = await fetch(makeFilePath(`/data/fact-tables/${datasetName}/_meta.json`));
-    const data = await res.json();
-    return data as Dataset;
+    try {
+      const res = await fetch(makeFilePath(`/data/fact-tables/${datasetName}/_meta.json`));
+      const data = await res.json();
+      return data as Dataset;
+    } catch (e) {
+      throw new Error(
+        `Failed to fetch metadata for dataset ${datasetName}. Dataset doesn't exist or metadata is not a valid JSON.`,
+      );
+    }
   }),
 );
 

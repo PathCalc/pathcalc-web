@@ -2,6 +2,10 @@ import { existsSync, mkdirSync, rmdirSync, writeFileSync } from 'fs';
 import { dirname } from 'path';
 import { zodToJsonSchema } from 'zod-to-json-schema';
 
+import { chartPagesConfigSchema } from '~shared/app/models/chart-pages';
+import { generalConfigSchema } from '~shared/app/models/general';
+import { scenariosConfigSchema } from '~shared/app/models/scenarios';
+import { singleChartPageConfigSchema } from '~shared/app/models/single-chart-page';
 import {
   dimensionConfigSingleFileSchema,
   dimensionConfigSplitFileSchema,
@@ -21,6 +25,22 @@ const schemas = [
   },
   { schema: pipelineConfigSchema, outputPath: './docs/schemas/input/pipeline/pipeline-config.schema.json' },
   { schema: factTableConfigSchema, outputPath: './docs/schemas/input/data/fact-tables/fact-table-config.schema.json' },
+  {
+    schema: generalConfigSchema,
+    outputPath: './docs/schemas/public/config/general.schema.json',
+  },
+  {
+    schema: scenariosConfigSchema,
+    outputPath: './docs/schemas/public/config/scenarios.schema.json',
+  },
+  {
+    schema: chartPagesConfigSchema,
+    outputPath: './docs/schemas/public/config/chart-pages.schema.json',
+  },
+  {
+    schema: singleChartPageConfigSchema,
+    outputPath: './docs/schemas/public/config/pages/page.schema.json',
+  },
 ];
 
 // clear out existing schemas

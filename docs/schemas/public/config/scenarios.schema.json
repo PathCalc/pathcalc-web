@@ -1,0 +1,84 @@
+{
+  "type": "object",
+  "properties": {
+    "levers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "values": {
+            "type": "object",
+            "properties": {
+              "min": {
+                "type": "number"
+              },
+              "max": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "min",
+              "max"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "id",
+          "label",
+          "description",
+          "values"
+        ],
+        "additionalProperties": false
+      },
+      "description": "List of levers presented in the app."
+    },
+    "presets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "scenario": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "label",
+          "description",
+          "scenario"
+        ],
+        "additionalProperties": false
+      },
+      "description": "List of example scenario presets that the user can pick from."
+    }
+  },
+  "required": [
+    "levers",
+    "presets"
+  ],
+  "additionalProperties": false,
+  "description": "Scenario-related app configuration.",
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

@@ -2,41 +2,13 @@ import { atom, useAtom, useAtomValue } from 'jotai';
 import { atomEffect, withAtomEffect } from 'jotai-effect';
 import { focusAtom } from 'jotai-optics';
 import { atomFamily, atomWithDefault } from 'jotai/utils';
-import { z } from 'zod';
 
+import { PresetConfig } from '~shared/app/models/scenarios';
 import * as scenariosConfig from '@/../public/config/scenarios.json';
 import { deepEqual } from '@/lib/deep-equal';
 import { AtomEffectFn, atomWithQueryParam } from '@/lib/jotai';
 
 import { s_globalUrlLocation } from './url';
-
-// === CONFIG SCHEMAS ===
-
-export const leverConfigSchema = z.object({
-  id: z.string(),
-  label: z.string(),
-  description: z.string(),
-  values: z.object({
-    min: z.number(),
-    max: z.number(),
-  }),
-});
-
-export type LeverConfig = z.infer<typeof leverConfigSchema>;
-
-export const presetConfigSchema = z.object({
-  id: z.string(),
-  label: z.string(),
-  description: z.string(),
-  scenario: z.record(z.number()),
-});
-
-export type PresetConfig = z.infer<typeof presetConfigSchema>;
-
-export const scenariosConfigSchema = z.object({
-  levers: z.array(leverConfigSchema),
-  presets: z.array(presetConfigSchema),
-});
 
 // === LEVERS STATE ===
 

@@ -1,0 +1,40 @@
+{
+  "type": "object",
+  "properties": {
+    "logo": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Primary part of the logotype - displayed in bold"
+        },
+        "subtitle": {
+          "type": "string",
+          "description": "Secondary part of the logotype - displayed in a lighter font"
+        }
+      },
+      "required": [
+        "title",
+        "subtitle"
+      ],
+      "additionalProperties": false,
+      "description": "Logotype configuration for the app."
+    },
+    "title": {
+      "type": "string",
+      "description": "Title of the app. Displayed in browser tab title."
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the app. Displayed in social media previews etc."
+    }
+  },
+  "required": [
+    "logo",
+    "title",
+    "description"
+  ],
+  "additionalProperties": false,
+  "description": "General configuration for the app.",
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

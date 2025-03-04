@@ -1,17 +1,10 @@
-import React, { ReactNode } from 'react';
+import React, { FC, ReactNode } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import { z } from 'zod';
+
+import { PlaceholderBlockConfig, RowBlockConfig, TextBlockConfig } from '~shared/app/models/page-blocks/layout-blocks';
 
 import { MarkdownContent } from '../MarkdownContent';
-import { ErrorFallback } from '../react/ErrorFallback';
-
-export const someBlockConfigSchema = z
-  .object({
-    type: z.string(),
-  })
-  .passthrough();
-
-export type SomeBlockConfig = z.infer<typeof someBlockConfigSchema>;
+import { makeRenderFallback } from '../react/ErrorFallback';
 
 export const ContainerBlock = ({ children }: { children?: ReactNode }) => {
   return (
@@ -21,40 +14,31 @@ export const ContainerBlock = ({ children }: { children?: ReactNode }) => {
   );
 };
 
-export const rowBlockSConfigSchema = z.object({
-  type: z.literal('row'),
-  title: z.string().optional(),
-  items: z.array(someBlockConfigSchema),
-});
+type RowBlockProps = Omit<RowBlockConfig, 'items' | 'type'>;
 
-export type RowBlockConfig = z.infer<typeof rowBlockSConfigSchema>;
-
-type RowBlockConfigWithoutTypeAndItems = Omit<RowBlockConfig, 'items' | 'type'>;
-
-export const RowBlock = ({ title, children }: { children?: ReactNode } & RowBlockConfigWithoutTypeAndItems) => {
+export const RowBlock = ({ title, children }: { children?: ReactNode } & RowBlockProps) => {
   return (
     <div className="shrink flex flex-col justify-start items-stretch w-full gap-3">
       <div>{title != null ? <h2 className="text-xl inline-block">{title}</h2> : null}</div>
-      <ErrorBoundary fallback={<ErrorFallback />}>
+      <ErrorBoundary fallbackRender={makeRenderFallback()}>
         <div className="grow shrink flex flex-col lg:flex-row items-center gap-5">{children}</div>
       </ErrorBoundary>
     </div>
   );
 };
 
-export const textBlockConfigSchema = z.object({
-  type: z.literal('text'),
-  content: z.string(),
-});
+type TextBlockProps = Omit<TextBlockConfig, 'type'>;
 
-export type TextBlockConfig = z.infer<typeof textBlockConfigSchema>;
-
-type TextBlockConfigWithoutType = Omit<TextBlockConfig, 'type'>;
-
-export const TextBlock = ({ content }: TextBlockConfigWithoutType) => {
+export const TextBlock: FC<TextBlockProps> = ({ content }) => {
   return (
     <div className="prose prose-sm prose-a:text-[#C72335]">
       <MarkdownContent textMarkdown={content} />
     </div>
   );
+};
+
+type PlaceholderBlockProps = Omit<PlaceholderBlockConfig, 'type'>;
+
+export const PlaceholderBlock: FC<PlaceholderBlockProps> = () => {
+  return <div className="grow w-full min-h-[220px] h-[220px] max-h-[220px]"></div>;
 };

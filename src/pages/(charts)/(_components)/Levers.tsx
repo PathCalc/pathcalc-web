@@ -1,12 +1,13 @@
 import { Info } from 'lucide-react';
 import { useEffect, useId, useState, useTransition } from 'react';
 
+import { LeverConfig } from '~shared/app/models/scenarios';
 import { MarkdownContent } from '@/components/MarkdownContent';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { AtomEffect } from '@/lib/jotai';
-import { LeverConfig, se_leverValuesToUrl, useLever, useLeversConfig } from '@/state/scenario';
+import { se_leverValuesToUrl, useLever, useLeversConfig } from '@/state/scenario';
 
 export function Levers() {
   const leverConfigs = useLeversConfig();
@@ -65,8 +66,8 @@ function Lever({ id, label, description, values }: LeverConfig) {
             <TooltipTrigger>
               <Info size={15} />
             </TooltipTrigger>
-            <TooltipContent side="right" align="start" className="max-w-[70vw] max-w-[400px] md:max-w-screen-sm -mt-2">
-              <div className="flex flex-col gap-3">
+            <TooltipContent side="right" align="start" className="max-w-[300px] md:max-w-screen-xs -mt-2">
+              <div className="flex flex-col gap-3 prose-a:text-[#C72335]">
                 <MarkdownContent textMarkdown={description} />
               </div>
             </TooltipContent>

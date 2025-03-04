@@ -12,3 +12,17 @@ export function ErrorFallback({ message }: { message?: string }) {
     </div>
   );
 }
+
+export function makeRenderFallback(message?: string) {
+  function renderFallback({ error }: { error: any }) {
+    if (import.meta.env.DEV) {
+      console.error(`Error caught by ErrorBoundary:`, error);
+      console.log(error);
+      return <ErrorFallback message={(error as Error).message} />;
+    } else {
+      return <ErrorFallback message={message} />;
+    }
+  }
+
+  return renderFallback;
+}

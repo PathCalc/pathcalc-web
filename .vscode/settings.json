@@ -19,6 +19,18 @@
     {
       "fileMatch": ["/input/data/fact-tables/*/meta.json"],
       "url": "./docs/schemas/input/data/fact-tables/fact-table-config.schema.json"
+    },
+    {
+      "fileMatch": ["/public/config/general.json"],
+      "url": "./docs/schemas/public/config/general.schema.json"
+    },
+    {
+      "fileMatch": ["/public/config/chart-pages.json"],
+      "url": "./docs/schemas/public/config/chart-pages.schema.json"
+    },
+    {
+      "fileMatch": ["/public/config/pages/*.json"],
+      "url": "./docs/schemas/public/config/pages/page.schema.json"
     }
   ]
 }

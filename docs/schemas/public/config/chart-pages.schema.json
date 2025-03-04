@@ -1,0 +1,33 @@
+{
+  "type": "object",
+  "properties": {
+    "config": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Title of the page"
+          },
+          "slug": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$",
+            "description": "\"Slug\" of the page. Consists of lower-case letters, numbers, or dashes. This is used in the URL to identify the chart page. Needs to match a file under public/config/pages/[slug].json"
+          }
+        },
+        "required": [
+          "title",
+          "slug"
+        ],
+        "additionalProperties": false
+      },
+      "description": "List of chart pages to list in the app header."
+    }
+  },
+  "required": [
+    "config"
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

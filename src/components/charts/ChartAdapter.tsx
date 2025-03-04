@@ -48,7 +48,7 @@ export function ChartAdapter({
   numberFormat,
   axisNumberFormat,
   emptyIsZero = true,
-  includeEmptySeries = false,
+  showEmptySeries = false,
   //
   seriesShapeProps = {},
   chartProps = {},
@@ -69,7 +69,7 @@ export function ChartAdapter({
   numberFormat?: Intl.NumberFormatOptions;
   axisNumberFormat?: Intl.NumberFormatOptions;
   emptyIsZero?: boolean;
-  includeEmptySeries?: boolean;
+  showEmptySeries?: boolean;
   //
   /** Properties that will be passed to each of the series shapes */
   seriesShapeProps?: Record<string, unknown>;
@@ -80,7 +80,7 @@ export function ChartAdapter({
   const seriesColors = prepareSeriesColors(seriesColumn.values);
 
   const allSeries = seriesColumn.values;
-  const visibleSeries = prepareVisibleSeries(table, seriesColumn, includeEmptySeries);
+  const visibleSeries = prepareVisibleSeries(table, seriesColumn, showEmptySeries);
 
   const dataGrid = prepareDataGrid(xColumn, seriesColumn);
 

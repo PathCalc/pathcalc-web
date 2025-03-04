@@ -5,8 +5,8 @@ import { Config } from 'vike-react/Config';
 import { useData } from 'vike-react/useData';
 
 import { ChartBlock } from '@/components/page-blocks/chart-block';
-import { ContainerBlock, RowBlock, TextBlock } from '@/components/page-blocks/layout-blocks';
-import { ErrorFallback } from '@/components/react/ErrorFallback';
+import { ContainerBlock, PlaceholderBlock, RowBlock, TextBlock } from '@/components/page-blocks/layout-blocks';
+import { makeRenderFallback } from '@/components/react/ErrorFallback';
 
 import { Data } from './+data';
 
@@ -15,6 +15,7 @@ const mapping = {
   row: RowBlock,
   chart: ChartBlock,
   text: TextBlock,
+  placeholder: PlaceholderBlock,
 };
 
 function mapProp(prop: any): any {
@@ -35,7 +36,7 @@ export function Page() {
   return (
     <>
       <Config title={`${currentPage.title} | ${general.title}`} />
-      <ErrorBoundary fallback={<ErrorFallback message="There was an error while displaying this page." />}>
+      <ErrorBoundary fallbackRender={makeRenderFallback('There was an error while displaying this page.')}>
         <ConfigurablePage />
       </ErrorBoundary>
     </>
