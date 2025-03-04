@@ -215,8 +215,7 @@
                         }
                     },
                     {
-                        "type": "container",
-                        "items": []
+                        "type": "placeholder"
                     }
                 ]
             }
