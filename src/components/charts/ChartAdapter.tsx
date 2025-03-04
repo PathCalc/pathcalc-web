@@ -84,7 +84,16 @@ export function ChartAdapter({
 
   const dataGrid = prepareDataGrid(xColumn, seriesColumn);
 
-  const chartData = prepareChartData(dataGrid, table, emptyIsZero, xColumn.id, yColumn.id, seriesColumn.id, allSeries);
+  const chartData = prepareChartData(
+    dataGrid,
+    table,
+    emptyIsZero,
+    xColumn.id,
+    xColumn.values,
+    yColumn.id,
+    seriesColumn.id,
+    allSeries,
+  );
   const chartConfig = prepareChartConfig(xColumn, yColumn, allSeries, seriesColors, yLabel, yUnit);
   const chartSeries = prepareChartSeries(allSeries, seriesColors);
 
@@ -148,6 +157,7 @@ function prepareChartData(
   data: ColumnTable,
   emptyIsZero: boolean,
   xColId: string,
+  xValues: ChartDimensionValue[],
   yColId: string,
   seriesColId: string,
   seriesValues: ChartDimensionValue[],
@@ -163,7 +173,7 @@ function prepareChartData(
     escape(
       orderByList(
         xColId,
-        seriesValues.map((v) => v.value),
+        xValues.map((v) => v.value),
       ),
     ),
     escape(
