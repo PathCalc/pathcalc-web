@@ -94,6 +94,7 @@ function datasetColumnsToChartAdapterFormat(columns: DatasetColumn[]): ChartAdap
       if (c.domainType === 'local') {
         c2.values = c.domain.map((d) => ({
           value: d.id,
+          label: d.id,
         }));
       } else if (c.domainType === 'linked') {
         c2.values = c.domain.content.table.map((d) => ({
