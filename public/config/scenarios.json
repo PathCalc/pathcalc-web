@@ -3,7 +3,7 @@
         {
             "id": "avoid",
             "label": "Avoid",
-            "description": "Passenger and freight transport demand reduction",
+            "description": "Passenger and freight transport demand reduction. [More info](https://drive.google.com/file/d/1kO_jI-8VEQi-XYh6ZcMNFZSGf_RDBC0r/view?usp=sharing)",
             "values": {
                 "min": 1,
                 "max": 4
@@ -12,7 +12,7 @@
         {
             "id": "shift",
             "label": "Shift",
-            "description": "Modal shift, vehicle utilisation rate increase, vehicle occupancy increase",
+            "description": "Modal shift, vehicle utilisation rate increase, vehicle occupancy increase. [More info](https://drive.google.com/file/d/1KIBk6Cn8-XP2E6ZNqcY3meghpYvVNqrA/view?usp=sharing)",
             "values": {
                 "min": 1,
                 "max": 4
@@ -21,7 +21,7 @@
         {
             "id": "improve",
             "label": "Improve",
-            "description": "Transport technology switch away from emitting vehicles",
+            "description": "Transport technology switch away from emitting vehicles. [More info](https://drive.google.com/file/d/1KCqVBt3Nay5Q0uLXn10gO48saEuuC9dJ/view?usp=sharing)",
             "values": {
                 "min": 1,
                 "max": 4
@@ -30,7 +30,7 @@
         {
             "id": "transform",
             "label": "Transform",
-            "description": "Decarbonisation of the power sector and fuel blending",
+            "description": "Decarbonisation of the power sector and fuel blending. [More info](https://drive.google.com/file/d/1T0sX78iissYa7XJhVF0n-AfUUwsPM6Kr/view?usp=sharing)",
             "values": {
                 "min": 1,
                 "max": 4
@@ -39,7 +39,7 @@
         {
             "id": "costs",
             "label": "Costs",
-            "description": "Steeper cost reductions for developing technologies",
+            "description": "Steeper cost reductions for developing technologies. [More info](https://drive.google.com/file/d/10AmbAQpY2eS0JdMsu_-2thA0b0qM4lN-/view?usp=sharing)",
             "values": {
                 "min": 1,
                 "max": 4
@@ -64,7 +64,7 @@
             "label": "Behaviour Change for Net Zero",
             "description": "",
             "scenario": {
-                "avoid": 3,
+                "avoid": 4,
                 "shift": 4,
                 "improve": 4,
                 "transform": 4,
@@ -77,7 +77,7 @@
             "description": "",
             "scenario": {
                 "avoid": 2,
-                "shift": 2,
+                "shift": 3,
                 "improve": 4,
                 "transform": 4,
                 "costs": 2
