@@ -47,11 +47,11 @@ const tableStorageSchema = z
     z.object({
       type: z
         .literal('local-input')
-        .describe('local-input: Local input/ folder fact table storage configuration (for loading raw data)'),
+        .describe('local-input: Local input-raw/ folder fact table storage configuration (for loading raw data)'),
       pattern: z
         .string()
         .describe(
-          'Pattern for sharded CSV file paths.\nTreated as relative to /input/[NAME-OF-TABLE]/ folder.\nExample: "shards/{Scenario}.csv"',
+          'Pattern for sharded CSV file paths.\nTreated as relative to /input-raw/[NAME-OF-TABLE]/ folder.\nExample: "shards/{Scenario}.csv"',
         ),
     }),
     z.object({

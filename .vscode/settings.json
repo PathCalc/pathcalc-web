@@ -17,7 +17,7 @@
       "url": "./docs/schemas/input/pipeline/pipeline-config.schema.json"
     },
     {
-      "fileMatch": ["/input/data/fact-tables/*/meta.json"],
+      "fileMatch": ["/input/data/fact-tables/*.json"],
       "url": "./docs/schemas/input/data/fact-tables/fact-table-config.schema.json"
     },
     {

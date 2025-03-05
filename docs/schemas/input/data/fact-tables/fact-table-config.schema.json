@@ -29,11 +29,11 @@
                 "type": {
                   "type": "string",
                   "const": "local-input",
-                  "description": "local-input: Local input/ folder fact table storage configuration (for loading raw data)"
+                  "description": "local-input: Local input-raw/ folder fact table storage configuration (for loading raw data)"
                 },
                 "pattern": {
                   "type": "string",
-                  "description": "Pattern for sharded CSV file paths.\nTreated as relative to /input/[NAME-OF-TABLE]/ folder.\nExample: \"shards/{Scenario}.csv\""
+                  "description": "Pattern for sharded CSV file paths.\nTreated as relative to /input-raw/[NAME-OF-TABLE]/ folder.\nExample: \"shards/{Scenario}.csv\""
                 }
               },
               "required": [

@@ -1,4 +1,4 @@
-import { basename, dirname } from 'path';
+import { basename } from 'path';
 import { Glob } from 'bun';
 
 import { Dimension } from '~shared/pipeline/models/dimension/dimension';
@@ -10,7 +10,7 @@ import { ServerSourceFactTable, ServerWebFactTable } from '@/storage/server-fact
 import { readJsonFileSync } from '@/utils/files';
 
 export async function readFactTablesConfigDirectory(ctx: ProcessingContext, dimensionsLookup: Map<string, Dimension>) {
-  const globResult = new Glob('input/data/fact-tables/*/meta.json').scanSync();
+  const globResult = new Glob('input/data/fact-tables/*.json').scanSync();
 
   const paths = [...globResult].toSorted();
 
@@ -36,7 +36,7 @@ export async function readFactTablesConfigDirectory(ctx: ProcessingContext, dime
 }
 
 function factTableIdFromMetaPath(path: string) {
-  return basename(dirname(path));
+  return basename(path).replace('.json', '');
 }
 
 export async function readFactTableConfigMetaFile(
