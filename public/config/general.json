@@ -4,5 +4,25 @@
         "subtitle": "Laos"
     },
     "title": "PathCalc Laos",
-    "description": "PathCalc visualisation system"
+    "description": "PathCalc visualisation system",
+    "defaultChartSettings": {
+        "numberFormat": {
+            "maximumSignificantDigits": 2,
+            "maximumFractionalDigits": 1,
+            "roundingPriority": "lessPrecision"
+        },
+        "seriesShapeProps": {
+            "area": {
+                "stroke": "#000",
+                "strokeWidth": 1
+            },
+            "line": {
+                "strokeWidth": 2
+            },
+            "bar": {
+                "stroke": "#000",
+                "barSize": 70
+            }
+        }
+    }
 }

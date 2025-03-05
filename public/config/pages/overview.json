@@ -19,8 +19,7 @@
                             "legend": false,
                             "extraProps": {
                                 "chart": {
-                                    "syncId": "year",
-                                    "syncMethod": "value"
+                                    "syncId": "year"
                                 }
                             }
                         }

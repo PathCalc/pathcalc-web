@@ -102,7 +102,7 @@ const ChartTooltipContent = React.forwardRef<
       labelKey?: string;
       valueFormatter?: (value: number) => string;
       visibleItems?: string[];
-      showTotal?: boolean;
+      showTotal: boolean;
     }
 >(
   (
@@ -122,7 +122,7 @@ const ChartTooltipContent = React.forwardRef<
       nameKey,
       labelKey,
       visibleItems,
-      showTotal = true,
+      showTotal,
     },
     ref,
   ) => {

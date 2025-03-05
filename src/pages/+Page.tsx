@@ -2,11 +2,14 @@ import { useData } from 'vike-react/useData';
 
 import { MarkdownContent } from '@/components/MarkdownContent';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { useSetGeneralConfig } from '@/state/general-config';
 
 import { Data } from './+data';
 
 export function Page() {
-  const { moreInfoMarkdown } = useData<Data>();
+  const { moreInfoMarkdown, general } = useData<Data>();
+
+  useSetGeneralConfig(general); //TODO figure out a global method to do this
 
   return (
     <ScrollArea className="h-[calc(100vh-56px)]">

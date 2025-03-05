@@ -46,10 +46,32 @@ export const chartBlockConfigSchema = z.object({
         .boolean()
         .optional()
         .describe('Should empty series be shown in legend (true/false). Default: false'),
+      showTooltipTotal: z
+        .boolean()
+        .optional()
+        .describe('Should the total be shown in the tooltip (true/false). Default: true'),
       extraProps: z
         .object({
-          chart: z.object({}).passthrough().optional(),
-          chartSeries: z.object({}).passthrough().optional(),
+          chart: z
+            .object({})
+            .passthrough()
+            .optional()
+            .describe(
+              'Options to pass to the main chart component. Depending on chart type, see docs:' +
+                '\narea: https://recharts.org/en-US/api/AreaChart' +
+                '\nbar: https://recharts.org/en-US/api/BarChart' +
+                '\nline: https://recharts.org/en-US/api/LineChart',
+            ),
+          chartSeries: z
+            .object({})
+            .passthrough()
+            .optional()
+            .describe(
+              'Options to pass to the individual chart series components. Depending on chart type, see docs:' +
+                '\narea: https://recharts.org/en-US/api/Area' +
+                '\nbar: https://recharts.org/en-US/api/Bar' +
+                '\nline: https://recharts.org/en-US/api/Line',
+            ),
           chartComponents: z
             .object({
               CartesianGrid: z
@@ -72,7 +94,10 @@ export const chartBlockConfigSchema = z.object({
                 .describe('See docs: https://recharts.org/en-US/api/Legend'),
             })
             .passthrough()
-            .optional(),
+            .optional()
+            .describe(
+              'Options to pass to individual components of the chart layout such the axes, tooltip, legend etc.',
+            ),
         })
         .optional()
         .describe(

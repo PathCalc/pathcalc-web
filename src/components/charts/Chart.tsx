@@ -13,6 +13,7 @@ import {
 } from 'recharts';
 import { AxisDomain } from 'recharts/types/util/types';
 
+import { DefaultChartSettings } from '~shared/app/models/general';
 import {
   ChartConfig,
   ChartContainer,
@@ -21,25 +22,6 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart';
-
-const defaultSeriesShapeProps = {
-  area: {
-    stroke: '#000',
-  },
-  line: {
-    strokeWidth: 2,
-  },
-  bar: {
-    stroke: '#000',
-    barSize: 70,
-  },
-};
-
-const defaultNumberFormatting: ConstructorParameters<typeof Intl.NumberFormat>[1] = {
-  maximumSignificantDigits: 2,
-  maximumFractionDigits: 2,
-  roundingPriority: 'lessPrecision',
-};
 
 export function Chart({
   type,
@@ -54,9 +36,10 @@ export function Chart({
   yLabel,
   yUnit,
   tooltip = true,
+  showTooltipTotal = true,
   legend,
-  numberFormat = defaultNumberFormatting,
-  axisNumberFormat = defaultNumberFormatting,
+  numberFormat,
+  axisNumberFormat,
   //
   seriesShapeProps = {},
   chartProps = {},
@@ -69,6 +52,8 @@ export function Chart({
     ChartLegend: cl = {},
     ChartLegendContent: clc = {},
   } = {},
+  //
+  defaultChartSettings,
 }: {
   data: any[];
   xVariable: string;
@@ -83,6 +68,7 @@ export function Chart({
   yLabel?: string;
   yUnit?: string;
   tooltip?: boolean;
+  showTooltipTotal?: boolean;
   legend?: boolean | 'bottom' | 'right';
   numberFormat?: Intl.NumberFormatOptions;
   axisNumberFormat?: Intl.NumberFormatOptions;
@@ -90,7 +76,18 @@ export function Chart({
   seriesShapeProps?: Record<string, unknown>;
   chartProps?: Record<string, unknown>;
   chartComponentProps?: Record<string, any>;
+  //
+  defaultChartSettings: DefaultChartSettings;
 }) {
+  if (numberFormat == null) {
+    numberFormat = defaultChartSettings.numberFormat;
+  }
+  if (axisNumberFormat == null) {
+    axisNumberFormat = numberFormat;
+  }
+
+  const defaultSeriesShapeProps = defaultChartSettings.seriesShapeProps;
+
   const ShapeChart = getShapeChart(type);
   const Shape = getShape(type);
 
@@ -110,6 +107,7 @@ export function Chart({
           }}
           valueFormatter={(v) => v.toLocaleString('en-GB', numberFormat)}
           visibleItems={visibleSeries}
+          showTotal={showTooltipTotal}
           {...ctc}
         />
       }
@@ -121,7 +119,7 @@ export function Chart({
 
   return (
     <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
-      <ShapeChart accessibilityLayer data={data} margin={{ top: 20 }} {...chartProps}>
+      <ShapeChart accessibilityLayer data={data} margin={{ top: 20 }} syncMethod="value" {...chartProps}>
         <CartesianGrid vertical={false} {...cg} />
         <XAxis dataKey={xVariable} tickLine={true} tickMargin={10} axisLine={true} {...xa} />
         <YAxis

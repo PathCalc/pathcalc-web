@@ -12,7 +12,11 @@ import { ChartBlockConfig, chartBlockConfigSchema } from './chart-block';
 
 export const textBlockConfigSchema = z.object({
   type: z.literal('text').describe('text: a block for displaying text content'),
-  content: z.string().describe('The text content to be displayed'),
+  content: z
+    .string()
+    .describe(
+      'The text content to be displayed. Supports Markdown format, but line breaks need to be indicated as \\n',
+    ),
 });
 
 export type TextBlockConfig = z.infer<typeof textBlockConfigSchema>;

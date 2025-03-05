@@ -2,6 +2,7 @@ import { ColumnTable, escape, from } from 'arquero';
 import { schemeTableau10 } from 'd3-scale-chromatic';
 import { indexBy } from 'remeda';
 
+import { DefaultChartSettings } from '~shared/app/models/general';
 import { ChartStat } from '~shared/pipeline/models/dataset/types';
 import { ChartStatDefinition, isChartStatDefinitionEqual } from '~shared/pipeline/models/stats';
 import { d3 } from '@/lib/d3';
@@ -49,10 +50,13 @@ export function ChartAdapter({
   axisNumberFormat,
   emptyIsZero = true,
   showEmptySeries = false,
+  showTooltipTotal = true,
   //
   seriesShapeProps = {},
   chartProps = {},
   chartComponentProps = {},
+  //
+  defaultChartSettings,
 }: {
   /** Dataset table */
   table: ColumnTable;
@@ -70,12 +74,16 @@ export function ChartAdapter({
   axisNumberFormat?: Intl.NumberFormatOptions;
   emptyIsZero?: boolean;
   showEmptySeries?: boolean;
+  showTooltipTotal?: boolean;
   //
   /** Properties that will be passed to each of the series shapes */
   seriesShapeProps?: Record<string, unknown>;
   /** Properties that will be passed to the main chart component */
   chartProps?: Record<string, unknown>;
   chartComponentProps?: Record<string, unknown>;
+  //
+  /** default settings */
+  defaultChartSettings: DefaultChartSettings;
 }) {
   const seriesColors = prepareSeriesColors(seriesColumn.values);
 
@@ -118,12 +126,14 @@ export function ChartAdapter({
       yLabel={yLabel ?? yColumn.label}
       yUnit={yUnit}
       legend={legend}
+      showTooltipTotal={showTooltipTotal}
       numberFormat={numberFormat}
       axisNumberFormat={axisNumberFormat}
       chartConfig={chartConfig}
       seriesShapeProps={seriesShapeProps}
       chartProps={chartProps}
       chartComponentProps={chartComponentProps}
+      defaultChartSettings={defaultChartSettings}
     />
   );
 }

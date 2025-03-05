@@ -7,6 +7,7 @@ import { useData } from 'vike-react/useData';
 import { ChartBlock } from '@/components/page-blocks/chart-block';
 import { ContainerBlock, PlaceholderBlock, RowBlock, TextBlock } from '@/components/page-blocks/layout-blocks';
 import { makeRenderFallback } from '@/components/react/ErrorFallback';
+import { useSetGeneralConfig } from '@/state/general-config';
 
 import { Data } from './+data';
 
@@ -33,6 +34,9 @@ function mapProp(prop: any): any {
 
 export function Page() {
   const { currentPage, general } = useData<Data>();
+
+  useSetGeneralConfig(general); //TODO figure out a global method to do this
+
   return (
     <>
       <Config title={`${currentPage.title} | ${general.title}`} />

@@ -2,6 +2,7 @@ import { indexBy } from 'remeda';
 
 import { checkPrimaryKey } from '@/lib/data-utils';
 import { useDataset } from '@/state/datasets';
+import { useGeneralConfig } from '@/state/general-config';
 
 import { ChartBlockProps } from '../page-blocks/chart-block';
 import { ChartAdapter } from './ChartAdapter';
@@ -18,6 +19,9 @@ export function ChartDataAdapter({
   options: { extraProps, ...otherOptions },
 }: { scenario: string } & ChartBlockProps) {
   const { table, columns } = useDataset(scenario, dataset);
+
+  // assumes general config has been loaded before this component is rendered
+  const defaultChartSettings = useGeneralConfig().defaultChartSettings;
 
   // Prepare config / data
 
@@ -48,6 +52,7 @@ export function ChartDataAdapter({
       chartProps={extraProps?.chart}
       seriesShapeProps={extraProps?.chartSeries}
       chartComponentProps={extraProps?.chartComponents}
+      defaultChartSettings={defaultChartSettings}
       {...otherOptions}
     />
   );

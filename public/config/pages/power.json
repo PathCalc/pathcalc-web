@@ -19,8 +19,7 @@
                             "legend": true,
                             "extraProps": {
                                 "chart": {
-                                    "syncId": "year",
-                                    "syncMethod": "value"
+                                    "syncId": "year"
                                 }
                             }
                         }
@@ -39,8 +38,7 @@
                             "legend": true,
                             "extraProps": {
                                 "chart": {
-                                    "syncId": "year",
-                                    "syncMethod": "value"
+                                    "syncId": "year"
                                 }
                             }
                         }

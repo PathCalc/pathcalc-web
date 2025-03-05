@@ -14,19 +14,13 @@
                         "y": "VALUE",
                         "series": "TECHNOLOGY:TraMode",
                         "options": {
-                            "numberFormat": {
-                                "maximumSignificantDigits": 3,
-                                "maximumFractionDigits": 3,
-                                "roundingPriority": "lessPrecision"
-                            },
                             "type": "area",
                             "stacked": true,
                             "yUnit": "kt",
                             "legend": true,
                             "extraProps": {
                                 "chart": {
-                                    "syncId": "year",
-                                    "syncMethod": "value"
+                                    "syncId": "year"
                                 }
                             }
                         }
@@ -45,8 +39,7 @@
                             "legend": true,
                             "extraProps": {
                                 "chart": {
-                                    "syncId": "year",
-                                    "syncMethod": "value"
+                                    "syncId": "year"
                                 }
                             }
                         }
@@ -70,8 +63,7 @@
                             "legend": true,
                             "extraProps": {
                                 "chart": {
-                                    "syncId": "year",
-                                    "syncMethod": "value"
+                                    "syncId": "year"
                                 }
                             }
                         }
@@ -90,8 +82,7 @@
                             "legend": true,
                             "extraProps": {
                                 "chart": {
-                                    "syncId": "year",
-                                    "syncMethod": "value"
+                                    "syncId": "year"
                                 }
                             }
                         }
@@ -116,8 +107,7 @@
                             "legend": true,
                             "extraProps": {
                                 "chart": {
-                                    "syncId": "year",
-                                    "syncMethod": "value"
+                                    "syncId": "year"
                                 }
                             }
                         }
