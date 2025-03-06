@@ -29,11 +29,11 @@
                 "type": {
                   "type": "string",
                   "const": "local-input",
-                  "description": "local-input: Local input-raw/ folder fact table storage configuration (for loading raw data)"
+                  "description": "local-input: input-raw/fact-tables/ fact table storage (for loading raw data)"
                 },
                 "pattern": {
                   "type": "string",
-                  "description": "Pattern for sharded CSV file paths.\nTreated as relative to /input-raw/[NAME-OF-TABLE]/ folder.\nExample: \"shards/{Scenario}.csv\""
+                  "description": "Pattern for sharded CSV file paths.\nTreated as relative to /input-raw/fact-tables/[NAME-OF-TABLE]/ folder.\nExample: \"shards/{Scenario}.csv\""
                 }
               },
               "required": [
@@ -48,7 +48,7 @@
                 "type": {
                   "type": "string",
                   "const": "local-public",
-                  "description": "local-public: Local public/ folder fact table storage configuration (for writing out pre-processed web tables)"
+                  "description": "local-public: public/data/fact-tables/ fact table storage (for writing out pre-processed web tables)"
                 },
                 "pattern": {
                   "type": "string",
@@ -101,13 +101,14 @@
                   },
                   "label": {
                     "type": "string",
-                    "description": "Human-readable label to be used in the app for the column."
+                    "description": "Human-readable label to be used in the app for the column. Currently not used."
                   },
                   "aggregationMethod": {
                     "type": "string",
                     "enum": [
                       "sum"
-                    ]
+                    ],
+                    "description": "Aggregation method to use by default for this measure column. Currently only supports \"sum\"."
                   }
                 },
                 "required": [

@@ -5,9 +5,15 @@ import { dimensionIdSchema } from '../dimension/dimension-config-schema';
 export const measureTypeColumnSchema = z.object({
   name: z.string().describe('Unique column name.'),
   type: z.literal('measure').describe('measure: a column that contains numeric values to be aggregated.'),
-  label: z.string().optional().describe('Human-readable label to be used in the app for the column.'),
+  label: z
+    .string()
+    .optional()
+    .describe('Human-readable label to be used in the app for the column. Currently not used.'),
   // unit: z.string().optional(),
-  aggregationMethod: z.enum(['sum']).optional(),
+  aggregationMethod: z
+    .enum(['sum'])
+    .optional()
+    .describe('Aggregation method to use by default for this measure column. Currently only supports "sum".'),
 });
 
 export type MeasureColumnConfig = z.infer<typeof measureTypeColumnSchema>;
@@ -47,18 +53,18 @@ const tableStorageSchema = z
     z.object({
       type: z
         .literal('local-input')
-        .describe('local-input: Local input-raw/ folder fact table storage configuration (for loading raw data)'),
+        .describe('local-input: input-raw/fact-tables/ fact table storage (for loading raw data)'),
       pattern: z
         .string()
         .describe(
-          'Pattern for sharded CSV file paths.\nTreated as relative to /input-raw/[NAME-OF-TABLE]/ folder.\nExample: "shards/{Scenario}.csv"',
+          'Pattern for sharded CSV file paths.\nTreated as relative to /input-raw/fact-tables/[NAME-OF-TABLE]/ folder.\nExample: "shards/{Scenario}.csv"',
         ),
     }),
     z.object({
       type: z
         .literal('local-public')
         .describe(
-          'local-public: Local public/ folder fact table storage configuration (for writing out pre-processed web tables)',
+          'local-public: public/data/fact-tables/ fact table storage (for writing out pre-processed web tables)',
         ),
       pattern: z
         .string()

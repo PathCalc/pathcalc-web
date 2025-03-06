@@ -20,12 +20,12 @@ export const opAggregateSchema = z
       .array(dimensionPathSchema)
       .min(1)
       .describe(
-        'List of columns to group by before aggregating. Can be column names or nested column paths of the  form X:Y:Z:etc',
+        'List of columns to group by before aggregating. Can be column names or nested column paths of the  form X:Y:Z:etc. Order does not matter.',
       ),
   })
   .describe(
     `Operation to aggregate the dataset based on a list of columns.
-     The resulting dataset will have the grouping columns, as well as all measure columns, aggregated based on their default aggregation method.`,
+     The resulting dataset will contain the grouping columns, as well as all measure columns aggregated based on their default aggregation method.`,
   );
 
 export type AggregateConfig = z.infer<typeof opAggregateSchema>;

@@ -96,7 +96,7 @@
                     "description": "Dimension/column path. Can be a single name, or a nested access path separated by colons, such as X:Y:Z:etc."
                   },
                   "minItems": 1,
-                  "description": "List of columns to group by before aggregating. Can be column names or nested column paths of the  form X:Y:Z:etc"
+                  "description": "List of columns to group by before aggregating. Can be column names or nested column paths of the  form X:Y:Z:etc. Order does not matter."
                 }
               },
               "required": [
@@ -104,7 +104,7 @@
                 "groupby"
               ],
               "additionalProperties": false,
-              "description": "Operation to aggregate the dataset based on a list of columns.\n     The resulting dataset will have the grouping columns, as well as all measure columns, aggregated based on their default aggregation method."
+              "description": "Operation to aggregate the dataset based on a list of columns.\n     The resulting dataset will contain the grouping columns, as well as all measure columns aggregated based on their default aggregation method."
             },
             {
               "type": "object",

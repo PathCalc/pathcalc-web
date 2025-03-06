@@ -25,6 +25,10 @@
       "url": "./docs/schemas/public/config/general.schema.json"
     },
     {
+      "fileMatch": ["/public/config/scenarios.json"],
+      "url": "./docs/schemas/public/config/scenarios.schema.json"
+    },
+    {
       "fileMatch": ["/public/config/chart-pages.json"],
       "url": "./docs/schemas/public/config/chart-pages.schema.json"
     },

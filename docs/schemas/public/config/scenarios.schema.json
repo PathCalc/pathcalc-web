@@ -7,29 +7,35 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "string"
+            "type": "string",
+            "description": "Unique identifier of the lever. Will appear in the URL - should be a lower-case text without spaces."
           },
           "label": {
-            "type": "string"
+            "type": "string",
+            "description": "Human-readable name of the lever."
           },
           "description": {
-            "type": "string"
+            "type": "string",
+            "description": "Description of the lever, explaining what it does. Will appear in the information tooltip. Supports Markdown format (URLs etc)."
           },
           "values": {
             "type": "object",
             "properties": {
               "min": {
-                "type": "number"
+                "type": "number",
+                "description": "Minimum value that the lever can take."
               },
               "max": {
-                "type": "number"
+                "type": "number",
+                "description": "Maximum value that the lever can take."
               }
             },
             "required": [
               "min",
               "max"
             ],
-            "additionalProperties": false
+            "additionalProperties": false,
+            "description": "Range of values that the lever can take."
           }
         },
         "required": [
@@ -48,19 +54,23 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "string"
+            "type": "string",
+            "description": "Unique identifier of the preset. Should be a text without spaces."
           },
           "label": {
-            "type": "string"
+            "type": "string",
+            "description": "Human-readable name of the preset. Will appear in the dropdown list."
           },
           "description": {
-            "type": "string"
+            "type": "string",
+            "description": "Description of the preset, explaining what it does. Currently not used."
           },
           "scenario": {
             "type": "object",
             "additionalProperties": {
               "type": "number"
-            }
+            },
+            "description": "Values of the levers in the preset. Keys should match the lever IDs. Values should be numbers within the lever range."
           }
         },
         "required": [
