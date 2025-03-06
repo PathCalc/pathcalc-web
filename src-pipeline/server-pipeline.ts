@@ -1,3 +1,4 @@
+import path from 'path';
 import { EventName as FileEventName } from 'chokidar/handler';
 
 import { reportDimensions } from '~shared/pipeline/models/dimension/report-dimensions';
@@ -51,7 +52,10 @@ export class ServerPipeline {
   }
 
   public async dryRun(ctx: ProcessingContext, fileChanges: FileChanges) {
-    const fileChangePaths = fileChanges.keys().toArray();
+    const fileChangePaths = fileChanges
+      .keys()
+      .toArray()
+      .map((p) => path.posix.normalize(p.replace(/\\/g, '/')));
 
     let firstRun = false,
       dimensionChanges = false,
