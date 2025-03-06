@@ -1,6 +1,7 @@
 import { render } from 'vike/abort';
 import { PageContextServer } from 'vike/types';
 
+import { SingleChartPageConfig } from '~shared/app/models/single-chart-page';
 import chartPagesConfig from '@/../public/config/chart-pages.json';
 import generalConfig from '@/../public/config/general.json';
 import moreInfoMarkdown from '@/../public/config/info.md';
@@ -26,7 +27,9 @@ export async function data(pageContext: PageContextServer) {
     throw render(404, `Chart page "${slug}" doesn't exist`);
   }
 
-  const detailConfig = (await import(`@/../public/config/pages/${chartPage.slug}.json`)).default;
+  // using relative path because @/.. doesn't work on Windows
+  const detailConfig = (await import(`../../../public/config/pages/${chartPage.slug}.json`))
+    .default as SingleChartPageConfig;
 
   return {
     currentPage: chartPage,

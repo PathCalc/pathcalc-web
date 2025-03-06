@@ -9,3 +9,5 @@ export const singleChartPageConfigSchema = z
     ),
   })
   .describe('Chart page configuration');
+
+export type SingleChartPageConfig = z.infer<typeof singleChartPageConfigSchema>;
