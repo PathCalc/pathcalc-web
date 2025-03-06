@@ -8,6 +8,7 @@ import {
   dimensionConfigSplitFileSchema,
   dimensionDomainConfigSchema,
 } from '~shared/pipeline/models/dimension/dimension-config-schema';
+import { formatZodValidationError } from '~shared/pipeline/utils/errors';
 import { ProcessingContext } from '~shared/pipeline/utils/processing-context';
 import { csvParseToStringObjs } from '@/utils/csv';
 import { isDirectory, nameFromPath, readJsonFileSync } from '@/utils/files';
@@ -102,7 +103,7 @@ export async function loadDimensionSplitFileConfigMetaFile(directoryPath: string
   const { data: parsedConfig, error } = dimensionConfigSplitFileSchema.safeParse(config);
 
   if (error) {
-    throw new Error(`invalid "meta.json" file in directory \nValidation errors: ${error.message}`);
+    throw new Error(`invalid "meta.json" file in directory \n${formatZodValidationError(error)}`);
   }
 
   const { id, label } = parsedConfig;
@@ -133,7 +134,9 @@ export async function loadDimensionConfigLocalDirectory(path: string) {
   const { data: domain, error } = dimensionDomainConfigSchema.safeParse(domainContent);
 
   if (error) {
-    throw new Error(`invalid "${idFromPath}.csv" file in directory \nValidation errors: ${error.message}`);
+    throw new Error(
+      `invalid "${idFromPath}.csv" file in directory \nValidation errors: ${formatZodValidationError(error)}`,
+    );
   }
 
   return new Dimension(id, domain, label);
@@ -152,7 +155,7 @@ export async function loadDimensionConfigLocalFile(path: string) {
   const { data: parsedConfig, error } = dimensionConfigSingleFileSchema.safeParse(config);
 
   if (error) {
-    throw new Error(`invalid JSON file \nValidation errors: ${error.message}`);
+    throw new Error(`invalid JSON file \n${formatZodValidationError(error)}`);
   }
 
   const { id, label, domain } = parsedConfig;

@@ -4,7 +4,7 @@ import { Glob } from 'bun';
 import { Dimension } from '~shared/pipeline/models/dimension/dimension';
 import { FactTable, SourceFactTable } from '~shared/pipeline/models/fact-table/fact-table';
 import { factTableConfigSchema } from '~shared/pipeline/models/fact-table/fact-table-config-schema';
-import { UnexpectedError } from '~shared/pipeline/utils/errors';
+import { formatZodValidationError, UnexpectedError } from '~shared/pipeline/utils/errors';
 import { ProcessingContext } from '~shared/pipeline/utils/processing-context';
 import { ServerSourceFactTable, ServerWebFactTable } from '@/storage/server-fact-table';
 import { readJsonFileSync } from '@/utils/files';
@@ -51,7 +51,7 @@ export async function readFactTableConfigMetaFile(
   const { data: parsedMeta, error } = factTableConfigSchema.safeParse(metaContent);
 
   if (error) {
-    throw new Error(`Error parsing fact table config: ${error.message}`);
+    throw new Error(`Error parsing fact table config: ${formatZodValidationError(error)}`);
   }
 
   const { id, type, sharding, storage } = parsedMeta;

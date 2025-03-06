@@ -4,6 +4,7 @@ import { pipelineConfigSchema } from '~shared/pipeline/models/pipeline/pipeline-
 import { PipelineFlow } from '~shared/pipeline/models/pipeline/pipeline-flow';
 import { PipelineMultiflow } from '~shared/pipeline/models/pipeline/pipeline-multiflow';
 import { createStep } from '~shared/pipeline/transforms/create-step';
+import { formatZodValidationError } from '~shared/pipeline/utils/errors';
 import { ProcessingContext } from '~shared/pipeline/utils/processing-context';
 import { nameFromPath, readJsonFileSync } from '@/utils/files';
 
@@ -35,7 +36,7 @@ export async function readPipelineFileConfig(ctx: ProcessingContext, path: strin
   const { data: parsedMeta, error } = pipelineConfigSchema.safeParse(metaContent);
 
   if (error) {
-    throw new Error(`Error parsing pipeline config file: ${error.message}`);
+    throw new Error(`Error parsing pipeline config file: ${formatZodValidationError(error)}`);
   }
 
   const multiFlowConfig = parsedMeta;
