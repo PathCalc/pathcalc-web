@@ -6,24 +6,23 @@
         [
             {
                 "$": "load",
-                "from": "_Use",
+                "from": "_Production",
                 "sharding": [
                     "Scenario"
                 ]
             },
             {
                 "$": "filter",
-                "column": "TECHNOLOGY:Sector",
+                "column": "TECHNOLOGY:TraOnlyFuel",
                 "in": [
-                    "TRA",
-                    "HDG"
+                    "Y"
                 ]
             },
             {
                 "$": "aggregate",
                 "groupby": [
                     "YEAR",
-                    "COMMODITY:Type"
+                    "TECHNOLOGY:Type"
                 ]
             },
             {

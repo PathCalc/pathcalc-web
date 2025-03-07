@@ -30,7 +30,7 @@
                         "dataset": "Transport1B",
                         "x": "YEAR",
                         "y": "VALUE",
-                        "series": "COMMODITY:Type",
+                        "series": "TECHNOLOGY:Type",
                         "options": {
                             "type": "area",
                             "stacked": true,

@@ -44,6 +44,95 @@
                         }
                     }
                 ]
+            },
+            {
+                "type": "row",
+                "title": "Electricity exports",
+                "items": [
+                    {
+                        "type": "chart",
+                        "title": "Dedicated exports",
+                        "dataset": "Power2A",
+                        "x": "YEAR",
+                        "y": "VALUE",
+                        "series": "TECHNOLOGY:SubSector",
+                        "options": {
+                            "type": "area",
+                            "stacked": true,
+                            "yUnit": "PJ",
+                            "legend": true,
+                            "extraProps": {
+                                "chart": {
+                                    "syncId": "year"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "type": "chart",
+                        "title": "Surplus exports",
+                        "dataset": "Power2B",
+                        "x": "YEAR",
+                        "y": "VALUE",
+                        "series": "TECHNOLOGY:SubSector",
+                        "options": {
+                            "type": "area",
+                            "stacked": true,
+                            "yUnit": "PJ",
+                            "legend": true,
+                            "extraProps": {
+                                "chart": {
+                                    "syncId": "year"
+                                }
+                            }
+                        }
+                    }
+                            
+                ]
+            },
+            {
+                "type": "row",
+                "title": "Jobs",
+                "items": [
+                    {
+                        "type": "chart",
+                        "title": "Construction & manufacturing",
+                        "dataset": "Jobs2",
+                        "x": "YEAR",
+                        "y": "VALUE",
+                        "series": "TECHNOLOGY:Type",
+                        "options": {
+                            "type": "area",
+                            "stacked": true,
+                            "yUnit": "thsnd jobs",
+                            "legend": true,
+                            "extraProps": {
+                                "chart": {
+                                    "syncId": "year"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "type": "chart",
+                        "title": "Operation & maintenance",
+                        "dataset": "Jobs1",
+                        "x": "YEAR",
+                        "y": "VALUE",
+                        "series": "TECHNOLOGY:Type",
+                        "options": {
+                            "type": "area",
+                            "stacked": true,
+                            "yUnit": "thsnd jobs",
+                            "legend": true,
+                            "extraProps": {
+                                "chart": {
+                                    "syncId": "year"
+                                }
+                            }
+                        }
+                    }
+                ]
             }
         ]
     }

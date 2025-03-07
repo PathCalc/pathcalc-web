@@ -8,7 +8,7 @@
     "defaultChartSettings": {
         "numberFormat": {
             "maximumSignificantDigits": 2,
-            "maximumFractionalDigits": 1,
+            "maximumFractionDigits": 1,
             "roundingPriority": "lessPrecision"
         },
         "seriesShapeProps": {
