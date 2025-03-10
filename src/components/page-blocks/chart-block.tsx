@@ -14,7 +14,7 @@ export const ChartBlock = ({ title, ...props }: ChartBlockProps) => {
   const deferredScenario = useDeferredValue(scenario);
   return (
     <div className="grow w-full min-h-[220px] h-[220px] max-h-[220px] flex flex-col items-stretch justify-start gap-2">
-      <div>{title != null ? <h3 className="inline-block">{title}</h3> : null}</div>
+      <div>{title != null ? <h3 className="inline-block text-xl">{title}</h3> : null}</div>
       <ErrorBoundary fallbackRender={makeRenderFallback('Something went wrong while displaying this chart.')}>
         <Suspense fallback={null}>
           <ChartDataAdapter scenario={deferredScenario} {...props} />

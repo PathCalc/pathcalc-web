@@ -19,7 +19,7 @@ type RowBlockProps = Omit<RowBlockConfig, 'items' | 'type'>;
 export const RowBlock = ({ title, children }: { children?: ReactNode } & RowBlockProps) => {
   return (
     <div className="shrink flex flex-col justify-start items-stretch w-full gap-3">
-      <div>{title != null ? <h2 className="text-xl inline-block">{title}</h2> : null}</div>
+      <div>{title != null ? <h2 className="text-2xl inline-block">{title}</h2> : null}</div>
       <ErrorBoundary fallbackRender={makeRenderFallback()}>
         <div className="grow shrink flex flex-col lg:flex-row items-center gap-5">{children}</div>
       </ErrorBoundary>
