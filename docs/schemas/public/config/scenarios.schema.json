@@ -36,6 +36,16 @@
             ],
             "additionalProperties": false,
             "description": "Range of values that the lever can take."
+          },
+          "valueDescriptions": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "propertyNames": {
+              "pattern": "^\\d+$"
+            },
+            "description": "Descriptions of the values. Keys should match lever values, e.g. \"1\", \"2\" etc. Values should be the text to display in the slider tooltip. Supports Markdown formatting."
           }
         },
         "required": [
