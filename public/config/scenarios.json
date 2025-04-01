@@ -9,10 +9,10 @@
                 "max": 4
             },
             "valueDescriptions": {
-                "1": "**Ambition Level 1**. No change in transport demand.",
-                "2": "**Ambition Level 2**. Some reduction in transport demand.",
-                "3": "**Ambition Level 3**. Significant reduction in transport demand.",
-                "4": "**Ambition Level 4**. Very significant reduction in transport demand."
+                "1": "**Level 1**. Between 2024 and 2050, demand for passenger transport grows six-fold. Freight demand grows three-fold.",
+                "2": "**Level 2**. Passenger demand in 2050 is 10% lower than in Level 1. Freight demand is 5% percent lower.",
+                "3": "**Level 3**. Passenger demand in 2050 is 20% lower than in Level 1. Freight demand is 10% percent lower.",
+                "4": "**Level 4**. Passenger demand in 2050 is 30% lower than in Level 1, growing four-fold between 2024 and 2050. Freight demand is 15% percent lower than in Level 1."
             }
         },
         {
@@ -24,10 +24,10 @@
                 "max": 4
             },
             "valueDescriptions": {
-                "1": "**Ambition Level 1**. No change in modal shift, vehicle utilisation rate or vehicle occupancy.",
-                "2": "**Ambition Level 2**. Some change in modal shift, vehicle utilisation rate or vehicle occupancy.",
-                "3": "**Ambition Level 3**. Significant change in modal shift, vehicle utilisation rate or vehicle occupancy.",
-                "4": "**Ambition Level 4**. Very significant change in modal shift, vehicle utilisation rate or vehicle occupancy."
+                "1": "**Level 1**. In 2050, modal profiles are the same as in 2024. Private transport meets 75% of passenger demand. Road vehicles meet 85% of freight demand, with the rest met by rail. Vehicle occupancy and vehicle utilisation rates stay at their 2024 levels.",
+                "2": "**Level 2**. By 2050, public and active transport meet 40% of passenger demand. Rail meets 25% of freight demand. Vehicle occupancy and vehicle utilisation rates increase slightly until 2050.",
+                "3": "**Level 3**. By 2050, public and active transport meet 50% of passenger demand. Rail meets 40% of freight demand. Vehicle occupancy and vehicle utilisation rates increase moderately until 2050.",
+                "4": "**Level 4**. By 2050, public and active transport meet 60% of passenger demand. Rail meets 50% of freight demand. Vehicle occupancy and vehicle utilisation rates increase substantially until 2050."
             }
         },
         {
@@ -39,10 +39,10 @@
                 "max": 4
             },
             "valueDescriptions": {
-                "1": "**Ambition Level 1**. No change in transport technology.",
-                "2": "**Ambition Level 2**. Some change in transport technology.",
-                "3": "**Ambition Level 3**. Significant change in transport technology.",
-                "4": "**Ambition Level 4**. Very significant change in transport technology."
+                "1": "**Level 1**. No constraint on vehicle point-of-use emissions.",
+                "2": "**Level 2**. Vehicle point-of-use emissions in 2050 are one-third lower than in Level 1.",
+                "3": "**Level 3**. Vehicle point-of-use emissions in 2050 are two-thirds lower than in Level 1.",
+                "4": "**Level 4**. The vehicle fleet has zero point-of-use emissions by 2050."
             }
         },
         {
@@ -54,10 +54,10 @@
                 "max": 4
             },
             "valueDescriptions": {
-                "1": "**Ambition Level 1**. No change in decarbonisation of the power sector and fuel blending.",
-                "2": "**Ambition Level 2**. Some change in decarbonisation of the power sector and fuel blending.",
-                "3": "**Ambition Level 3**. Significant change in decarbonisation of the power sector and fuel blending.",
-                "4": "**Ambition Level 4**. Very significant change in decarbonisation of the power sector and fuel blending."
+                "1": "**Level 1**. No constraint on power sector emissions. Fuels do not contain biofuels.",
+                "2": "**Level 2**. Power sector emissions in 2050 are one-third lower than in Level 1. Fuel blends contain one-sixth biofuels.",
+                "3": "**Level 3**. Power sector emissions in 2050 are two-thirds lower than in Level 1. Fuel blends contain one-third biofuels.",
+                "4": "**Level 4**. The power sector reaches zero emissions by 2050. Biofuels make up half of fuel blends."
             }
         },
         {
@@ -69,10 +69,10 @@
                 "max": 4
             },
             "valueDescriptions": {
-                "1": "**Ambition Level 1**. No change in costs.",
-                "2": "**Ambition Level 2**. Some change in costs.",
-                "3": "**Ambition Level 3**. Significant change in costs.",
-                "4": "**Ambition Level 4**. Very significant change in costs."
+                "1": "**Level 1**. Capital and fixed costs of vehicles on the learning curve fall by up to 25% between 2024 and 2050.",
+                "2": "**Level 2**.  Capital and fixed costs of vehicles on the learning curve fall by up to 45% between 2024 and 2050.",
+                "3": "**Level 3**. Capital and fixed costs of vehicles on the learning curve fall by up to 50% between 2024 and 2050.",
+                "4": "**Level 4**. Capital and fixed costs of vehicles on the learning curve fall by up to 60% between 2024 and 2050."
             }
         }
     ],
