@@ -16,6 +16,12 @@ export const leverConfigSchema = z.object({
       max: z.number().describe('Maximum value that the lever can take.'),
     })
     .describe('Range of values that the lever can take.'),
+  valueDescriptions: z
+    .record(z.string().regex(/^\d+$/), z.string())
+    .optional()
+    .describe(
+      'Descriptions of the values. Keys should match lever values, e.g. "1", "2" etc. Values should be the text to display in the slider tooltip. Supports Markdown formatting.',
+    ),
 });
 
 export type LeverConfig = z.infer<typeof leverConfigSchema>;

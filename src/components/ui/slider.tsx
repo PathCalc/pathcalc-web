@@ -7,19 +7,28 @@ import { cn } from '@/lib/utils';
 
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './tooltip';
 
+interface SliderExtraProps {
+  renderTooltipContent?: (value: number) => React.ReactNode;
+  tooltipContentProps?: React.ComponentProps<typeof TooltipContent>;
+  tooltipProps?: React.ComponentProps<typeof Tooltip>;
+}
+
 const Slider = React.forwardRef<
   React.ElementRef<typeof SliderPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root>
->(({ className, ...props }, ref) => {
+  React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root> & SliderExtraProps
+>(({ className, renderTooltipContent, tooltipContentProps = {}, tooltipProps = {}, ...props }, ref) => {
   const value = props.value as number[];
+  const [isDragging, setIsDragging] = React.useState(false);
   const [showTooltip, setShowTooltip] = React.useState(false);
 
   const handlePointerDown = () => {
     setShowTooltip(true);
+    setIsDragging(true);
   };
 
   const handlePointerUp = () => {
     setShowTooltip(false);
+    setIsDragging(false);
   };
 
   React.useEffect(() => {
@@ -28,6 +37,20 @@ const Slider = React.forwardRef<
       document.removeEventListener('pointerup', handlePointerUp);
     };
   }, []);
+
+  const handleMouseEnter = () => {
+    setShowTooltip(true);
+  };
+
+  const handleMouseMove = () => {
+    setShowTooltip(true);
+  };
+
+  const handleMouseLeave = () => {
+    if (!isDragging) {
+      setShowTooltip(false);
+    }
+  };
 
   const thumbHeight = 'h-5';
 
@@ -46,19 +69,20 @@ const Slider = React.forwardRef<
         <SliderPrimitive.Range className="absolute h-full bg-primary" />
       </SliderPrimitive.Track>
       <TooltipProvider>
-        <Tooltip open={showTooltip} delayDuration={100}>
+        <Tooltip open={showTooltip} delayDuration={100} {...tooltipProps}>
           <TooltipTrigger asChild>
             <SliderPrimitive.Thumb
               className={cn(
                 thumbHeight,
                 `block w-5 rounded-full border-2 border-primary bg-background ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50`,
               )}
-              onMouseEnter={() => setShowTooltip(true)}
-              onMouseLeave={() => setShowTooltip(false)}
+              onMouseEnter={handleMouseEnter}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
             />
           </TooltipTrigger>
-          <TooltipContent side="bottom">
-            <p>{value[0]}</p>
+          <TooltipContent side="bottom" {...tooltipContentProps}>
+            {renderTooltipContent ? renderTooltipContent(value[0]) : <p>{value[0]}</p>}
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>

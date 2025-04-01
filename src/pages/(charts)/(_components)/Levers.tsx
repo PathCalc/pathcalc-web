@@ -52,7 +52,7 @@ function useLocalValue<T>(
   return [localValue, handleChange];
 }
 
-function Lever({ id, label, description, values }: LeverConfig) {
+function Lever({ id, label, description, values, valueDescriptions }: LeverConfig) {
   const [globalValue, setGlobalValue] = useLever(id);
   const [value, handleChange] = useLocalValue(globalValue, setGlobalValue, true);
 
@@ -83,6 +83,22 @@ function Lever({ id, label, description, values }: LeverConfig) {
         min={values.min}
         max={values.max}
         step={1}
+        tooltipContentProps={{ className: valueDescriptions ? 'w-[250px]' : undefined, align: 'start' }}
+        renderTooltipContent={
+          valueDescriptions &&
+          ((x) => {
+            const descriptionForValue = valueDescriptions[x.toString()];
+            if (descriptionForValue == null) {
+              return <p>{x}</p>;
+            } else {
+              return (
+                <p className="m-1">
+                  <MarkdownContent textMarkdown={descriptionForValue} />
+                </p>
+              );
+            }
+          })
+        }
       />
     </div>
   );
